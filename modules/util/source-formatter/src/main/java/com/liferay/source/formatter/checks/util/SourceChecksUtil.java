@@ -35,7 +35,7 @@ import com.liferay.source.formatter.parser.GradleFileParser;
 import com.liferay.source.formatter.parser.JavaClass;
 import com.liferay.source.formatter.parser.JavaClassParser;
 import com.liferay.source.formatter.parser.ParseException;
-import com.liferay.source.formatter.processors.SourceProcessor;
+import com.liferay.source.formatter.processor.SourceProcessor;
 import com.liferay.source.formatter.util.CheckType;
 import com.liferay.source.formatter.util.DebugUtil;
 import com.liferay.source.formatter.util.SourceFormatterCheckUtil;

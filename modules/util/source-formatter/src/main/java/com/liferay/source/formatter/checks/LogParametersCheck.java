@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.tools.ToolsUtil;
 import com.liferay.source.formatter.checks.util.JavaSourceUtil;
-import com.liferay.source.formatter.processors.JavaSourceProcessor;
+import com.liferay.source.formatter.processor.JavaSourceProcessor;
 
 import java.util.List;
 import java.util.regex.Matcher;
