@@ -23,17 +23,15 @@ import java.util.List;
  */
 public class JavaTryStatement extends BaseJavaTerm {
 
-	public void setResourceJavaVariableDefinitions(
-		List<JavaVariableDefinition> resourceJavaVariableDefinitions) {
-
-		_resourceJavaVariableDefinitions = resourceJavaVariableDefinitions;
+	public void setResourceJavaTerms(List<JavaTerm> resourceJavaTerms) {
+		_resourceJavaTerms = resourceJavaTerms;
 	}
 
 	@Override
 	public String toString(
 		String indent, String prefix, String suffix, int maxLineLength) {
 
-		if (_resourceJavaVariableDefinitions == null) {
+		if (_resourceJavaTerms == null) {
 			return StringBundler.concat(indent, prefix, "try", suffix);
 		}
 
@@ -44,12 +42,12 @@ public class JavaTryStatement extends BaseJavaTerm {
 		indent = "\t" + indent;
 
 		append(
-			sb, _resourceJavaVariableDefinitions, "; ", indent,
-			prefix + "try (", ")" + suffix, maxLineLength);
+			sb, _resourceJavaTerms, "; ", indent, prefix + "try (",
+			")" + suffix, maxLineLength);
 
 		return sb.toString();
 	}
 
-	private List<JavaVariableDefinition> _resourceJavaVariableDefinitions;
+	private List<JavaTerm> _resourceJavaTerms;
 
 }

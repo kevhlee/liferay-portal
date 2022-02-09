@@ -1725,22 +1725,19 @@ public class JavaParserUtil {
 			return javaTryStatement;
 		}
 
-		List<JavaVariableDefinition> resourceJavaVariableDefinitions =
-			new ArrayList<>();
+		List<JavaTerm> resourceJavaTerms = new ArrayList<>();
 
 		DetailAST resourcesDetailAST = firstChildDetailAST.findFirstToken(
 			TokenTypes.RESOURCES);
 
 		List<DetailAST> resourceDetailASTList = DetailASTUtil.getAllChildTokens(
-			resourcesDetailAST, false, TokenTypes.RESOURCE);
+			resourcesDetailAST, false, TokenTypes.RESOURCE, TokenTypes.IDENT);
 
 		for (DetailAST resourceDetailAST : resourceDetailASTList) {
-			resourceJavaVariableDefinitions.add(
-				_parseJavaVariableDefinition(resourceDetailAST));
+			resourceJavaTerms.add(_parseResourceJavaTerm(resourceDetailAST));
 		}
 
-		javaTryStatement.setResourceJavaVariableDefinitions(
-			resourceJavaVariableDefinitions);
+		javaTryStatement.setResourceJavaTerms(resourceJavaTerms);
 
 		return javaTryStatement;
 	}
@@ -1932,6 +1929,16 @@ public class JavaParserUtil {
 
 			childDetailAST = childDetailAST.getNextSibling();
 		}
+	}
+
+	private static JavaTerm _parseResourceJavaTerm(
+		DetailAST resourceDetailAST) {
+
+		if (resourceDetailAST.findFirstToken(TokenTypes.MODIFIERS) != null) {
+			return _parseJavaVariableDefinition(resourceDetailAST);
+		}
+
+		return new JavaSimpleValue(resourceDetailAST.getText());
 	}
 
 	private static final int[] _SIMPLE_TYPES = {
