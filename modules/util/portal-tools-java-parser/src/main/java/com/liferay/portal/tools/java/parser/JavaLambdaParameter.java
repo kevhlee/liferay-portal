@@ -15,6 +15,9 @@
 package com.liferay.portal.tools.java.parser;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+
+import java.util.List;
 
 /**
  * @author Hugo Huijser
@@ -22,7 +25,16 @@ import com.liferay.petra.string.StringBundler;
 public class JavaLambdaParameter extends BaseJavaTerm {
 
 	public JavaLambdaParameter(String name) {
+		this(name, null, null);
+	}
+
+	public JavaLambdaParameter(
+		String name, List<JavaAnnotation> javaAnnotations,
+		List<JavaSimpleValue> modifiers) {
+
 		_name = new JavaSimpleValue(name);
+		_javaAnnotations = javaAnnotations;
+		_modifiers = modifiers;
 	}
 
 	public boolean hasJavaType() {
@@ -47,9 +59,29 @@ public class JavaLambdaParameter extends BaseJavaTerm {
 
 		StringBundler sb = new StringBundler();
 
+		for (int i = 0; i < _javaAnnotations.size(); i++) {
+			if (i == 0) {
+				appendNewLine(
+					sb, _javaAnnotations.get(i), indent, prefix, " ",
+					maxLineLength);
+
+				prefix = StringPool.BLANK;
+			}
+			else {
+				appendNewLine(
+					sb, _javaAnnotations.get(i), indent, maxLineLength);
+			}
+		}
+
 		sb.append(indent);
 
 		indent = "\t" + indent;
+
+		if (!_modifiers.isEmpty()) {
+			indent = append(sb, _modifiers, indent, prefix, " ", maxLineLength);
+
+			prefix = StringPool.BLANK;
+		}
 
 		indent = append(sb, _javaType, indent, prefix, " ", maxLineLength);
 
@@ -58,7 +90,9 @@ public class JavaLambdaParameter extends BaseJavaTerm {
 		return sb.toString();
 	}
 
+	private List<JavaAnnotation> _javaAnnotations;
 	private JavaType _javaType;
+	private List<JavaSimpleValue> _modifiers;
 	private final JavaSimpleValue _name;
 
 }

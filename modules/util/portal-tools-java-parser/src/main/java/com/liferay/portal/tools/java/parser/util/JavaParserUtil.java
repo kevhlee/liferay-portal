@@ -1361,8 +1361,14 @@ public class JavaParserUtil {
 		for (DetailAST parameterDefinitionDetailAST :
 				parameterDefinitionDetailASTList) {
 
+			DetailAST modifiersDetailAST =
+				parameterDefinitionDetailAST.findFirstToken(
+					TokenTypes.MODIFIERS);
+
 			JavaLambdaParameter javaLambdaParameter = new JavaLambdaParameter(
-				_getName(parameterDefinitionDetailAST));
+				_getName(parameterDefinitionDetailAST),
+				_parseJavaAnnotations(modifiersDetailAST),
+				_parseModifiers(modifiersDetailAST));
 
 			DetailAST typeDetailAST =
 				parameterDefinitionDetailAST.findFirstToken(TokenTypes.TYPE);
@@ -1747,26 +1753,9 @@ public class JavaParserUtil {
 			return null;
 		}
 
-		List<JavaAnnotation> javaAnnotations = new ArrayList<>();
-
-		if (detailAST.getType() == TokenTypes.TYPE) {
-			DetailAST parentDetailAST = detailAST.getParent();
-			DetailAST previousSiblingDetailAST = detailAST.getPreviousSibling();
-
-			if ((parentDetailAST.getType() == TokenTypes.PARAMETER_DEF) &&
-				(previousSiblingDetailAST != null) &&
-				(previousSiblingDetailAST.getType() == TokenTypes.MODIFIERS)) {
-
-				javaAnnotations = _parseJavaAnnotations(
-					previousSiblingDetailAST);
-			}
-		}
-
 		DetailAST childDetailAST = detailAST.getFirstChild();
 
 		if (childDetailAST.getType() == TokenTypes.ANNOTATIONS) {
-			javaAnnotations = _parseJavaAnnotations(childDetailAST);
-
 			childDetailAST = childDetailAST.getNextSibling();
 		}
 
@@ -1778,8 +1767,7 @@ public class JavaParserUtil {
 
 		FullIdent typeIdent = FullIdent.createFullIdent(childDetailAST);
 
-		JavaType javaType = new JavaType(
-			typeIdent.getText(), javaAnnotations, arrayDimension);
+		JavaType javaType = new JavaType(typeIdent.getText(), arrayDimension);
 
 		DetailAST typeInfoDetailAST = childDetailAST;
 
