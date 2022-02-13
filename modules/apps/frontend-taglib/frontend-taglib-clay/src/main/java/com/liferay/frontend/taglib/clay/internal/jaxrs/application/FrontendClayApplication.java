@@ -44,11 +44,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -75,14 +72,10 @@ public class FrontendClayApplication extends Application {
 	@Path("/data-set/{tableName}/{clayDataProviderKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getClayDataSetData(
-		@PathParam("clayDataProviderKey") String clayDataProviderKey,
-		@PathParam("tableName") String tableName,
-		@QueryParam("groupId") long groupId, @QueryParam("plid") long plid,
-		@QueryParam("portletId") String portletId,
-		@Context HttpServletRequest httpServletRequest,
-		@Context HttpServletResponse httpServletResponse,
-		@Context Pagination pagination, @Context Sort sort,
-		@Context ThemeDisplay themeDisplay, @Context UriInfo uriInfo) {
+		String clayDataProviderKey, String tableName, long groupId, long plid,
+		String portletId, HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse, Pagination pagination,
+		Sort sort, ThemeDisplay themeDisplay, UriInfo uriInfo) {
 
 		ClayDataSetDataProvider clayDataSetDataProvider =
 			_clayDataProviderRegistry.getClayDataSetProvider(
@@ -136,11 +129,9 @@ public class FrontendClayApplication extends Application {
 	@Path("/data-set/{id}/save-active-view-settings")
 	@POST
 	public Response saveActiveClayDataSetViewSettings(
-		@PathParam("id") String id,
-		@Context HttpServletRequest httpServletRequest,
-		@Context HttpServletResponse httpServletResponse,
-		@Context ThemeDisplay themeDisplay, @Context UriInfo uriInfo,
-		String activeViewSettingsJSON) {
+		String id, HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse, ThemeDisplay themeDisplay,
+		UriInfo uriInfo, String activeViewSettingsJSON) {
 
 		try {
 			PortalPreferences portalPreferences =

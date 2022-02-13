@@ -25,7 +25,6 @@ import com.liferay.headless.commerce.admin.catalog.resource.v1_0.ProductSubscrip
 import com.liferay.headless.commerce.core.util.ServiceContextHelper;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 
 import javax.ws.rs.core.Response;
@@ -69,8 +68,7 @@ public class ProductSubscriptionConfigurationResourceImpl
 	)
 	@Override
 	public ProductSubscriptionConfiguration
-			getProductIdSubscriptionConfiguration(
-				@NestedFieldId(value = "productId") Long id)
+			getProductIdSubscriptionConfiguration(Long id)
 		throws Exception {
 
 		CPDefinition cpDefinition =

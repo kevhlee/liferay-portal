@@ -24,7 +24,6 @@ import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -50,9 +49,7 @@ public class OpenAPIResourceImpl {
 	@GET
 	@Path("/openapi.{type:json|yaml}")
 	@Produces({MediaType.APPLICATION_JSON, "application/yaml"})
-	public Response getOpenAPI(@PathParam("type") String type)
-		throws Exception {
-
+	public Response getOpenAPI(String type) throws Exception {
 		return _openAPIResource.getOpenAPI(
 			_openAPISchemaFilter, _resourceClasses, type, _uriInfo);
 	}

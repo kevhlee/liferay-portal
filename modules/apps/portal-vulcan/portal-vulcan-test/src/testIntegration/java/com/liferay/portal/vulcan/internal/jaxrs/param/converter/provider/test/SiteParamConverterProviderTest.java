@@ -37,7 +37,6 @@ import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Application;
 
 import org.junit.After;
@@ -128,9 +127,7 @@ public class SiteParamConverterProviderTest {
 
 		@GET
 		@Path("/{siteId}/name")
-		public String testClass(@PathParam("siteId") Long siteId)
-			throws Exception {
-
+		public String testClass(Long siteId) throws Exception {
 			Group group = GroupLocalServiceUtil.getGroup(siteId);
 
 			return group.getName(LocaleUtil.getDefault());

@@ -26,7 +26,6 @@ import com.liferay.headless.commerce.admin.catalog.resource.v1_0.ProductConfigur
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 
 import javax.ws.rs.core.Response;
@@ -68,8 +67,7 @@ public class ProductConfigurationResourceImpl
 
 	@NestedField(parentClass = Product.class, value = "productConfiguration")
 	@Override
-	public ProductConfiguration getProductIdConfiguration(
-			@NestedFieldId(value = "productId") Long id)
+	public ProductConfiguration getProductIdConfiguration(Long id)
 		throws Exception {
 
 		CPDefinition cpDefinition =

@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Encoded;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -65,7 +64,7 @@ public class LiferayTokenIntrospectionService extends AbstractTokenService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTokenIntrospection(
-		@Encoded MultivaluedMap<String, String> params) {
+		MultivaluedMap<String, String> params) {
 
 		Client client = authenticateClientIfNeeded(params);
 

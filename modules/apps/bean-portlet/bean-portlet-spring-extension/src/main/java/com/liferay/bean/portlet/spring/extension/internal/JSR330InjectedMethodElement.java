@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.InjectionMetadata;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.core.MethodParameter;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
@@ -55,8 +54,7 @@ public class JSR330InjectedMethodElement
 
 	@Override
 	protected void inject(
-			Object beanInstance, @Nullable String beanName,
-			@Nullable PropertyValues propertyValues)
+			Object beanInstance, String beanName, PropertyValues propertyValues)
 		throws Throwable {
 
 		if (checkPropertySkipping(propertyValues)) {

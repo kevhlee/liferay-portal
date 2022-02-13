@@ -347,9 +347,7 @@ public class JSONWebServiceInvokerAction implements JSONWebServiceAction {
 
 			@Override
 			protected void onSerializableProperty(
-				String propertyName,
-				@SuppressWarnings("rawtypes") Class propertyClass,
-				Object value) {
+				String propertyName, Class propertyClass, Object value) {
 
 				map.put(propertyName, value);
 

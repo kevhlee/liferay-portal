@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -90,7 +89,7 @@ public class CategoryResourceImpl
 	@NestedField(parentClass = Product.class, value = "categories")
 	@Override
 	public Page<Category> getProductIdCategoriesPage(
-			@NestedFieldId(value = "productId") Long id, Pagination pagination)
+			Long id, Pagination pagination)
 		throws Exception {
 
 		return _categoryHelper.getCategoriesPage(

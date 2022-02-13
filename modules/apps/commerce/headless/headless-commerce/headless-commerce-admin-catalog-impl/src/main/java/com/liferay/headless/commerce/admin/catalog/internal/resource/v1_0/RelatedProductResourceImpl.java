@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -88,8 +87,7 @@ public class RelatedProductResourceImpl
 	@NestedField(parentClass = Product.class, value = "relatedProducts")
 	@Override
 	public Page<RelatedProduct> getProductIdRelatedProductsPage(
-			@NestedFieldId(value = "productId") Long id, String type,
-			Pagination pagination)
+			Long id, String type, Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =

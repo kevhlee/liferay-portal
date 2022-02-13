@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.service.CountryService;
 import com.liferay.portal.kernel.service.RegionService;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 
 import org.osgi.service.component.annotations.Component;
@@ -49,8 +48,7 @@ public class ShippingAddressResourceImpl
 
 	@NestedField(parentClass = Shipment.class, value = "shippingAddress")
 	@Override
-	public ShippingAddress getShipmentShippingAddress(
-			@NestedFieldId(value = "id") Long shipmentId)
+	public ShippingAddress getShipmentShippingAddress(Long shipmentId)
 		throws Exception {
 
 		CommerceShipment commerceShipment =

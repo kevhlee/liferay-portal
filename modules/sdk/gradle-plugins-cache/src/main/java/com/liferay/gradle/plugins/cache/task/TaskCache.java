@@ -53,9 +53,7 @@ public class TaskCache implements PatternFilterable {
 	}
 
 	@Override
-	public TaskCache exclude(
-		@SuppressWarnings("rawtypes") Closure excludeSpec) {
-
+	public TaskCache exclude(Closure excludeSpec) {
 		_patternFilterable.exclude(excludeSpec);
 
 		return this;
@@ -139,9 +137,7 @@ public class TaskCache implements PatternFilterable {
 	}
 
 	@Override
-	public TaskCache include(
-		@SuppressWarnings("rawtypes") Closure includeSpec) {
-
+	public TaskCache include(Closure includeSpec) {
 		_patternFilterable.include(includeSpec);
 
 		return this;

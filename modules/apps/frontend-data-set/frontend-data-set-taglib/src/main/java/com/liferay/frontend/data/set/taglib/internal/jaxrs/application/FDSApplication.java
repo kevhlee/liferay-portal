@@ -44,11 +44,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -75,14 +72,10 @@ public class FDSApplication extends Application {
 	@Path("/data-set/{tableName}/{fdsDataProviderKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getFDSData(
-		@PathParam("fdsDataProviderKey") String fdsDataProviderKey,
-		@PathParam("tableName") String tableName,
-		@QueryParam("groupId") long groupId, @QueryParam("plid") long plid,
-		@QueryParam("portletId") String portletId,
-		@Context HttpServletRequest httpServletRequest,
-		@Context HttpServletResponse httpServletResponse,
-		@Context FDSPagination fdsPagination, @Context Sort sort,
-		@Context ThemeDisplay themeDisplay, @Context UriInfo uriInfo) {
+		String fdsDataProviderKey, String tableName, long groupId, long plid,
+		String portletId, HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse, FDSPagination fdsPagination,
+		Sort sort, ThemeDisplay themeDisplay, UriInfo uriInfo) {
 
 		FDSDataProvider fdsDataProvider =
 			_fdsDataProviderRegistry.getFDSDataProvider(fdsDataProviderKey);
@@ -145,11 +138,9 @@ public class FDSApplication extends Application {
 	@Path("/data-set/{id}/save-active-view-settings")
 	@POST
 	public Response saveActiveFDSViewSettings(
-		@PathParam("id") String id,
-		@Context HttpServletRequest httpServletRequest,
-		@Context HttpServletResponse httpServletResponse,
-		@Context ThemeDisplay themeDisplay, @Context UriInfo uriInfo,
-		String activeViewSettingsJSON) {
+		String id, HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse, ThemeDisplay themeDisplay,
+		UriInfo uriInfo, String activeViewSettingsJSON) {
 
 		try {
 			PortalPreferences portalPreferences =

@@ -25,9 +25,7 @@ import jodd.json.JsonParser;
 public class PortalJsonParser extends JsonParser {
 
 	@Override
-	protected Object newObjectInstance(
-		@SuppressWarnings("rawtypes") Class targetClass) {
-
+	protected Object newObjectInstance(Class targetClass) {
 		if (targetClass != null) {
 			String targetClassName = targetClass.getName();
 

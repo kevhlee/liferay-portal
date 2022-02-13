@@ -33,9 +33,7 @@ public class LiferayObjectConstructor implements TemplateMethodModelEx {
 	}
 
 	@Override
-	public Object exec(@SuppressWarnings("rawtypes") List arguments)
-		throws TemplateModelException {
-
+	public Object exec(List arguments) throws TemplateModelException {
 		if (arguments.isEmpty()) {
 			throw new TemplateModelException(
 				"This method must have at least one argument as the name of " +

@@ -35,8 +35,7 @@ public class LiferayMethodExceptionEventHandler
 
 	@Override
 	public Object methodException(
-			@SuppressWarnings("rawtypes") Class clazz, String method,
-			Exception exception)
+			Class clazz, String method, Exception exception)
 		throws Exception {
 
 		_log.error(

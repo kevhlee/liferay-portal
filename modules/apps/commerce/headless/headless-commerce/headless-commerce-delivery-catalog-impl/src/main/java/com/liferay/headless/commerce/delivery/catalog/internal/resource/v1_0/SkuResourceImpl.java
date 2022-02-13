@@ -36,7 +36,6 @@ import com.liferay.headless.commerce.delivery.catalog.resource.v1_0.SkuResource;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -62,8 +61,8 @@ public class SkuResourceImpl
 	@NestedField(parentClass = Product.class, value = "skus")
 	@Override
 	public Page<Sku> getChannelProductSkusPage(
-			Long channelId, @NestedFieldId("productId") Long productId,
-			Long accountId, Pagination pagination)
+			Long channelId, Long productId, Long accountId,
+			Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =

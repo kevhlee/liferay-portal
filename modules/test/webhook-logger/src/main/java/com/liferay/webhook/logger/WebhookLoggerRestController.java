@@ -20,9 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,12 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebhookLoggerRestController {
 
 	@GetMapping("{value}")
-	public String getValue(@PathVariable(required = false) String value) {
+	public String getValue(String value) {
 		return value;
 	}
 
 	@PostMapping("{value}")
-	public String postValue(@RequestBody String value) {
+	public String postValue(String value) {
 		try {
 			JSONObject jsonObject = new JSONObject(value);
 

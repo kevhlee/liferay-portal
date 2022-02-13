@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -63,7 +62,7 @@ public class ShipmentItemResourceImpl
 	@NestedField(parentClass = Shipment.class, value = "shipmentItems")
 	@Override
 	public Page<ShipmentItem> getShipmentItemsPage(
-			@NestedFieldId(value = "id") Long shipmentId, Pagination pagination)
+			Long shipmentId, Pagination pagination)
 		throws Exception {
 
 		return Page.of(

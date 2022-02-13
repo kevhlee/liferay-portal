@@ -24,7 +24,6 @@ import com.liferay.headless.commerce.admin.catalog.internal.util.v1_0.ProductTax
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.ProductTaxConfigurationResource;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 
 import javax.ws.rs.core.Response;
@@ -62,8 +61,7 @@ public class ProductTaxConfigurationResourceImpl
 
 	@NestedField(parentClass = Product.class, value = "taxConfiguration")
 	@Override
-	public ProductTaxConfiguration getProductIdTaxConfiguration(
-			@NestedFieldId(value = "productId") Long id)
+	public ProductTaxConfiguration getProductIdTaxConfiguration(Long id)
 		throws Exception {
 
 		CPDefinition cpDefinition =

@@ -54,9 +54,7 @@ public class TLDDocTask extends JavaExec implements PatternFilterable {
 	}
 
 	@Override
-	public TLDDocTask exclude(
-		@SuppressWarnings("rawtypes") Closure excludeSpec) {
-
+	public TLDDocTask exclude(Closure excludeSpec) {
 		_patternFilterable.exclude(excludeSpec);
 
 		return this;
@@ -126,9 +124,7 @@ public class TLDDocTask extends JavaExec implements PatternFilterable {
 	}
 
 	@Override
-	public TLDDocTask include(
-		@SuppressWarnings("rawtypes") Closure includeSpec) {
-
+	public TLDDocTask include(Closure includeSpec) {
 		_patternFilterable.include(includeSpec);
 
 		return this;

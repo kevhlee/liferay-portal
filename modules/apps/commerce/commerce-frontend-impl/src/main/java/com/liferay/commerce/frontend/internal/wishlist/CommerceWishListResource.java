@@ -44,11 +44,9 @@ import com.liferay.portal.kernel.util.Portal;
 
 import javax.servlet.http.HttpServletRequest;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -65,12 +63,9 @@ public class CommerceWishListResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addWishListItem(
-		@FormParam("commerceAccountId") long commerceAccountId,
-		@FormParam("groupId") long groupId,
-		@FormParam("productId") long cpDefinitionId,
-		@FormParam("skuId") long cpInstanceId,
-		@FormParam("options") String options,
-		@Context HttpServletRequest httpServletRequest) {
+		long commerceAccountId, long groupId, long cpDefinitionId,
+		long cpInstanceId, String options,
+		HttpServletRequest httpServletRequest) {
 
 		WishListItemUpdated wishListItemUpdated = new WishListItemUpdated();
 

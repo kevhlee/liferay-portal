@@ -26,7 +26,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
@@ -62,9 +61,7 @@ public class HeadlessDiscoveryOpenAPIApplication extends Application {
 
 	@GET
 	@Produces({"application/json", "application/xml"})
-	public Map<String, List<String>> openAPI(
-		@HeaderParam("Accept") String accept) {
-
+	public Map<String, List<String>> openAPI(String accept) {
 		Map<String, List<String>> pathsMap = new TreeMap<>();
 
 		String serverURL = StringUtil.removeSubstring(

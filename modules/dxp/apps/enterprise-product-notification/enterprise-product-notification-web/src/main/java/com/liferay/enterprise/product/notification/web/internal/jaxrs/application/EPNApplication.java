@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.osgi.service.component.annotations.Component;
@@ -50,8 +49,8 @@ public class EPNApplication extends Application {
 	@Path("/confirm")
 	@POST
 	public Response confirm(
-		@Context HttpServletRequest httpServletRequest,
-		@Context HttpServletResponse httpServletResponse) {
+		HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse) {
 
 		long userId = _portal.getUserId(httpServletRequest);
 

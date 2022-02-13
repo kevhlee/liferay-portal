@@ -151,8 +151,7 @@ public class WorkflowContextUpgradeProcess extends UpgradeProcess {
 
 		@Override
 		public ObjectMatch tryUnmarshall(
-				SerializerState serializerState,
-				@SuppressWarnings("rawtypes") Class clazz, Object object)
+				SerializerState serializerState, Class clazz, Object object)
 			throws UnmarshallException {
 
 			JSONObject portletPreferencesIdsJSONObject = (JSONObject)object;
@@ -175,8 +174,7 @@ public class WorkflowContextUpgradeProcess extends UpgradeProcess {
 
 		@Override
 		public Object unmarshall(
-				SerializerState serializerState,
-				@SuppressWarnings("rawtypes") Class clazz, Object object)
+				SerializerState serializerState, Class clazz, Object object)
 			throws UnmarshallException {
 
 			JSONObject portletPreferencesIdsJSONObject = (JSONObject)object;

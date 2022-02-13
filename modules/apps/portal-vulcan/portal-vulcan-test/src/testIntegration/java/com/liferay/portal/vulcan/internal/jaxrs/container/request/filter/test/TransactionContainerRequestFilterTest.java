@@ -34,7 +34,6 @@ import java.util.Set;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Application;
 
 import org.junit.After;
@@ -126,17 +125,13 @@ public class TransactionContainerRequestFilterTest {
 
 		@DELETE
 		@Path("/commit/{siteId}")
-		public void testCommit(@PathParam("siteId") long siteId)
-			throws Exception {
-
+		public void testCommit(long siteId) throws Exception {
 			GroupLocalServiceUtil.deleteGroup(siteId);
 		}
 
 		@DELETE
 		@Path("/rollback/{siteId}")
-		public void testRollback(@PathParam("siteId") long siteId)
-			throws Exception {
-
+		public void testRollback(long siteId) throws Exception {
 			GroupLocalServiceUtil.deleteGroup(siteId);
 
 			throw new RuntimeException();

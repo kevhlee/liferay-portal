@@ -20,8 +20,6 @@ import com.liferay.dynamic.data.mapping.expression.internal.parser.DDMExpression
 import java.util.HashSet;
 import java.util.Set;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 /**
  * @author Marcellus Tavares
  */
@@ -29,21 +27,21 @@ public class DDMExpressionListener extends DDMExpressionBaseListener {
 
 	@Override
 	public void enterFunctionCallExpression(
-		@NotNull DDMExpressionParser.FunctionCallExpressionContext context) {
+		DDMExpressionParser.FunctionCallExpressionContext context) {
 
 		_functionNames.add(context.functionName.getText());
 	}
 
 	@Override
 	public void enterLogicalVariable(
-		@NotNull DDMExpressionParser.LogicalVariableContext context) {
+		DDMExpressionParser.LogicalVariableContext context) {
 
 		_variableNames.add(context.getText());
 	}
 
 	@Override
 	public void enterNumericVariable(
-		@NotNull DDMExpressionParser.NumericVariableContext context) {
+		DDMExpressionParser.NumericVariableContext context) {
 
 		_variableNames.add(context.getText());
 	}

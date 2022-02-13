@@ -59,13 +59,9 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.Destroyed;
-import javax.enterprise.context.Initialized;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
-import javax.enterprise.event.ObservesAsync;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
@@ -113,8 +109,7 @@ import org.osgi.framework.ServiceRegistration;
 public class CDIBeanPortletExtension implements Extension {
 
 	public void step1BeforeBeanDiscovery(
-		@Observes BeforeBeanDiscovery beforeBeanDiscovery,
-		BeanManager beanManager) {
+		BeforeBeanDiscovery beforeBeanDiscovery, BeanManager beanManager) {
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Scanning for bean portlets and bean filters");
@@ -137,7 +132,7 @@ public class CDIBeanPortletExtension implements Extension {
 	}
 
 	public <T> void step2ProcessAnnotatedType(
-		@Observes ProcessAnnotatedType<T> processAnnotatedType) {
+		ProcessAnnotatedType<T> processAnnotatedType) {
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("processAnnotatedType=" + processAnnotatedType);
@@ -230,9 +225,7 @@ public class CDIBeanPortletExtension implements Extension {
 		MVCExtension.step2ProcessAnnotatedType(processAnnotatedType);
 	}
 
-	public void step3AfterBeanDiscovery(
-		@Observes AfterBeanDiscovery afterBeanDiscovery) {
-
+	public void step3AfterBeanDiscovery(AfterBeanDiscovery afterBeanDiscovery) {
 		afterBeanDiscovery.addContext(new PortletRequestBeanContext());
 		afterBeanDiscovery.addContext(new PortletSessionBeanContext());
 		afterBeanDiscovery.addContext(new RenderStateBeanContext());
@@ -242,7 +235,7 @@ public class CDIBeanPortletExtension implements Extension {
 
 	@SuppressWarnings({"serial", "unchecked"})
 	public void step4ApplicationScopedInitializedAsync(
-		@ObservesAsync ServletContext servletContext, BeanManager beanManager,
+		ServletContext servletContext, BeanManager beanManager,
 		BundleContext bundleContext) {
 
 		Dictionary<String, Object> properties =
@@ -423,16 +416,13 @@ public class CDIBeanPortletExtension implements Extension {
 	}
 
 	public void step4ApplicationScopedInitializedSync(
-		@Initialized(ApplicationScoped.class) @Observes ServletContext
-			servletContext,
-		BeanManager beanManager, Event<ServletContext> servletContextEvent) {
+		ServletContext servletContext, BeanManager beanManager,
+		Event<ServletContext> servletContextEvent) {
 
 		servletContextEvent.fireAsync(servletContext);
 	}
 
-	public void step5SessionScopeBeforeDestroyed(
-		@Destroyed(SessionScoped.class) @Observes Object httpSessionObject) {
-
+	public void step5SessionScopeBeforeDestroyed(Object httpSessionObject) {
 		HttpSession httpSession = (HttpSession)httpSessionObject;
 
 		Enumeration<String> enumeration = httpSession.getAttributeNames();
@@ -450,9 +440,7 @@ public class CDIBeanPortletExtension implements Extension {
 		}
 	}
 
-	public void step6ApplicationScopedBeforeDestroyed(
-		@Destroyed(ApplicationScoped.class) @Observes Object contextObject) {
-
+	public void step6ApplicationScopedBeforeDestroyed(Object contextObject) {
 		_beanPortletRegistrar.unregister(
 			_serviceRegistrations, (ServletContext)contextObject);
 

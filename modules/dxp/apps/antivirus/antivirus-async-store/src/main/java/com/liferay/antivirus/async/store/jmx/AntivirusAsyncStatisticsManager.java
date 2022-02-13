@@ -62,8 +62,7 @@ public class AntivirusAsyncStatisticsManager
 			   AntivirusAsyncStatisticsManagerMBean {
 
 	@Activate
-	public AntivirusAsyncStatisticsManager(
-			@Reference(name = "destination") Destination destination)
+	public AntivirusAsyncStatisticsManager(Destination destination)
 		throws NotCompliantMBeanException {
 
 		super(AntivirusAsyncStatisticsManagerMBean.class);

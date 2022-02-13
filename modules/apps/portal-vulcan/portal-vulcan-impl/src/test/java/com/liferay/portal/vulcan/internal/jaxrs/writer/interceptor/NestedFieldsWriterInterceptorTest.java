@@ -17,7 +17,6 @@ package com.liferay.portal.vulcan.internal.jaxrs.writer.interceptor;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldsContext;
 import com.liferay.portal.vulcan.fields.NestedFieldsContextThreadLocal;
 import com.liferay.portal.vulcan.internal.fields.servlet.NestedFieldsHttpServletRequestWrapperTest;
@@ -36,13 +35,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -670,19 +665,14 @@ public class NestedFieldsWriterInterceptorTest {
 		@GET
 		@Path("/products/{id}/productOptions")
 		@Produces("application/*")
-		public List<ProductOption> getProductOptions(
-			@NotNull @PathParam("id") Long id,
-			@QueryParam("name") String name) {
-
+		public List<ProductOption> getProductOptions(Long id, String name) {
 			return Collections.emptyList();
 		}
 
 		@GET
 		@Path("/productOptions/{id}/productOptionValues")
 		@Produces("application/*")
-		public List<ProductOptionValue> getProductOptionValues(
-			@NotNull @PathParam("id") Long id) {
-
+		public List<ProductOptionValue> getProductOptionValues(Long id) {
 			return Collections.emptyList();
 		}
 
@@ -696,10 +686,7 @@ public class NestedFieldsWriterInterceptorTest {
 		@GET
 		@Path("/products/{id}/skus")
 		@Produces("application/*")
-		public Page<Sku> getSkus(
-			@NotNull @PathParam("id") Long id,
-			@Context @NotNull Pagination pagination) {
-
+		public Page<Sku> getSkus(Long id, Pagination pagination) {
 			return Page.of(Collections.emptyList());
 		}
 
@@ -712,20 +699,14 @@ public class NestedFieldsWriterInterceptorTest {
 		@GET
 		@Path("/products/{productExternalCode}/categories")
 		@Produces("application/*")
-		public List<Category> getCategories(
-			@NotNull @PathParam("productExternalCode") String
-				productExternalCode) {
-
+		public List<Category> getCategories(String productExternalCode) {
 			return Collections.emptyList();
 		}
 
 		@GET
 		@Path("/products/{id}/productOptions")
 		@Produces("application/*")
-		public List<ProductOption> getProductOptions(
-			@NotNull @PathParam("id") Long id,
-			@QueryParam("name") String name) {
-
+		public List<ProductOption> getProductOptions(Long id, String name) {
 			return Collections.emptyList();
 		}
 
@@ -739,10 +720,7 @@ public class NestedFieldsWriterInterceptorTest {
 		@GET
 		@Path("/products/{id}/skus")
 		@Produces("application/*")
-		public Page<Sku> getSkus(
-			@NotNull @PathParam("id") Long id,
-			@Context @NotNull Pagination pagination) {
-
+		public Page<Sku> getSkus(Long id, Pagination pagination) {
 			return Page.of(Collections.emptyList());
 		}
 
@@ -983,9 +961,7 @@ public class NestedFieldsWriterInterceptorTest {
 		public ThemeDisplay themeDisplay;
 
 		@NestedField("categories")
-		protected List<Category> getCategories(
-			@NestedFieldId("externalCode") String externalCode) {
-
+		protected List<Category> getCategories(String externalCode) {
 			if (!Objects.equals(externalCode, "externalCode")) {
 				return Collections.emptyList();
 			}
@@ -995,9 +971,7 @@ public class NestedFieldsWriterInterceptorTest {
 		}
 
 		@NestedField("externalCode")
-		protected String getExternalCodeByQueryParam(
-			@QueryParam("AcceptLanguage") String acceptLanguage) {
-
+		protected String getExternalCodeByQueryParam(String acceptLanguage) {
 			if (!Objects.equals(acceptLanguage, "es_ES")) {
 				return "";
 			}
@@ -1011,9 +985,7 @@ public class NestedFieldsWriterInterceptorTest {
 		extends BaseProductResource_v2_0_Impl {
 
 		@NestedField("categories")
-		public List<Category> getCategories(
-			@NestedFieldId("externalCode") String productExternalCode) {
-
+		public List<Category> getCategories(String productExternalCode) {
 			if (!Objects.equals(productExternalCode, "externalCode")) {
 				return Collections.emptyList();
 			}

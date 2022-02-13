@@ -69,7 +69,6 @@ import java.util.stream.Stream;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -80,9 +79,7 @@ public class DDMExpressionEvaluatorVisitor
 	extends DDMExpressionBaseVisitor<Object> {
 
 	@Override
-	public Object visitAdditionExpression(
-		@NotNull AdditionExpressionContext context) {
-
+	public Object visitAdditionExpression(AdditionExpressionContext context) {
 		BigDecimal bigDecimal1 = visitChild(context, 0);
 		BigDecimal bigDecimal2 = visitChild(context, 2);
 
@@ -91,7 +88,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitAndExpression(
-		@NotNull DDMExpressionParser.AndExpressionContext context) {
+		DDMExpressionParser.AndExpressionContext context) {
 
 		Boolean boolean1 = visitChild(context, 0);
 
@@ -105,16 +102,12 @@ public class DDMExpressionEvaluatorVisitor
 	}
 
 	@Override
-	public Object visitBooleanParenthesis(
-		@NotNull BooleanParenthesisContext context) {
-
+	public Object visitBooleanParenthesis(BooleanParenthesisContext context) {
 		return visitChild(context, 1);
 	}
 
 	@Override
-	public Object visitDivisionExpression(
-		@NotNull DivisionExpressionContext context) {
-
+	public Object visitDivisionExpression(DivisionExpressionContext context) {
 		BigDecimal bigDecimal1 = visitChild(context, 0);
 
 		BigDecimal bigDecimal2 = visitChild(context, 2);
@@ -127,9 +120,7 @@ public class DDMExpressionEvaluatorVisitor
 	}
 
 	@Override
-	public Object visitEqualsExpression(
-		@NotNull EqualsExpressionContext context) {
-
+	public Object visitEqualsExpression(EqualsExpressionContext context) {
 		Object object1 = visitChild(context, 0);
 		Object object2 = visitChild(context, 2);
 
@@ -145,7 +136,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitExpression(
-		@NotNull DDMExpressionParser.ExpressionContext context) {
+		DDMExpressionParser.ExpressionContext context) {
 
 		DDMExpressionParser.LogicalOrExpressionContext
 			logicalOrExpressionContext = context.logicalOrExpression();
@@ -155,14 +146,14 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitFloatingPointLiteral(
-		@NotNull FloatingPointLiteralContext context) {
+		FloatingPointLiteralContext context) {
 
 		return new BigDecimal(context.getText());
 	}
 
 	@Override
 	public Object visitFunctionCallExpression(
-		@NotNull FunctionCallExpressionContext context) {
+		FunctionCallExpressionContext context) {
 
 		DDMExpressionFunctionFactory ddmExpressionFunctionFactory =
 			_ddmExpressionFunctionFactories.get(
@@ -258,7 +249,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitGreaterThanExpression(
-		@NotNull GreaterThanExpressionContext context) {
+		GreaterThanExpressionContext context) {
 
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 0));
 		BigDecimal bigDecimal2 = _getBigDecimal(visitChild(context, 2));
@@ -268,7 +259,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitGreaterThanOrEqualsExpression(
-		@NotNull GreaterThanOrEqualsExpressionContext context) {
+		GreaterThanOrEqualsExpressionContext context) {
 
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 0));
 		BigDecimal bigDecimal2 = _getBigDecimal(visitChild(context, 2));
@@ -278,15 +269,13 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitIntegerLiteral(
-		@NotNull DDMExpressionParser.IntegerLiteralContext context) {
+		DDMExpressionParser.IntegerLiteralContext context) {
 
 		return new BigDecimal(context.getText());
 	}
 
 	@Override
-	public Object visitLessThanExpression(
-		@NotNull LessThanExpressionContext context) {
-
+	public Object visitLessThanExpression(LessThanExpressionContext context) {
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 0));
 		BigDecimal bigDecimal2 = _getBigDecimal(visitChild(context, 2));
 
@@ -295,7 +284,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitLessThanOrEqualsExpression(
-		@NotNull LessThanOrEqualsExpressionContext context) {
+		LessThanOrEqualsExpressionContext context) {
 
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 0));
 		BigDecimal bigDecimal2 = _getBigDecimal(visitChild(context, 2));
@@ -304,16 +293,12 @@ public class DDMExpressionEvaluatorVisitor
 	}
 
 	@Override
-	public Object visitLogicalConstant(
-		@NotNull LogicalConstantContext context) {
-
+	public Object visitLogicalConstant(LogicalConstantContext context) {
 		return Boolean.parseBoolean(context.getText());
 	}
 
 	@Override
-	public Object visitLogicalVariable(
-		@NotNull LogicalVariableContext context) {
-
+	public Object visitLogicalVariable(LogicalVariableContext context) {
 		String variable = context.getText();
 
 		Object variableValue = _variables.get(variable);
@@ -350,9 +335,7 @@ public class DDMExpressionEvaluatorVisitor
 	}
 
 	@Override
-	public Object visitMinusExpression(
-		@NotNull MinusExpressionContext context) {
-
+	public Object visitMinusExpression(MinusExpressionContext context) {
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 1));
 
 		return bigDecimal1.multiply(new BigDecimal(-1));
@@ -360,7 +343,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitMultiplicationExpression(
-		@NotNull MultiplicationExpressionContext context) {
+		MultiplicationExpressionContext context) {
 
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 0));
 		BigDecimal bigDecimal2 = _getBigDecimal(visitChild(context, 2));
@@ -369,9 +352,7 @@ public class DDMExpressionEvaluatorVisitor
 	}
 
 	@Override
-	public Object visitNotEqualsExpression(
-		@NotNull NotEqualsExpressionContext context) {
-
+	public Object visitNotEqualsExpression(NotEqualsExpressionContext context) {
 		Object object1 = visitChild(context, 0);
 		Object object2 = visitChild(context, 2);
 
@@ -387,7 +368,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitNotExpression(
-		@NotNull DDMExpressionParser.NotExpressionContext context) {
+		DDMExpressionParser.NotExpressionContext context) {
 
 		boolean boolean1 = visitChild(context, 1);
 
@@ -395,16 +376,12 @@ public class DDMExpressionEvaluatorVisitor
 	}
 
 	@Override
-	public Object visitNumericParenthesis(
-		@NotNull NumericParenthesisContext context) {
-
+	public Object visitNumericParenthesis(NumericParenthesisContext context) {
 		return visitChild(context, 1);
 	}
 
 	@Override
-	public Object visitNumericVariable(
-		@NotNull NumericVariableContext context) {
-
+	public Object visitNumericVariable(NumericVariableContext context) {
 		String variable = context.getText();
 
 		Object variableValue = _variables.get(variable);
@@ -431,7 +408,7 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitOrExpression(
-		@NotNull DDMExpressionParser.OrExpressionContext context) {
+		DDMExpressionParser.OrExpressionContext context) {
 
 		boolean boolean1 = visitChild(context, 0);
 
@@ -446,14 +423,14 @@ public class DDMExpressionEvaluatorVisitor
 
 	@Override
 	public Object visitStringLiteral(
-		@NotNull DDMExpressionParser.StringLiteralContext context) {
+		DDMExpressionParser.StringLiteralContext context) {
 
 		return StringUtil.unquote(context.getText());
 	}
 
 	@Override
 	public Object visitSubtractionExpression(
-		@NotNull SubtractionExpressionContext context) {
+		SubtractionExpressionContext context) {
 
 		BigDecimal bigDecimal1 = _getBigDecimal(visitChild(context, 0));
 		BigDecimal bigDecimal2 = _getBigDecimal(visitChild(context, 2));

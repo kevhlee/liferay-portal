@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -108,7 +107,7 @@ public class AttachmentResourceImpl
 	@NestedField(parentClass = Product.class, value = "attachments")
 	@Override
 	public Page<Attachment> getProductIdAttachmentsPage(
-			@NestedFieldId(value = "productId") Long id, Pagination pagination)
+			Long id, Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =
@@ -127,7 +126,7 @@ public class AttachmentResourceImpl
 	@NestedField(parentClass = Product.class, value = "images")
 	@Override
 	public Page<Attachment> getProductIdImagesPage(
-			@NestedFieldId(value = "productId") Long id, Pagination pagination)
+			Long id, Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =

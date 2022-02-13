@@ -58,9 +58,7 @@ public class ConfigJSModulesTask
 	}
 
 	@Override
-	public ConfigJSModulesTask exclude(
-		@SuppressWarnings("rawtypes") Closure excludeSpec) {
-
+	public ConfigJSModulesTask exclude(Closure excludeSpec) {
 		_patternFilterable.exclude(excludeSpec);
 
 		return this;
@@ -193,9 +191,7 @@ public class ConfigJSModulesTask
 	}
 
 	@Override
-	public ConfigJSModulesTask include(
-		@SuppressWarnings("rawtypes") Closure includeSpec) {
-
+	public ConfigJSModulesTask include(Closure includeSpec) {
 		_patternFilterable.include(includeSpec);
 
 		return this;

@@ -33,7 +33,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import net.shibboleth.utilities.java.support.resolver.CriteriaSet;
 import net.shibboleth.utilities.java.support.resolver.ResolverException;
@@ -59,7 +58,7 @@ public class DBMetadataResolver extends AbstractMetadataResolver {
 
 	@Nonnull
 	@Override
-	public Iterable<EntityDescriptor> resolve(@Nullable CriteriaSet criteriaSet)
+	public Iterable<EntityDescriptor> resolve(CriteriaSet criteriaSet)
 		throws ResolverException {
 
 		if (criteriaSet == null) {
@@ -97,7 +96,7 @@ public class DBMetadataResolver extends AbstractMetadataResolver {
 
 	@Nonnull
 	@Override
-	protected List<EntityDescriptor> lookupEntityID(@Nonnull String entityID)
+	protected List<EntityDescriptor> lookupEntityID(String entityID)
 		throws ResolverException {
 
 		try {

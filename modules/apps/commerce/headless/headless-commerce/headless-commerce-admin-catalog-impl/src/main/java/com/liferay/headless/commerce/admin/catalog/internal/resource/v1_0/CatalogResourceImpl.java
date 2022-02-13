@@ -37,7 +37,6 @@ import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -181,8 +180,7 @@ public class CatalogResourceImpl
 
 	@NestedField(parentClass = Product.class, value = "catalog")
 	@Override
-	public Catalog getProductIdCatalog(
-			@NestedFieldId(value = "productId") Long id, Pagination pagination)
+	public Catalog getProductIdCatalog(Long id, Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =

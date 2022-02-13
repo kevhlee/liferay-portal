@@ -87,8 +87,7 @@ public class MockComponentContext implements ComponentContext {
 
 	@Override
 	public Object locateService(
-		String serviceName,
-		@SuppressWarnings("rawtypes") ServiceReference serviceReference) {
+		String serviceName, ServiceReference serviceReference) {
 
 		return null;
 	}

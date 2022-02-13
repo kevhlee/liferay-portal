@@ -17,8 +17,6 @@ package com.liferay.bean.portlet.cdi.extension.internal.scope;
 import javax.annotation.Priority;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 
@@ -34,10 +32,7 @@ import javax.servlet.ServletContext;
 @Priority(Interceptor.Priority.APPLICATION + 10)
 public class ServletContextProducer {
 
-	public void applicationScopedInitialized(
-		@Initialized(ApplicationScoped.class) @Observes ServletContext
-			servletContext) {
-
+	public void applicationScopedInitialized(ServletContext servletContext) {
 		_servletContext = servletContext;
 	}
 

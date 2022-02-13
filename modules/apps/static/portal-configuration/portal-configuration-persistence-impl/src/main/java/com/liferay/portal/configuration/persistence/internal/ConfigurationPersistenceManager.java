@@ -230,10 +230,7 @@ public class ConfigurationPersistenceManager
 	}
 
 	@Override
-	public void store(
-			String pid, @SuppressWarnings("rawtypes") Dictionary dictionary)
-		throws IOException {
-
+	public void store(String pid, Dictionary dictionary) throws IOException {
 		String pidKey = null;
 
 		if (!pid.endsWith("factory") &&

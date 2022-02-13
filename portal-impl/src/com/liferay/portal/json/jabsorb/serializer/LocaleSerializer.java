@@ -34,10 +34,7 @@ import org.json.JSONObject;
 public class LocaleSerializer extends AbstractSerializer {
 
 	@Override
-	public boolean canSerialize(
-		@SuppressWarnings("rawtypes") Class clazz,
-		@SuppressWarnings("rawtypes") Class jsonClazz) {
-
+	public boolean canSerialize(Class clazz, Class jsonClazz) {
 		if (Locale.class.isAssignableFrom(clazz) &&
 			((jsonClazz == null) || (jsonClazz == JSONObject.class))) {
 
@@ -107,8 +104,7 @@ public class LocaleSerializer extends AbstractSerializer {
 
 	@Override
 	public ObjectMatch tryUnmarshall(
-			SerializerState serializerState,
-			@SuppressWarnings("rawtypes") Class clazz, Object object)
+			SerializerState serializerState, Class clazz, Object object)
 		throws UnmarshallException {
 
 		JSONObject localeJSONObject = getLocaleJSONObject(object);
@@ -126,8 +122,7 @@ public class LocaleSerializer extends AbstractSerializer {
 
 	@Override
 	public Object unmarshall(
-			SerializerState serializerState,
-			@SuppressWarnings("rawtypes") Class clazz, Object object)
+			SerializerState serializerState, Class clazz, Object object)
 		throws UnmarshallException {
 
 		JSONObject localeJSONObject = getLocaleJSONObject(object);

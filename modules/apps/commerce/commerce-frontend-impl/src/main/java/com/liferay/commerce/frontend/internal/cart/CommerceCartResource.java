@@ -50,12 +50,9 @@ import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -73,9 +70,8 @@ public class CommerceCartResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response applyCouponCode(
-		@PathParam("orderId") long commerceOrderId,
-		@PathParam("couponCode") String couponCode,
-		@Context HttpServletRequest httpServletRequest) {
+		long commerceOrderId, String couponCode,
+		HttpServletRequest httpServletRequest) {
 
 		Coupon coupon = null;
 
@@ -113,8 +109,7 @@ public class CommerceCartResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response removeCouponCode(
-		@PathParam("orderId") long commerceOrderId,
-		@Context HttpServletRequest httpServletRequest) {
+		long commerceOrderId, HttpServletRequest httpServletRequest) {
 
 		Coupon coupon = null;
 
@@ -151,14 +146,9 @@ public class CommerceCartResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateOrderItem(
-		@FormParam("groupId") long groupId,
-		@FormParam("languageId") String languageId,
-		@FormParam("commerceAccountId") long commerceAccountId,
-		@FormParam("quantity") int quantity,
-		@FormParam("productId") long cpInstanceId,
-		@FormParam("options") String options,
-		@FormParam("orderId") long orderId,
-		@Context HttpServletRequest httpServletRequest) {
+		long groupId, String languageId, long commerceAccountId, int quantity,
+		long cpInstanceId, String options, long orderId,
+		HttpServletRequest httpServletRequest) {
 
 		Cart cart = null;
 

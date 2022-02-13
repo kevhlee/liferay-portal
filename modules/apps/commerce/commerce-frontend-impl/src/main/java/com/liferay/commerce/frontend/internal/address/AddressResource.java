@@ -40,10 +40,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -59,9 +56,7 @@ public class AddressResource {
 	@GET
 	@Path("/address/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCommerceAddress(
-		@PathParam("id") long commerceAddressId) {
-
+	public Response getCommerceAddress(long commerceAddressId) {
 		try {
 			CommerceAddress commerceAddress =
 				_commerceAddressService.fetchCommerceAddress(commerceAddressId);
@@ -87,10 +82,7 @@ public class AddressResource {
 	@GET
 	@Path("/address/regions/{countryId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRegions(
-		@PathParam("countryId") long countryId,
-		@Context ThemeDisplay themeDisplay) {
-
+	public Response getRegions(long countryId, ThemeDisplay themeDisplay) {
 		List<RegionModel> regionModels = new ArrayList<>();
 
 		List<Region> regions = _regionService.getRegions(countryId, true);
@@ -124,8 +116,7 @@ public class AddressResource {
 	@Path("/address/countries")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getShippingCountries(
-		@QueryParam("companyId") long companyId,
-		@Context ThemeDisplay themeDisplay) {
+		long companyId, ThemeDisplay themeDisplay) {
 
 		return _getCountries(
 			_countryService.getCompanyCountries(companyId, true),
@@ -135,7 +126,7 @@ public class AddressResource {
 	@GET
 	@Path("/address/countries")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getShippingCountries(@Context ThemeDisplay themeDisplay) {
+	public Response getShippingCountries(ThemeDisplay themeDisplay) {
 		List<Country> countries = _countryService.getCompanyCountries(
 			themeDisplay.getCompanyId(), true);
 
@@ -146,8 +137,7 @@ public class AddressResource {
 	@Path("/address/countries-by-channel-id")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getShippingCountriesByChannelId(
-		@QueryParam("channelId") long channelId,
-		@Context ThemeDisplay themeDisplay) {
+		long channelId, ThemeDisplay themeDisplay) {
 
 		List<Country> countries =
 			_commerceCountryManager.getShippingCountriesByChannelId(

@@ -45,10 +45,7 @@ import org.json.JSONObject;
 public class LiferaySerializer extends AbstractSerializer {
 
 	@Override
-	public boolean canSerialize(
-		@SuppressWarnings("rawtypes") Class clazz,
-		@SuppressWarnings("rawtypes") Class jsonClass) {
-
+	public boolean canSerialize(Class clazz, Class jsonClass) {
 		Constructor<?> constructor = null;
 
 		try {
@@ -187,8 +184,7 @@ public class LiferaySerializer extends AbstractSerializer {
 
 	@Override
 	public ObjectMatch tryUnmarshall(
-			SerializerState serializerState,
-			@SuppressWarnings("rawtypes") Class clazz, Object object)
+			SerializerState serializerState, Class clazz, Object object)
 		throws UnmarshallException {
 
 		JSONObject jsonObject = (JSONObject)object;
@@ -283,8 +279,7 @@ public class LiferaySerializer extends AbstractSerializer {
 
 	@Override
 	public Object unmarshall(
-			SerializerState serializerState,
-			@SuppressWarnings("rawtypes") Class clazz, Object object)
+			SerializerState serializerState, Class clazz, Object object)
 		throws UnmarshallException {
 
 		JSONObject jsonObject = (JSONObject)object;

@@ -25,7 +25,6 @@ import com.liferay.headless.commerce.delivery.catalog.internal.dto.v1_0.converte
 import com.liferay.headless.commerce.delivery.catalog.resource.v1_0.ProductOptionResource;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -52,8 +51,7 @@ public class ProductOptionResourceImpl
 	@NestedField(parentClass = Product.class, value = "productOptions")
 	@Override
 	public Page<ProductOption> getChannelProductOptionsPage(
-			Long channelId, @NestedFieldId(value = "productId") Long productId,
-			Pagination pagination)
+			Long channelId, Long productId, Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =

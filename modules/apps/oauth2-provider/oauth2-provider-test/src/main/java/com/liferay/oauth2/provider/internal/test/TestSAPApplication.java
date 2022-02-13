@@ -27,7 +27,6 @@ import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Application;
 
 /**
@@ -42,7 +41,7 @@ public class TestSAPApplication extends Application {
 
 	@GET
 	@Path("/{sapName}")
-	public boolean isSapActive(@PathParam("sapName") String sapName) {
+	public boolean isSapActive(String sapName) {
 		AccessControlContext accessControlContext =
 			AccessControlUtil.getAccessControlContext();
 

@@ -41,7 +41,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -138,8 +137,7 @@ public class SkuResourceImpl
 
 	@NestedField(parentClass = Product.class, value = "skus")
 	@Override
-	public Page<Sku> getProductIdSkusPage(
-			@NestedFieldId(value = "productId") Long id, Pagination pagination)
+	public Page<Sku> getProductIdSkusPage(Long id, Pagination pagination)
 		throws Exception {
 
 		return _skuHelper.getSkusPage(

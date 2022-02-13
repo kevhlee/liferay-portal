@@ -69,14 +69,10 @@ import javax.portlet.PortletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -130,10 +126,8 @@ public class CommerceAccountResource {
 	@Path("/search-accounts")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCommerceAccounts(
-		@QueryParam("groupId") long groupId,
-		@QueryParam("q") String queryString, @QueryParam("page") int page,
-		@QueryParam("pageSize") int pageSize, @Context UriInfo uriInfo,
-		@Context ThemeDisplay themeDisplay) {
+		long groupId, String queryString, int page, int pageSize,
+		UriInfo uriInfo, ThemeDisplay themeDisplay) {
 
 		AccountList accountList = null;
 
@@ -167,12 +161,9 @@ public class CommerceAccountResource {
 	@Path("/search-accounts/{accountId}/orders/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCommerceOrders(
-		@QueryParam("groupId") long groupId,
-		@PathParam("accountId") long accountId,
-		@QueryParam("q") String queryString, @QueryParam("page") int page,
-		@QueryParam("pageSize") int pageSize,
-		@Context HttpServletRequest httpServletRequest,
-		@Context ThemeDisplay themeDisplay) {
+		long groupId, long accountId, String queryString, int page,
+		int pageSize, HttpServletRequest httpServletRequest,
+		ThemeDisplay themeDisplay) {
 
 		themeDisplay.setScopeGroupId(groupId);
 
@@ -205,8 +196,7 @@ public class CommerceAccountResource {
 	@Path("/search-organizations")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchOrganizations(
-		@QueryParam("q") String queryString,
-		@Context ThemeDisplay themeDisplay) {
+		String queryString, ThemeDisplay themeDisplay) {
 
 		AccountOrganizationList accountOrganizationList = null;
 
@@ -226,10 +216,7 @@ public class CommerceAccountResource {
 	@GET
 	@Path("/search-users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchUsers(
-		@QueryParam("q") String queryString,
-		@Context ThemeDisplay themeDisplay) {
-
+	public Response searchUsers(String queryString, ThemeDisplay themeDisplay) {
 		AccountUserList accountUserList = null;
 
 		try {
@@ -249,9 +236,7 @@ public class CommerceAccountResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response setCurrentAccount(
-		@QueryParam("groupId") long groupId,
-		@FormParam("accountId") long accountId,
-		@Context HttpServletRequest httpServletRequest) {
+		long groupId, long accountId, HttpServletRequest httpServletRequest) {
 
 		try {
 			_commerceAccountHelper.setCurrentCommerceAccount(

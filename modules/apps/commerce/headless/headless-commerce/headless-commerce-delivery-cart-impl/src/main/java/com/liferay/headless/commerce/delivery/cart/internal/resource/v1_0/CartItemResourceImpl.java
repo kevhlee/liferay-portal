@@ -29,7 +29,6 @@ import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartItemResourc
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -95,7 +94,7 @@ public class CartItemResourceImpl
 	@NestedField(parentClass = Cart.class, value = "cartItems")
 	@Override
 	public Page<CartItem> getCartItemsPage(
-			@NestedFieldId("id") Long cartId, Long skuId, Pagination pagination)
+			Long cartId, Long skuId, Pagination pagination)
 		throws Exception {
 
 		if (cartId == 0) {

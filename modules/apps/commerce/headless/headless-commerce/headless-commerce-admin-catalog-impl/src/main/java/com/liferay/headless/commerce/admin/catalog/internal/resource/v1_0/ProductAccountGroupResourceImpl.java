@@ -23,7 +23,6 @@ import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Product;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.ProductAccountGroup;
 import com.liferay.headless.commerce.admin.catalog.resource.v1_0.ProductAccountGroupResource;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -93,7 +92,7 @@ public class ProductAccountGroupResourceImpl
 	@NestedField(parentClass = Product.class, value = "productAccountGroups")
 	@Override
 	public Page<ProductAccountGroup> getProductIdProductAccountGroupsPage(
-			@NestedFieldId(value = "productId") Long id, Pagination pagination)
+			Long id, Pagination pagination)
 		throws Exception {
 
 		CPDefinition cpDefinition =

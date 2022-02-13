@@ -21,8 +21,6 @@ import com.liferay.mule.internal.connection.ResourceContext;
 import com.liferay.mule.internal.error.LiferayError;
 import com.liferay.mule.internal.error.LiferayResponseValidator;
 import com.liferay.mule.internal.error.provider.LiferayResponseErrorProvider;
-import com.liferay.mule.internal.metadata.input.BatchImportInputTypeResolver;
-import com.liferay.mule.internal.metadata.key.ClassNameTypeKeysResolver;
 import com.liferay.mule.internal.metadata.output.BatchExportOutputTypeResolver;
 import com.liferay.mule.internal.util.JsonNodeReader;
 
@@ -40,18 +38,9 @@ import java.util.zip.ZipInputStream;
 import org.mule.runtime.api.util.MultiMap;
 import org.mule.runtime.core.api.util.IOUtils;
 import org.mule.runtime.extension.api.annotation.error.Throws;
-import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
 import org.mule.runtime.extension.api.annotation.metadata.OutputResolver;
-import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;
-import org.mule.runtime.extension.api.annotation.param.ConfigOverride;
-import org.mule.runtime.extension.api.annotation.param.Connection;
-import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
-import org.mule.runtime.extension.api.annotation.param.NullSafe;
-import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
-import org.mule.runtime.extension.api.annotation.param.display.Placement;
-import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.mule.runtime.http.api.domain.entity.HttpEntity;
@@ -70,17 +59,8 @@ public class LiferayBatchOperations {
 	@MediaType(MediaType.APPLICATION_JSON)
 	@OutputResolver(output = BatchExportOutputTypeResolver.class)
 	public Result<InputStream, Void> executeExportTask(
-			@Connection LiferayConnection connection,
-			@MetadataKeyId(ClassNameTypeKeysResolver.class) String className,
-			@Optional String siteId,
-			@Optional @Summary("Comma-separated list") String fieldNames,
-			@ConfigOverride @DisplayName("Connection Timeout") @Optional
-			@Placement(order = 1, tab = Placement.ADVANCED_TAB)
-			@Summary("Socket connection timeout value")
-			int connectionTimeout,
-			@ConfigOverride @DisplayName("Connection Timeout Unit") @Optional
-			@Placement(order = 2, tab = Placement.ADVANCED_TAB)
-			@Summary("Time unit to be used in the timeout configurations")
+			LiferayConnection connection, String className, String siteId,
+			String fieldNames, int connectionTimeout,
 			TimeUnit connectionTimeoutTimeUnit)
 		throws ModuleException {
 
@@ -138,20 +118,9 @@ public class LiferayBatchOperations {
 
 	@DisplayName("Batch - Import Records - Create")
 	public void executeImportCreateTask(
-			@Connection LiferayConnection connection,
-			@MetadataKeyId(ClassNameTypeKeysResolver.class) String className,
-			@NullSafe @Optional Map<String, String> fieldNameMappings,
-			@Content @DisplayName("Records")
-			@TypeResolver(value = BatchImportInputTypeResolver.class)
-			InputStream inputStream,
-			@ConfigOverride @DisplayName("Connection Timeout") @Optional
-			@Placement(order = 1, tab = Placement.ADVANCED_TAB)
-			@Summary("Socket connection timeout value")
-			int connectionTimeout,
-			@ConfigOverride @DisplayName("Connection Timeout Unit") @Optional
-			@Placement(order = 2, tab = Placement.ADVANCED_TAB)
-			@Summary("Time unit to be used in the timeout configurations")
-			TimeUnit connectionTimeoutTimeUnit)
+			LiferayConnection connection, String className,
+			Map<String, String> fieldNameMappings, InputStream inputStream,
+			int connectionTimeout, TimeUnit connectionTimeoutTimeUnit)
 		throws ModuleException {
 
 		long connectionTimeoutMillis = connectionTimeoutTimeUnit.toMillis(
@@ -172,18 +141,8 @@ public class LiferayBatchOperations {
 
 	@DisplayName("Batch - Import Records - Delete")
 	public void executeImportDeleteTask(
-			@Connection LiferayConnection connection,
-			@MetadataKeyId(ClassNameTypeKeysResolver.class) String className,
-			@Content @DisplayName("Records")
-			@TypeResolver(value = BatchImportInputTypeResolver.class)
-			InputStream inputStream,
-			@ConfigOverride @DisplayName("Connection Timeout") @Optional
-			@Placement(order = 1, tab = Placement.ADVANCED_TAB)
-			@Summary("Socket connection timeout value")
-			int connectionTimeout,
-			@ConfigOverride @DisplayName("Connection Timeout Unit") @Optional
-			@Placement(order = 2, tab = Placement.ADVANCED_TAB)
-			@Summary("Time unit to be used in the timeout configurations")
+			LiferayConnection connection, String className,
+			InputStream inputStream, int connectionTimeout,
 			TimeUnit connectionTimeoutTimeUnit)
 		throws ModuleException {
 
@@ -204,18 +163,8 @@ public class LiferayBatchOperations {
 
 	@DisplayName("Batch - Import Records - Update")
 	public void executeImportUpdateTask(
-			@Connection LiferayConnection connection,
-			@MetadataKeyId(ClassNameTypeKeysResolver.class) String className,
-			@Content @DisplayName("Records")
-			@TypeResolver(value = BatchImportInputTypeResolver.class)
-			InputStream inputStream,
-			@ConfigOverride @DisplayName("Connection Timeout") @Optional
-			@Placement(order = 1, tab = Placement.ADVANCED_TAB)
-			@Summary("Socket connection timeout value")
-			int connectionTimeout,
-			@ConfigOverride @DisplayName("Connection Timeout Unit") @Optional
-			@Placement(order = 2, tab = Placement.ADVANCED_TAB)
-			@Summary("Time unit to be used in the timeout configurations")
+			LiferayConnection connection, String className,
+			InputStream inputStream, int connectionTimeout,
 			TimeUnit connectionTimeoutTimeUnit)
 		throws ModuleException {
 

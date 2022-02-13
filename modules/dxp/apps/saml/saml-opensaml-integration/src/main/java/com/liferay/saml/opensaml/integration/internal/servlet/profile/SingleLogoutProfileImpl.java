@@ -62,7 +62,6 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -1477,7 +1476,7 @@ public class SingleLogoutProfileImpl
 				@Nonnull
 				@Override
 				public HttpClientMessagePipeline<Object, Object> newInstance(
-					@Nullable String pipelineName) {
+					String pipelineName) {
 
 					return newInstance();
 				}

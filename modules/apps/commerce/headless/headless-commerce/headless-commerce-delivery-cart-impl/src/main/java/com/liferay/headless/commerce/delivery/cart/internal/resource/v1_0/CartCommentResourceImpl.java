@@ -26,7 +26,6 @@ import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartCommentReso
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -69,7 +68,7 @@ public class CartCommentResourceImpl
 	@NestedField(parentClass = Cart.class, value = "notes")
 	@Override
 	public Page<CartComment> getCartCommentsPage(
-			@NestedFieldId("id") Long cartId, Pagination pagination)
+			Long cartId, Pagination pagination)
 		throws Exception {
 
 		List<CommerceOrderNote> commerceOrderNotes =

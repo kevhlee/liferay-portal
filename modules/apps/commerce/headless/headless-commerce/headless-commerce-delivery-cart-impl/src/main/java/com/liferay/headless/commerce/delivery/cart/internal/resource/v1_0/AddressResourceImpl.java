@@ -24,7 +24,6 @@ import com.liferay.headless.commerce.delivery.cart.internal.dto.v1_0.AddressDTOC
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.AddressResource;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
 import com.liferay.portal.vulcan.fields.NestedField;
-import com.liferay.portal.vulcan.fields.NestedFieldId;
 import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 
 import org.osgi.service.component.annotations.Component;
@@ -45,9 +44,7 @@ public class AddressResourceImpl
 
 	@NestedField(parentClass = Cart.class, value = "billingAddress")
 	@Override
-	public Address getCartBillingAddres(@NestedFieldId("id") Long cartId)
-		throws Exception {
-
+	public Address getCartBillingAddres(Long cartId) throws Exception {
 		CommerceOrder commerceOrder = _commerceOrderService.getCommerceOrder(
 			cartId);
 
@@ -63,9 +60,7 @@ public class AddressResourceImpl
 
 	@NestedField(parentClass = Cart.class, value = "shippingAddress")
 	@Override
-	public Address getCartShippingAddres(@NestedFieldId("id") Long cartId)
-		throws Exception {
-
+	public Address getCartShippingAddres(Long cartId) throws Exception {
 		CommerceOrder commerceOrder = _commerceOrderService.getCommerceOrder(
 			cartId);
 

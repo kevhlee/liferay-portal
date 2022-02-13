@@ -43,9 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
@@ -85,9 +83,8 @@ public class HeadlessDiscoveryAPIApplication extends Application {
 	@GET
 	@Produces({"application/json", "application/xml", "text/html"})
 	public Response discovery(
-			@HeaderParam("Accept") String accept,
-			@Context HttpServletRequest httpServletRequest,
-			@Context HttpServletResponse httpServletResponse)
+			String accept, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse)
 		throws Exception {
 
 		if ((accept != null) && accept.contains(MediaType.TEXT_HTML) &&
@@ -171,10 +168,8 @@ public class HeadlessDiscoveryAPIApplication extends Application {
 	@Path("/{parameter}")
 	@Produces({"text/css", "text/javascript"})
 	public Response discoveryParameter(
-			@HeaderParam("Accept") String accept,
-			@Context HttpServletRequest httpServletRequest,
-			@Context HttpServletResponse httpServletResponse,
-			@PathParam("parameter") String parameter)
+			String accept, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse, String parameter)
 		throws Exception {
 
 		if (parameter.contains("..")) {
