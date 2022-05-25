@@ -782,14 +782,14 @@
 			<description name="Finds cases where `DROP_TABLE_IF_EXISTS` should be used (instead of `drop table if exists`)." />
 			<property name="enabled" value="false" />
 		</check>
-		<check name="JavaUpgradeEmptyLinesCheck">
-			<category name="Styling" />
-			<description name="Finds missing and unnecessary empty lines." />
-		</check>
 		<check name="JavaUpgradeIndexCheck">
 			<category name="Bug Prevention" />
 			<description name="Finds cases where the service builder indexes are updated manually in Upgrade classes. This is not needed because Liferay takes care of it." />
 			<property name="enabled" value="false" />
+		</check>
+		<check name="JavaUpgradeSameMethodCallsCheck">
+			<category name="Styling" />
+			<description name="Finds missing and unnecessary empty lines." />
 		</check>
 		<check name="JavaUpgradeVersionCheck">
 			<category name="Bug Prevention" />

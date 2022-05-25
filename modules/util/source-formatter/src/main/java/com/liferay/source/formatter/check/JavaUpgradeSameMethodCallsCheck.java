@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 /**
  * @author Qi Zhang
  */
-public class JavaUpgradeEmptyLinesCheck extends BaseFileCheck {
+public class JavaUpgradeSameMethodCallsCheck extends BaseFileCheck {
 
 	@Override
 	public boolean isLiferaySourceCheck() {
