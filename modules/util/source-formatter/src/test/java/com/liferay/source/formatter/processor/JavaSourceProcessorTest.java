@@ -402,8 +402,8 @@ public class JavaSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
-	public void testMissingEmptyLinesMiddleDBProcessMethods() throws Exception {
-		test("MissingEmptyLinesMiddleDBProcessMethodsUpgradeProcess.testjava");
+	public void testIncorrectEmptyLinesUpgradeProcess() throws Exception {
+		test("IncorrectEmptyLinesUpgradeProcess.testjava");
 	}
 
 	@Test

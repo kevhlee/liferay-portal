@@ -19,14 +19,13 @@ import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 /**
  * @author Qi Zhang
  */
-public class MissingEmptyLinesMiddleDBProcessMethodsUpgradeProcess
-	extends UpgradeProcess {
+public class IncorrectEmptyLinesUpgradeProcess extends UpgradeProcess {
 
 	@Override
 	protected void doUpgrade() throws Exception {
 		alterTableAddColumn("TestTable1", "testCol1", "VARCHAR(255) null");
-		alterTableAddColumn("TestTable1", "testCol2", "VARCHAR(255) null");
 
+		alterTableAddColumn("TestTable1", "testCol2", "VARCHAR(255) null");
 		alterTableAddColumn("TestTable2", "testCol3", "VARCHAR(255) null");
 	}
 
