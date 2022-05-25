@@ -41,6 +41,10 @@ public class JavaUpgradeSameMethodCallsCheck extends BaseFileCheck {
 			return content;
 		}
 
+		return _fixEmptyLinesBetweenMethodCalls(content);
+	}
+
+	private String _fixEmptyLinesBetweenMethodCalls(String content) {
 		for (String methodName : _DB_PROCESS_METHODS) {
 			Pattern pattern1 = Pattern.compile(
 				"(?<=\n)(\t+\\b" + methodName + "\\(.+?\\);\n+)+",
