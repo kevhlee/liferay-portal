@@ -439,6 +439,10 @@
 			<category name="Miscellaneous" />
 			<description name="Finds cases where Diamond Operator is not used." />
 		</check>
+		<check name="JavaDummyCheck">
+			<category name="Bug Prevention" />
+			<description name="This is just a SF check for testing CI source formatter." />
+		</check>
 		<check name="JavaDuplicateVariableCheck">
 			<category name="Miscellaneous" />
 			<description name="Finds variables where a variable with the same name already exists in an extended class." />
