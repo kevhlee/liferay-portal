@@ -68,11 +68,28 @@ public class GradleBuildFileVisitor extends CodeVisitorSupport {
 			String[] textParts = text.split(":");
 
 			if (textParts.length >= 3) {
-				GradleDependency gradleDependency = new GradleDependency(
-					_configuration, textParts[0], textParts[1], textParts[2],
-					_methodCallLineNumber, _methodCallLastLineNumber);
+				boolean hasDuplicatedDependency = false;
 
-				_gradleDependencies.add(gradleDependency);
+				for (GradleDependency gradleDependency : _gradleDependencies) {
+					if ((_methodCallLastLineNumber ==
+							gradleDependency.getLastLineNumber()) &&
+						(_methodCallLineNumber ==
+							gradleDependency.getLineNumber())) {
+
+						hasDuplicatedDependency = true;
+
+						break;
+					}
+				}
+
+				if (!hasDuplicatedDependency) {
+					GradleDependency gradleDependency = new GradleDependency(
+						_configuration, textParts[0], textParts[1],
+						textParts[2], _methodCallLineNumber,
+						_methodCallLastLineNumber);
+
+					_gradleDependencies.add(gradleDependency);
+				}
 			}
 		}
 
@@ -109,12 +126,28 @@ public class GradleBuildFileVisitor extends CodeVisitorSupport {
 		}
 
 		if (gav) {
-			GradleDependency gradleDependency = new GradleDependency(
-				_configuration, keyValues.get("group"), keyValues.get("name"),
-				keyValues.get("version"), _methodCallLineNumber,
-				_methodCallLastLineNumber);
+			boolean hasDuplicatedDependency = false;
 
-			_gradleDependencies.add(gradleDependency);
+			for (GradleDependency gradleDependency : _gradleDependencies) {
+				if ((_methodCallLastLineNumber ==
+						gradleDependency.getLastLineNumber()) &&
+					(_methodCallLineNumber ==
+						gradleDependency.getLineNumber())) {
+
+					hasDuplicatedDependency = true;
+
+					break;
+				}
+			}
+
+			if (!hasDuplicatedDependency) {
+				GradleDependency gradleDependency = new GradleDependency(
+					_configuration, keyValues.get("group"),
+					keyValues.get("name"), keyValues.get("version"),
+					_methodCallLineNumber, _methodCallLastLineNumber);
+
+				_gradleDependencies.add(gradleDependency);
+			}
 		}
 
 		super.visitMapExpression(mapExpression);
