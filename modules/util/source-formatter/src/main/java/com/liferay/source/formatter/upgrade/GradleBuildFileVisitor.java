@@ -28,7 +28,7 @@ import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.MapEntryExpression;
 import org.codehaus.groovy.ast.expr.MapExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
+import org.codehaus.groovy.ast.expr.TupleExpression;
 
 /**
  * @author Kevin Lee
@@ -77,20 +77,6 @@ public class GradleBuildFileVisitor extends CodeVisitorSupport {
 		}
 
 		super.visitArgumentlistExpression(argumentListExpression);
-	}
-
-	@Override
-	public void visitBlockStatement(BlockStatement blockStatement) {
-		if (_inDependencies) {
-			_numberOfBlocks++;
-
-			super.visitBlockStatement(blockStatement);
-
-			_numberOfBlocks--;
-		}
-		else {
-			super.visitBlockStatement(blockStatement);
-		}
 	}
 
 	@Override
@@ -154,15 +140,7 @@ public class GradleBuildFileVisitor extends CodeVisitorSupport {
 				methodCallExpression.getLastLineNumber();
 		}
 
-		if (_inDependencies && (_numberOfBlocks > 0)) {
-			if (_numberOfBlocks > 1) {
-
-				// Assume all dependencies are initialized within the first
-				// level of "dependencies" block
-
-				return;
-			}
-
+		if (_inDependencies) {
 			_configuration = methodName;
 
 			super.visitMethodCallExpression(methodCallExpression);
@@ -170,6 +148,16 @@ public class GradleBuildFileVisitor extends CodeVisitorSupport {
 			_configuration = null;
 		}
 		else {
+			TupleExpression argumentsExpressions =
+				(TupleExpression)methodCallExpression.getArguments();
+
+			List<Expression> expressions =
+				argumentsExpressions.getExpressions();
+
+			for (Expression expression : expressions) {
+				expression.visit(this);
+			}
+
 			super.visitMethodCallExpression(methodCallExpression);
 		}
 	}
@@ -182,6 +170,5 @@ public class GradleBuildFileVisitor extends CodeVisitorSupport {
 	private boolean _inDependencies;
 	private int _methodCallLastLineNumber = -1;
 	private int _methodCallLineNumber = -1;
-	private int _numberOfBlocks;
 
 }
