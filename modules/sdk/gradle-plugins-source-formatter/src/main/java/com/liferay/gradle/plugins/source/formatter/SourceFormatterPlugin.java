@@ -43,6 +43,8 @@ public class SourceFormatterPlugin implements Plugin<Project> {
 
 	public static final String FORMAT_SOURCE_TASK_NAME = "formatSource";
 
+	public static final String UPGRADE_SOURCE_TASK_NAME = "upgradeSource";
+
 	@Override
 	public void apply(Project project) {
 		Configuration sourceFormatterConfiguration =
@@ -50,6 +52,7 @@ public class SourceFormatterPlugin implements Plugin<Project> {
 
 		_addTaskCheckSourceFormatting(project);
 		_addTaskFormatSource(project);
+		_addTaskUpgradeSource(project);
 
 		_configureTasksFormatSource(project, sourceFormatterConfiguration);
 	}
@@ -106,6 +109,19 @@ public class SourceFormatterPlugin implements Plugin<Project> {
 		formatSourceTask.onlyIf(_skipIfExecutingParentTaskSpec);
 		formatSourceTask.setDescription(
 			"Runs Liferay Source Formatter to format the project files.");
+		formatSourceTask.setGroup("formatting");
+
+		return formatSourceTask;
+	}
+
+	private FormatSourceTask _addTaskUpgradeSource(Project project) {
+		FormatSourceTask formatSourceTask = GradleUtil.addTask(
+			project, UPGRADE_SOURCE_TASK_NAME, FormatSourceTask.class);
+
+		formatSourceTask.onlyIf(_skipIfExecutingParentTaskSpec);
+		formatSourceTask.setDescription(
+			"Runs Liferay Source Formatter to execute code upgrades.");
+		formatSourceTask.setCheckCategoryNames("Upgrade");
 		formatSourceTask.setGroup("formatting");
 
 		return formatSourceTask;
