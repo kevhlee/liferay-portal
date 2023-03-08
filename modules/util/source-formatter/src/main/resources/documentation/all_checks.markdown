@@ -33,6 +33,7 @@ BNDRunInstructionsOrderCheck | [Styling](styling_checks.markdown#styling-checks)
 [BNDSchemaVersionCheck](check/bnd_schema_version_check.markdown#bndschemaversioncheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .bnd | Checks for incorrect use of property `Liferay-Require-SchemaVersion`. |
 BNDStylingCheck | [Styling](styling_checks.markdown#styling-checks) | .bnd | Applies rules to enforce consistency in code style. |
 [BNDSuiteCheck](check/bnd_suite_check.markdown#bndsuitecheck) | [Miscellaneous](miscellaneous_checks.markdown#miscellaneous-checks) | .bnd | Checks that deprecated apps are moved to the `archived` folder. |
+BNDUpgradeIncludeResourceCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | .bnd | Checks if the property value `-includeresource` or `Include-Resource` exists and removes it |
 [BNDWebContextPathCheck](check/bnd_web_context_path_check.markdown#bndwebcontextpathcheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .bnd | Checks if the property value for `Web-ContextPath` matches the module directory. |
 BNDWhitespaceCheck | [Styling](styling_checks.markdown#styling-checks) | .bnd | Finds missing and unnecessary whitespace in `.bnd` files. |
 CDNCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | | Checks the URL in `artifact.properties` files. |
@@ -103,6 +104,7 @@ GradleProvidedDependenciesCheck | [Bug Prevention](bug_prevention_checks.markdow
 GradleStylingCheck | [Styling](styling_checks.markdown#styling-checks) | .gradle | Applies rules to enforce consistency in code style. |
 [GradleTaskCreationCheck](check/gradle_task_creation_check.markdown#gradletaskcreationcheck) | [Styling](styling_checks.markdown#styling-checks) | .gradle | Checks that a task is declared on a separate line before the closure. |
 GradleTestDependencyVersionCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .gradle | Checks the version for dependencies in gradle build files. |
+GradleUpgradeIncludeResourceCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | .gradle | Replaces with `compileInclude` the configuration attribute for dependencies in `build.gradle` that are listed at `Include-Resource` property at `bnd.bnd` associated file. |
 [GradleUpgradeReleaseDXPCheck](check/gradle_upgrade_release_dxp_check.markdown#gradleupgradereleasedxpcheck) | [Upgrade](upgrade_checks.markdown#upgrade-checks) | .gradle | Remove and replaced dependencies in `build.gradle` that are already in `release.dxp.api` with `released.dxp.api` dependency. |
 GroovyImportsCheck | [Styling](styling_checks.markdown#styling-checks) | .groovy | Sorts and groups imports in `.groovy` files. |
 HTMLEmptyLinesCheck | [Styling](styling_checks.markdown#styling-checks) | .html or .path | Finds missing and unnecessary empty lines. |
@@ -117,14 +119,14 @@ InstanceofOrderCheck | [Styling](styling_checks.markdown#styling-checks) | .java
 [ItemListBuilderCheck](check/builder_check.markdown#buildercheck) | [Miscellaneous](miscellaneous_checks.markdown#miscellaneous-checks) | .java | Checks that `DropdownItemListBuilder`, `LabelItemListBuilder` or `NavigationItemListBuilder` is used when possible. |
 JSCompatibilityCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | | Checks for JavaScript compatibility. |
 [JSLodashDependencyCheck](check/js_lodash_dependency_check.markdown#jslodashdependencycheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .js or .jsx | Finds incorrect use of `AUI._`. |
-[JSONDeprecatedPackagesCheck](check/json_deprecated_packages_check.markdown#jsondeprecatedpackagescheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json, .jsont or .npmbridgerc | Finds incorrect use of deprecated packages in `package.json` files. |
+[JSONDeprecatedPackagesCheck](check/json_deprecated_packages_check.markdown#jsondeprecatedpackagescheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json or .npmbridgerc | Finds incorrect use of deprecated packages in `package.json` files. |
 JSONNamingCheck | [Naming Conventions](naming_conventions_checks.markdown#naming-conventions-checks) | .java, .jsp, .jspf, .jspx, .tag, .tpl or .vm | Checks if variable names follow naming conventions. |
-JSONPackageJSONBNDVersionCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json, .jsont or .npmbridgerc | Checks the version for dependencies in `package.json` files. |
-JSONPackageJSONCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json, .jsont or .npmbridgerc | Checks content of `package.json` files. |
-JSONPackageJSONDependencyVersionCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json, .jsont or .npmbridgerc | Checks the version for dependencies in `package.json` files. |
-JSONStylingCheck | [Styling](styling_checks.markdown#styling-checks) | .ipynb, .json, .jsont or .npmbridgerc | Applies rules to enforce consistency in code style. |
+JSONPackageJSONBNDVersionCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json or .npmbridgerc | Checks the version for dependencies in `package.json` files. |
+JSONPackageJSONCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json or .npmbridgerc | Checks content of `package.json` files. |
+JSONPackageJSONDependencyVersionCheck | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json or .npmbridgerc | Checks the version for dependencies in `package.json` files. |
+JSONStylingCheck | [Styling](styling_checks.markdown#styling-checks) | .ipynb, .json or .npmbridgerc | Applies rules to enforce consistency in code style. |
 [JSONUtilCheck](check/json_util_check.markdown#jsonutilcheck) | [Styling](styling_checks.markdown#styling-checks) | .java, .jsp, .jspf, .jspx, .tag, .tpl or .vm | Checks for utilization of class `JSONUtil`. |
-[JSONValidationCheck](check/json_validation_check.markdown#jsonvalidationcheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json, .jsont or .npmbridgerc | Validates content of `.json` files. |
+[JSONValidationCheck](check/json_validation_check.markdown#jsonvalidationcheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .ipynb, .json or .npmbridgerc | Validates content of `.json` files. |
 [JSPArrowFunctionCheck](check/jsp_arrow_function_check.markdown#jsparrowfunctioncheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | .jsp, .jspf, .jspx, .tag, .tpl or .vm | Checks that there are no array functions. |
 JSPCoreTaglibCheck | [Styling](styling_checks.markdown#styling-checks) | .jsp, .jspf, .jspx, .tag, .tpl or .vm | Finds cases where a `c:choose` or `c:if` tag can be used instead of an if-statement. |
 [JSPDefineObjectsCheck](check/jsp_define_objects_check.markdown#jspdefineobjectscheck) | [Performance](performance_checks.markdown#performance-checks) | .jsp, .jspf, .jspx, .tag, .tpl or .vm | Checks for unnecessary duplication of code that already exists in `defineObjects`. |

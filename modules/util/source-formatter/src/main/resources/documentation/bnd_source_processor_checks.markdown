@@ -21,5 +21,6 @@ BNDLineBreaksCheck | [Styling](styling_checks.markdown#styling-checks) | Finds m
 [BNDSchemaVersionCheck](check/bnd_schema_version_check.markdown#bndschemaversioncheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | Checks for incorrect use of property `Liferay-Require-SchemaVersion`. |
 BNDStylingCheck | [Styling](styling_checks.markdown#styling-checks) | Applies rules to enforce consistency in code style. |
 [BNDSuiteCheck](check/bnd_suite_check.markdown#bndsuitecheck) | [Miscellaneous](miscellaneous_checks.markdown#miscellaneous-checks) | Checks that deprecated apps are moved to the `archived` folder. |
+BNDUpgradeIncludeResourceCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Checks if the property value `-includeresource` or `Include-Resource` exists and removes it |
 [BNDWebContextPathCheck](check/bnd_web_context_path_check.markdown#bndwebcontextpathcheck) | [Bug Prevention](bug_prevention_checks.markdown#bug-prevention-checks) | Checks if the property value for `Web-ContextPath` matches the module directory. |
 BNDWhitespaceCheck | [Styling](styling_checks.markdown#styling-checks) | Finds missing and unnecessary whitespace in `.bnd` files. |
