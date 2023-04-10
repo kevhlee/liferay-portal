@@ -36,7 +36,8 @@ public class UpgradeVelocityCommentMigrationCheck extends BaseFileCheck {
 
 		VelocityMigrationUtil.writeMigratedContent(
 			_formatContent(
-				VelocityMigrationUtil.getFTLMigratedContent(content, fileName)),
+				VelocityMigrationUtil.getFreeMarkerMigratedContent(
+					content, fileName)),
 			fileName);
 
 		return content;

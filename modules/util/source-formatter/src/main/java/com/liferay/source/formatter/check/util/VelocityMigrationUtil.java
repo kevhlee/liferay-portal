@@ -26,11 +26,11 @@ import java.io.IOException;
  */
 public class VelocityMigrationUtil {
 
-	public static String getFTLMigratedContent(
+	public static String getFreeMarkerMigratedContent(
 			String content, String velocityFileName)
 		throws IOException {
 
-		File file = _getFTLMigratedFile(velocityFileName);
+		File file = _getFreeMarkerMigratedFile(velocityFileName);
 
 		if (file.length() != 0) {
 			content = FileUtil.read(file);
@@ -43,10 +43,11 @@ public class VelocityMigrationUtil {
 			String migratedContent, String velocityFileName)
 		throws IOException {
 
-		FileUtil.write(_getFTLMigratedFile(velocityFileName), migratedContent);
+		FileUtil.write(
+			_getFreeMarkerMigratedFile(velocityFileName), migratedContent);
 	}
 
-	private static File _getFTLMigratedFile(String fileName) {
+	private static File _getFreeMarkerMigratedFile(String fileName) {
 		int periodIndex = fileName.lastIndexOf(StringPool.PERIOD);
 		int slashIndex = fileName.lastIndexOf(StringPool.SLASH);
 
