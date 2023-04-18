@@ -30,14 +30,14 @@ public class UpgradeVelocityFileImportMigrationCheck
 
 		for (String line : lines) {
 			if (line.contains("#parse")) {
-				String newImport = line.replace("#parse", "<#include");
+				String newLine = line.replace("#parse", "<#include");
 
-				newImport = StringUtil.removeFirst(
-					newImport, StringPool.OPEN_PARENTHESIS);
-				newImport = StringUtil.replaceLast(
-					newImport, CharPool.CLOSE_PARENTHESIS, " />");
+				newLine = StringUtil.removeFirst(
+					newLine, StringPool.OPEN_PARENTHESIS);
+				newLine = StringUtil.replaceLast(
+					newLine, CharPool.CLOSE_PARENTHESIS, " />");
 
-				content = StringUtil.replace(content, line, newImport);
+				content = StringUtil.replace(content, line, newLine);
 			}
 		}
 
