@@ -23,8 +23,12 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.tools.ToolsUtil;
+import com.liferay.source.formatter.parser.JavaClass;
+import com.liferay.source.formatter.parser.JavaClassParser;
+import com.liferay.source.formatter.parser.ParseException;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,40 @@ import java.util.regex.Pattern;
  * @author Hugo Huijser
  */
 public class JavaSourceUtil extends SourceUtil {
+
+	public static String addImport(
+			String content, String fileName, String... newImportNames)
+		throws IOException, ParseException {
+
+		JavaClass javaClass = JavaClassParser.parseJavaClass(fileName, content);
+
+		List<String> importNames = javaClass.getImportNames();
+
+		List<String> neededImports = new ArrayList<>();
+
+		for (String newImportName : newImportNames) {
+			if (!importNames.contains(newImportName)) {
+				neededImports.add(
+					StringBundler.concat(
+						"import ", newImportName, CharPool.SEMICOLON));
+			}
+		}
+
+		if (!neededImports.isEmpty()) {
+			String lastImport = importNames.get(importNames.size() - 1);
+
+			String lastImportCompleted = StringBundler.concat(
+				"import ", lastImport, CharPool.SEMICOLON);
+
+			content = StringUtil.replace(
+				content, lastImportCompleted,
+				StringBundler.concat(
+					lastImportCompleted, StringPool.NEW_LINE,
+					StringUtil.merge(neededImports, StringPool.NEW_LINE)));
+		}
+
+		return content;
+	}
 
 	public static String getClassName(String fileName) {
 		int x = fileName.lastIndexOf(CharPool.SLASH);
