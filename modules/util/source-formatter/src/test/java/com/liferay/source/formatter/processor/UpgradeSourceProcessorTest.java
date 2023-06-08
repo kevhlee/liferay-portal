@@ -81,6 +81,13 @@ public class UpgradeSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testUpgradeJavaSetResultsSetTotalMethodCheck()
+		throws Exception {
+
+		test("upgrade/UpgradeJavaSetResultsSetTotalMethodCheck.testjava");
+	}
+
+	@Test
 	public void testUpgradeVelocityMigrationCheck() throws Exception {
 		test(
 			SourceProcessorTestParameters.create(
