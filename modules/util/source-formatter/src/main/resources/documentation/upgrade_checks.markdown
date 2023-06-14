@@ -14,6 +14,7 @@ UpgradeJavaAddFolderParameterCheck | .bnd, .gradle, .java or .vm | Fill the new 
 UpgradeJavaCheck | .bnd, .gradle, .java or .vm | Performs upgrade checks for `java` files |
 UpgradeJavaExtractTextMethodCheck | .bnd, .gradle, .java or .vm | Replaces the references of the method `HtmlUtil.extractText(` with the method `extractText(` of `HtmlParser` class |
 UpgradeJavaServiceReferenceAnnotationCheck | .bnd, .gradle, .java or .vm | Run code migration to replace '@ServiceReference' by '@Reference' |
+UpgradeJavaSetResultsSetTotalMethodCheck | .bnd, .gradle, .java or .vm | Run code migration of method searchContainer.setResults to the searchContainer.setResultsAndTotal and delete searchContainer.setTotal |
 UpgradeRemovedAPICheck | .java | Finds cases where calls are made to removed API after an upgrade. |
 UpgradeVelocityCommentMigrationCheck | .bnd, .gradle, .java or .vm | Run code migration of comments from a Velocity file to a Freemarker file with the syntax replacements |
 UpgradeVelocityFileImportMigrationCheck | .bnd, .gradle, .java or .vm | Run code migration of file import from a Velocity file to a Freemarker file with the syntax replacements |
