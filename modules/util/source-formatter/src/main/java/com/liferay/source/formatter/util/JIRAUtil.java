@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpMethods;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.IOException;
@@ -134,6 +135,7 @@ public class JIRAUtil {
 
 		httpURLConnection.setConnectTimeout(10000);
 		httpURLConnection.setReadTimeout(10000);
+		httpURLConnection.setRequestMethod(HttpMethods.HEAD);
 
 		return httpURLConnection.getResponseCode();
 	}
