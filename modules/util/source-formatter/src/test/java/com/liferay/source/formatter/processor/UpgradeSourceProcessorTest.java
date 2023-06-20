@@ -69,6 +69,11 @@ public class UpgradeSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testUpgradeJavaFDSDataProviderCheck() throws Exception {
+		test("upgrade/UpgradeJavaFDSDataProviderCheck.testjava");
+	}
+
+	@Test
 	public void testUpgradeJavaModelPermissionsCheck() throws Exception {
 		test("upgrade/UpgradeJavaModelPermissionsCheck.testjava");
 	}
