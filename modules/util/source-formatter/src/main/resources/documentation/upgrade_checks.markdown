@@ -14,6 +14,7 @@ UpgradeGradleIncludeResourceCheck | .bnd, .gradle, .java or .vm | Replaces with 
 UpgradeJavaAddFolderParameterCheck | .bnd, .gradle, .java or .vm | Fill the new parameter of the method `addFolder` of `JournalFolderService`, `JournalFolderLocalService`, and `JournalFolderLocalServiceUtil` classes |
 UpgradeJavaCheck | .bnd, .gradle, .java or .vm | Performs upgrade checks for `java` files |
 UpgradeJavaExtractTextMethodCheck | .bnd, .gradle, .java or .vm | Replaces the references of the method `HtmlUtil.extractText(` with the method `extractText(` of `HtmlParser` class |
+UpgradeJavaFDSDataProviderCheck | .bnd, .gradle, .java or .vm | Reorder parameters in the getItems and getItemsCount methods of the FDSDataProvider interface |
 UpgradeJavaMultiVMPoolUtilCheck | .bnd, .gradle, .java or .vm | Replaces the references of the MultiVMPoolUtil class and also its methods usages. |
 UpgradeJavaServiceReferenceAnnotationCheck | .bnd, .gradle, .java or .vm | Run code migration to replace '@ServiceReference' by '@Reference' |
 UpgradeRemovedAPICheck | .java | Finds cases where calls are made to removed API after an upgrade. |
