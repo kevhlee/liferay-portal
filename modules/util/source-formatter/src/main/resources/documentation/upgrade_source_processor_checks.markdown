@@ -12,6 +12,7 @@ UpgradeJavaCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Performs 
 UpgradeJavaExtractTextMethodCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Replaces the references of the method `HtmlUtil.extractText(` with the method `extractText(` of `HtmlParser` class |
 UpgradeJavaFDSActionProviderCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Reorder parameters in the getDropdownItems method of the FDSDataProvider interface |
 UpgradeJavaFDSDataProviderCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Reorder parameters in the getItems and getItemsCount methods of the FDSDataProvider interface |
+UpgradeJavaGetFileMethodCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Run code migration of method from 'getFile' to 'getFileAsStream', and include a method 'FileUtil.createTempFile' |
 UpgradeJavaMultiVMPoolUtilCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Replaces the references of the MultiVMPoolUtil class and also its methods usages. |
 UpgradeJavaServiceReferenceAnnotationCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Run code migration to replace '@ServiceReference' by '@Reference' |
 UpgradeSetResultsSetTotalMethodCheck | [Upgrade](upgrade_checks.markdown#upgrade-checks) | Run code migration of method searchContainer.setResults to the searchContainer.setResultsAndTotal and delete searchContainer.setTotal |
