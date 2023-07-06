@@ -14,7 +14,6 @@
 
 package com.liferay.source.formatter.check;
 
-import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.source.formatter.check.util.JavaSourceUtil;
 
@@ -42,27 +41,19 @@ public class UpgradeJavaAddFolderParameterCheck
 			return newContent;
 		}
 
-		if (methodCall.contains("JournalFolderLocalServiceUtil")) {
-			return  _addParameter(newContent, methodCall);
+		String variable = matcher.group(1);
+
+		if (variable.equals("JournalFolderLocalServiceUtil")) {
+			return _addParameter(newContent, methodCall);
 		}
 
-		String variable = methodCall.substring(
-			0, methodCall.indexOf(CharPool.PERIOD));
+		String variableTypeName = getVariableTypeName(
+			newContent, newContent, variable);
 
-		Pattern variableDeclarationPattern = Pattern.compile(
-			"[A-Za-z_]+ " + variable);
+		if (variableTypeName.equals("JournalFolderService") ||
+			variableTypeName.equals("JournalFolderLocalService")) {
 
-		Matcher variableDeclarationMatcher = variableDeclarationPattern.matcher(
-			content);
-
-		if (variableDeclarationMatcher.find()) {
-			String variableDeclaration = variableDeclarationMatcher.group();
-
-			if (variableDeclaration.contains("JournalFolderService") ||
-				variableDeclaration.contains("JournalFolderLocalService")) {
-
-				newContent = _addParameter(newContent, methodCall);
-			}
+			newContent = _addParameter(newContent, methodCall);
 		}
 
 		return newContent;
@@ -70,7 +61,7 @@ public class UpgradeJavaAddFolderParameterCheck
 
 	@Override
 	protected Pattern getPattern() {
-		return Pattern.compile("\\w+\\.addFolder\\(");
+		return Pattern.compile("(\\w+)\\.addFolder\\(");
 	}
 
 	private String _addParameter(String content, String methodCall) {
