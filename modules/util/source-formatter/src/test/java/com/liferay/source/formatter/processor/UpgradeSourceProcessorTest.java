@@ -119,6 +119,13 @@ public class UpgradeSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testUpgradeJavaSearchVocabulariesMethodCheck()
+		throws Exception {
+
+		test("upgrade/UpgradeJavaSearchVocabulariesMethodCheck.testjava");
+	}
+
+	@Test
 	public void testUpgradeJavaServiceReferenceAnnotationCheck()
 		throws Exception {
 
