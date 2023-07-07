@@ -134,6 +134,17 @@ public class UpgradeSourceProcessorTest extends BaseSourceProcessorTestCase {
 	}
 
 	@Test
+	public void testUpgradeJavaSearchVocabulariesMethodCheck()
+		throws Exception {
+
+		test(
+			"upgrade/UpgradeJavaSearchVocabulariesMethodCheck.testjava",
+			"Could not resolve types of searchVocabularies method. The " +
+				"method signature has changed, fill in the new parameters " +
+					"manually.");
+	}
+
+	@Test
 	public void testUpgradeJavaServiceReferenceAnnotationCheck()
 		throws Exception {
 
