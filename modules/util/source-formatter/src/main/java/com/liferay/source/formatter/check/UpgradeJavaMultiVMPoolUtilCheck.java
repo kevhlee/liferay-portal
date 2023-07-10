@@ -24,23 +24,29 @@ import java.util.regex.Pattern;
 /**
  * @author Nícolas Moura
  */
-public class UpgradeJavaMultiVMPoolUtilCheck extends BaseFileCheck {
+public class UpgradeJavaMultiVMPoolUtilCheck
+	extends BaseUpgradeMatcherReplacementCheck {
 
 	@Override
-	protected String doProcess(
-			String fileName, String absolutePath, String content)
-		throws Exception {
+	protected String afterFormat(
+		String fileName, String absolutePath, String content,
+		String newContent) {
 
-		if (!fileName.endsWith(".java")) {
-			return content;
-		}
+		newContent = JavaSourceUtil.addImports(
+			newContent, "org.osgi.service.component.annotations.Reference");
+		newContent = StringUtil.replace(
+			newContent, "MultiVMPoolUtil.getPortalCache(",
+			_WARNING_CASE_TYPE + " _multiVMPool.getPortalCache(");
+		newContent = StringUtil.replaceLast(
+			newContent, CharPool.CLOSE_CURLY_BRACE,
+			"\n\t@Reference\n\tprivate MultiVMPool _multiVMPool;\n\n}");
 
-		if (content.contains(_MULTI_VM_POOL_UTIL_IMPORT)) {
-			content = StringUtil.replace(
-				content, _MULTI_VM_POOL_UTIL_IMPORT,
-				"import com.liferay.portal.kernel.cache.MultiVMPool;");
-			content = _replaceGetPortalCache(content);
-		}
+		return newContent;
+	}
+
+	@Override
+	protected String beforeFormat(
+		String fileName, String absolutePath, String content) {
 
 		if (content.contains(_WARNING_CASE_TYPE)) {
 			addMessage(
@@ -49,33 +55,28 @@ public class UpgradeJavaMultiVMPoolUtilCheck extends BaseFileCheck {
 					"Replace 'TO_BE_REPLACED' with the correct type");
 		}
 
-		return content;
+		return StringUtil.replace(
+			content, _MULTI_VM_POOL_UTIL_IMPORT,
+			"import com.liferay.portal.kernel.cache.MultiVMPool;");
 	}
 
-	private String _replaceGetPortalCache(String content) {
-		content = JavaSourceUtil.addImports(
-			content, "org.osgi.service.component.annotations.Reference");
+	@Override
+	protected String format(
+		String content, String newContent, Matcher matcher) {
 
-		Matcher portalCacheMatcher = _getPortalCachePattern.matcher(content);
+		String newDeclaration = StringUtil.replace(
+			matcher.group(0), "MultiVMPoolUtil.getPortalCache(",
+			"(PortalCache" + matcher.group(1) +
+				") _multiVMPool.getPortalCache(");
 
-		while (portalCacheMatcher.find()) {
-			String newDeclaration = StringUtil.replace(
-				portalCacheMatcher.group(0), "MultiVMPoolUtil.getPortalCache(",
-				"(PortalCache" + portalCacheMatcher.group(1) +
-					") _multiVMPool.getPortalCache(");
+		return StringUtil.replace(newContent, matcher.group(0), newDeclaration);
+	}
 
-			content = StringUtil.replace(
-				content, portalCacheMatcher.group(0), newDeclaration);
-		}
-
-		content = StringUtil.replace(
-			content, "MultiVMPoolUtil.getPortalCache(",
-			_WARNING_CASE_TYPE + " _multiVMPool.getPortalCache(");
-		content = StringUtil.replaceLast(
-			content, CharPool.CLOSE_CURLY_BRACE,
-			"\n\t@Reference\n\tprivate MultiVMPool _multiVMPool;\n\n}");
-
-		return content;
+	@Override
+	protected Pattern getPattern() {
+		return Pattern.compile(
+			"PortalCache\\s*(<.+, +?.+>)\\s*\\w+" +
+				"\\s*=\\s*MultiVMPoolUtil\\.getPortalCache\\(");
 	}
 
 	private static final String _MULTI_VM_POOL_UTIL_IMPORT =
@@ -83,9 +84,5 @@ public class UpgradeJavaMultiVMPoolUtilCheck extends BaseFileCheck {
 
 	private static final String _WARNING_CASE_TYPE =
 		"(PortalCache<TO_BE_REPLACED, TO_BE_REPLACED>)";
-
-	private static final Pattern _getPortalCachePattern = Pattern.compile(
-		"PortalCache\\s*(<.+, +?.+>)\\s*\\w+\\s*=\\s*" +
-			"MultiVMPoolUtil\\.getPortalCache\\(");
 
 }
