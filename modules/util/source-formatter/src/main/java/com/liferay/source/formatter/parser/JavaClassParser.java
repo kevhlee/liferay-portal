@@ -78,7 +78,7 @@ public class JavaClassParser {
 			StringBundler.concat(
 				"\n(public\\s+)?(abstract\\s+)?(final\\s+)?@?",
 				"(class|enum|interface)\\s+", className,
-				"([<|\\s][^\\{]*)\\{"));
+				"([<|\\s]?[^\\{]*)\\{"));
 
 		Matcher matcher = pattern.matcher(content);
 
