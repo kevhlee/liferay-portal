@@ -94,7 +94,12 @@ public class JavaClassParser {
 			y = content.lastIndexOf("\n\n", y - 1);
 
 			if (y == -1) {
-				throw new ParseException("Parsing error");
+				y = x + 1;
+				y = content.lastIndexOf("\r\n", y - 1);
+
+				if (y == -1) {
+					throw new ParseException("Parsing error");
+				}
 			}
 
 			if (ToolsUtil.getLevel(content.substring(y, x)) == 0) {
@@ -238,7 +243,7 @@ public class JavaClassParser {
 		while (true) {
 			String line = SourceUtil.getLine(classContent, lineNumber);
 
-			if (line.endsWith("*/")) {
+			if (line.endsWith("*/") || line.endsWith("*/\r")) {
 				return lineNumber;
 			}
 
@@ -490,7 +495,7 @@ public class JavaClassParser {
 			while (true) {
 				String line = SourceUtil.getLine(classContent, ++lineNumber);
 
-				if (line.endsWith("*/")) {
+				if (line.endsWith("*/") || line.endsWith("*/\r")) {
 					break;
 				}
 			}
