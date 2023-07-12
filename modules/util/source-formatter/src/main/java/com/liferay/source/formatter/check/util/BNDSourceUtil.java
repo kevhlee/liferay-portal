@@ -120,7 +120,8 @@ public class BNDSourceUtil {
 
 	public static String getDefinition(String content, String key) {
 		Pattern pattern = Pattern.compile(
-			"^" + key + ":[\\s\\S]*?([^\\\\]\n|\\Z)", Pattern.MULTILINE);
+			"^" + key + ":[\\s\\S]*?[\\s\\S]*.jar(?:,\\)?\\s*\\S*$",
+			Pattern.MULTILINE);
 
 		Matcher matcher = pattern.matcher(content);
 
