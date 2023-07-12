@@ -14,8 +14,6 @@
 
 package com.liferay.source.formatter.check;
 
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.source.formatter.BNDSettings;
@@ -25,6 +23,8 @@ import java.io.IOException;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Nícolas Moura
@@ -76,20 +76,14 @@ public class UpgradeBNDIncludeResourceCheck extends BaseFileCheck {
 		}
 
 		for (String includeResourceValue : includeResourceValues) {
-			if (content.contains(
-					includeResourceValue.concat(StringPool.COMMA))) {
+			Pattern pattern = Pattern.compile(
+				"(?:,\\\\)?\\s*" + includeResourceValue + "(?:,\\\\)?");
 
-				includeResourceValue = StringBundler.concat(
-					StringPool.BACK_SLASH, StringPool.NEW_LINE, StringPool.TAB,
-					includeResourceValue, StringPool.COMMA);
-			}
-			else {
-				includeResourceValue = StringBundler.concat(
-					StringPool.COMMA, StringPool.BACK_SLASH,
-					StringPool.NEW_LINE, StringPool.TAB, includeResourceValue);
-			}
+			Matcher matcher = pattern.matcher(content);
 
-			content = StringUtil.removeSubstring(content, includeResourceValue);
+			if (matcher.find()) {
+				content = StringUtil.removeSubstring(content, matcher.group());
+			}
 		}
 
 		return content;
