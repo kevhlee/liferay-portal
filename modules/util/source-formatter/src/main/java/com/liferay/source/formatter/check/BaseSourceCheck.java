@@ -672,11 +672,13 @@ public abstract class BaseSourceCheck implements SourceCheck {
 		String variableTypeName = getVariableTypeName(
 			content, fileContent, variable.trim(), true);
 
-		if (variableTypeName.startsWith(className)) {
-			return true;
+		if ((variableTypeName == null) ||
+			!variableTypeName.contains(className)) {
+
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	protected boolean isAttributeValue(
