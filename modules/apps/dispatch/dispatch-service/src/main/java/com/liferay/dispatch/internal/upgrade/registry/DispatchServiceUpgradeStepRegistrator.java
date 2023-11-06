@@ -5,11 +5,14 @@
 
 package com.liferay.dispatch.internal.upgrade.registry;
 
+import com.liferay.dispatch.internal.upgrade.v4_4_0.SchedulerJobUpgradeProcess;
+import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.upgrade.BaseUuidUpgradeProcess;
 import com.liferay.portal.kernel.upgrade.UpgradeProcessFactory;
 import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Igor Beslic
@@ -92,6 +95,13 @@ public class DispatchServiceUpgradeStepRegistrator
 			"4.2.0", "4.3.0",
 			new com.liferay.dispatch.internal.upgrade.v4_3_0.
 				DispatchTriggerUpgradeProcess());
+
+		registry.register(
+			"4.3.0", "4.4.0",
+			new SchedulerJobUpgradeProcess(_schedulerEngineHelper));
 	}
+
+	@Reference
+	private SchedulerEngineHelper _schedulerEngineHelper;
 
 }
