@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,52 +27,69 @@ import java.util.Set;
 public class SchedulerJobUpgradeProcess extends UpgradeProcess {
 
 	public SchedulerJobUpgradeProcess(
+		CompanyLocalService companyLocalService,
 		SchedulerEngineHelper schedulerEngineHelper) {
 
+		_companyLocalService = companyLocalService;
 		_schedulerEngineHelper = schedulerEngineHelper;
 	}
 
 	@Override
 	protected void doUpgrade() throws Exception {
-		Set<Long> ctCollectionIds = new HashSet<>();
+		List<SchedulerResponse> schedulerResponses =
+			_schedulerEngineHelper.getScheduledJobs(
+				CTDestinationNames.CT_COLLECTION_SCHEDULED_PUBLISH,
+				StorageType.PERSISTED);
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(
-				"select ctCollectionId from CTCollection where status = " +
-					WorkflowConstants.STATUS_SCHEDULED);
-			ResultSet resultSet = preparedStatement.executeQuery()) {
-
-			while (resultSet.next()) {
-				ctCollectionIds.add(resultSet.getLong("ctCollectionId"));
-			}
-		}
-
-		if (ctCollectionIds.isEmpty()) {
+		if (schedulerResponses.isEmpty()) {
 			return;
 		}
 
-		for (SchedulerResponse schedulerResponse :
-				_schedulerEngineHelper.getScheduledJobs(
-					CTDestinationNames.CT_COLLECTION_SCHEDULED_PUBLISH,
-					StorageType.PERSISTED)) {
+		_companyLocalService.forEachCompanyId(
+			companyId -> {
+				Set<Long> ctCollectionIds = new HashSet<>();
 
-			Message message = schedulerResponse.getMessage();
+				try (PreparedStatement preparedStatement =
+						connection.prepareStatement(
+							"select ctCollectionId from CTCollection where " +
+								"status = " +
+									WorkflowConstants.STATUS_SCHEDULED);
+					ResultSet resultSet = preparedStatement.executeQuery()) {
 
-			if (!ctCollectionIds.contains(message.getLong("ctCollectionId"))) {
-				continue;
-			}
+					while (resultSet.next()) {
+						ctCollectionIds.add(
+							resultSet.getLong("ctCollectionId"));
+					}
+				}
 
-			_schedulerEngineHelper.delete(
-				schedulerResponse.getJobName(),
-				schedulerResponse.getGroupName(), StorageType.PERSISTED);
+				if (ctCollectionIds.isEmpty()) {
+					return;
+				}
 
-			_schedulerEngineHelper.schedule(
-				schedulerResponse.getTrigger(), StorageType.PERSISTED,
-				schedulerResponse.getDescription(),
-				schedulerResponse.getDestinationName(),
-				schedulerResponse.getMessage());
-		}
+				for (SchedulerResponse schedulerResponse : schedulerResponses) {
+					Message message = schedulerResponse.getMessage();
+
+					if (!ctCollectionIds.contains(
+							message.getLong("ctCollectionId"))) {
+
+						continue;
+					}
+
+					_schedulerEngineHelper.delete(
+						schedulerResponse.getJobName(),
+						schedulerResponse.getGroupName(),
+						StorageType.PERSISTED);
+
+					_schedulerEngineHelper.schedule(
+						schedulerResponse.getTrigger(), StorageType.PERSISTED,
+						schedulerResponse.getDescription(),
+						schedulerResponse.getDestinationName(),
+						schedulerResponse.getMessage());
+				}
+			});
 	}
 
+	private final CompanyLocalService _companyLocalService;
 	private final SchedulerEngineHelper _schedulerEngineHelper;
 
 }

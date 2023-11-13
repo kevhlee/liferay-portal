@@ -10,6 +10,7 @@ import com.liferay.dispatch.executor.DispatchTaskClusterMode;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.GetterUtil;
 
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -28,70 +30,90 @@ import java.util.regex.Pattern;
 public class SchedulerJobUpgradeProcess extends UpgradeProcess {
 
 	public SchedulerJobUpgradeProcess(
+		CompanyLocalService companyLocalService,
 		SchedulerEngineHelper schedulerEngineHelper) {
 
+		_companyLocalService = companyLocalService;
 		_schedulerEngineHelper = schedulerEngineHelper;
 	}
 
 	@Override
 	protected void doUpgrade() throws Exception {
-		Set<Long> dispatchTriggerIds = new HashSet<>();
+		List<SchedulerResponse> schedulerResponses =
+			_schedulerEngineHelper.getScheduledJobs(StorageType.PERSISTED);
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(
-				"select dispatchTriggerId from DispatchTrigger where " +
-					"dispatchTaskClusterMode in (?, ?)")) {
+		schedulerResponses.removeIf(
+			schedulerResponse -> !Objects.equals(
+				schedulerResponse.getDestinationName(),
+				DispatchConstants.EXECUTOR_DESTINATION_NAME));
 
-			preparedStatement.setInt(
-				1, DispatchTaskClusterMode.NOT_APPLICABLE.getMode());
-			preparedStatement.setInt(
-				2, DispatchTaskClusterMode.SINGLE_NODE_PERSISTED.getMode());
-
-			try (ResultSet resultSet = preparedStatement.executeQuery()) {
-				while (resultSet.next()) {
-					dispatchTriggerIds.add(
-						resultSet.getLong("dispatchTriggerId"));
-				}
-			}
-		}
-
-		if (dispatchTriggerIds.isEmpty()) {
+		if (schedulerResponses.isEmpty()) {
 			return;
 		}
 
-		for (SchedulerResponse schedulerResponse :
-				_schedulerEngineHelper.getScheduledJobs(
-					StorageType.PERSISTED)) {
+		_companyLocalService.forEachCompanyId(
+			companyId -> {
+				Set<Long> dispatchTriggerIds = new HashSet<>();
 
-			if (!Objects.equals(
-					schedulerResponse.getDestinationName(),
-					DispatchConstants.EXECUTOR_DESTINATION_NAME)) {
+				try (PreparedStatement preparedStatement =
+						connection.prepareStatement(
+							"select dispatchTriggerId from DispatchTrigger " +
+								"where dispatchTaskClusterMode in (?, ?)")) {
 
-				continue;
-			}
+					preparedStatement.setInt(
+						1, DispatchTaskClusterMode.NOT_APPLICABLE.getMode());
+					preparedStatement.setInt(
+						2,
+						DispatchTaskClusterMode.SINGLE_NODE_PERSISTED.
+							getMode());
 
-			Matcher matcher = _pattern.matcher(schedulerResponse.getJobName());
+					try (ResultSet resultSet =
+							preparedStatement.executeQuery()) {
 
-			long dispatchTriggerId = GetterUtil.getLong(matcher.group(1));
+						while (resultSet.next()) {
+							dispatchTriggerIds.add(
+								resultSet.getLong("dispatchTriggerId"));
+						}
+					}
+				}
 
-			if (!dispatchTriggerIds.contains(dispatchTriggerId)) {
-				continue;
-			}
+				if (dispatchTriggerIds.isEmpty()) {
+					return;
+				}
 
-			_schedulerEngineHelper.delete(
-				schedulerResponse.getJobName(),
-				schedulerResponse.getGroupName(), StorageType.PERSISTED);
+				for (SchedulerResponse schedulerResponse : schedulerResponses) {
+					Matcher matcher = _pattern.matcher(
+						schedulerResponse.getJobName());
 
-			_schedulerEngineHelper.schedule(
-				schedulerResponse.getTrigger(), StorageType.PERSISTED,
-				schedulerResponse.getDescription(),
-				schedulerResponse.getDestinationName(),
-				schedulerResponse.getMessage());
-		}
+					if (!matcher.find()) {
+						continue;
+					}
+
+					long dispatchTriggerId = GetterUtil.getLong(
+						matcher.group(1));
+
+					if (!dispatchTriggerIds.contains(dispatchTriggerId)) {
+						continue;
+					}
+
+					_schedulerEngineHelper.delete(
+						schedulerResponse.getJobName(),
+						schedulerResponse.getGroupName(),
+						StorageType.PERSISTED);
+
+					_schedulerEngineHelper.schedule(
+						schedulerResponse.getTrigger(), StorageType.PERSISTED,
+						schedulerResponse.getDescription(),
+						schedulerResponse.getDestinationName(),
+						schedulerResponse.getMessage());
+				}
+			});
 	}
 
 	private static final Pattern _pattern = Pattern.compile(
 		"DISPATCH_JOB_(\\d+)");
 
+	private final CompanyLocalService _companyLocalService;
 	private final SchedulerEngineHelper _schedulerEngineHelper;
 
 }

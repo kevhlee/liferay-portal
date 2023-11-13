@@ -11,6 +11,7 @@ import com.liferay.change.tracking.internal.upgrade.v2_3_0.UpgradeCompanyId;
 import com.liferay.change.tracking.internal.upgrade.v2_4_0.CTSchemaVersionUpgradeProcess;
 import com.liferay.change.tracking.internal.upgrade.v2_7_0.CTProcessUpgradeProcess;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.upgrade.BaseExternalReferenceCodeUpgradeProcess;
 import com.liferay.portal.kernel.upgrade.BaseUuidUpgradeProcess;
 import com.liferay.portal.kernel.upgrade.DummyUpgradeStep;
@@ -128,8 +129,12 @@ public class ChangeTrackingServiceUpgradeStepRegistrator
 
 		registry.register(
 			"2.12.1", "2.13.0",
-			new SchedulerJobUpgradeProcess(_schedulerEngineHelper));
+			new SchedulerJobUpgradeProcess(
+				_companyLocalService, _schedulerEngineHelper));
 	}
+
+	@Reference
+	private CompanyLocalService _companyLocalService;
 
 	@Reference
 	private SchedulerEngineHelper _schedulerEngineHelper;

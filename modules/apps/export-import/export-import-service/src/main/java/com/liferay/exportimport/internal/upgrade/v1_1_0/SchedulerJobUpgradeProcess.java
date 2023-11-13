@@ -12,8 +12,11 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.messaging.SchedulerResponse;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.GetterUtil;
+
+import java.util.List;
 
 /**
  * @author Kevin Lee
@@ -21,10 +24,12 @@ import com.liferay.portal.kernel.util.GetterUtil;
 public class SchedulerJobUpgradeProcess extends UpgradeProcess {
 
 	public SchedulerJobUpgradeProcess(
+		CompanyLocalService companyLocalService,
 		ExportImportConfigurationLocalService
 			exportImportConfigurationLocalService,
 		SchedulerEngineHelper schedulerEngineHelper) {
 
+		_companyLocalService = companyLocalService;
 		_exportImportConfigurationLocalService =
 			exportImportConfigurationLocalService;
 		_schedulerEngineHelper = schedulerEngineHelper;
@@ -32,45 +37,55 @@ public class SchedulerJobUpgradeProcess extends UpgradeProcess {
 
 	@Override
 	protected void doUpgrade() throws Exception {
-		for (SchedulerResponse schedulerResponse :
-				_schedulerEngineHelper.getScheduledJobs(
-					StorageType.PERSISTED)) {
+		List<SchedulerResponse> schedulerResponses =
+			_schedulerEngineHelper.getScheduledJobs(StorageType.PERSISTED);
 
-			String destinationName = schedulerResponse.getDestinationName();
+		schedulerResponses.removeIf(
+			schedulerResponse -> {
+				String destinationName = schedulerResponse.getDestinationName();
 
-			if (!(destinationName.equals(
+				return !(destinationName.equals(
 					DestinationNames.LAYOUTS_LOCAL_PUBLISHER) ||
-				  destinationName.equals(
-					  DestinationNames.LAYOUTS_REMOTE_PUBLISHER))) {
+						 destinationName.equals(
+							 DestinationNames.LAYOUTS_REMOTE_PUBLISHER));
+			});
 
-				continue;
-			}
-
-			Message message = schedulerResponse.getMessage();
-
-			long exportImportConfigurationId = GetterUtil.getLong(
-				message.getPayload());
-
-			ExportImportConfiguration exportImportConfiguration =
-				_exportImportConfigurationLocalService.
-					fetchExportImportConfiguration(exportImportConfigurationId);
-
-			if (exportImportConfiguration == null) {
-				continue;
-			}
-
-			_schedulerEngineHelper.delete(
-				schedulerResponse.getJobName(),
-				schedulerResponse.getGroupName(), StorageType.PERSISTED);
-
-			_schedulerEngineHelper.schedule(
-				schedulerResponse.getTrigger(), StorageType.PERSISTED,
-				schedulerResponse.getDescription(),
-				schedulerResponse.getDestinationName(),
-				schedulerResponse.getMessage());
+		if (schedulerResponses.isEmpty()) {
+			return;
 		}
+
+		_companyLocalService.forEachCompanyId(
+			companyId -> {
+				for (SchedulerResponse schedulerResponse : schedulerResponses) {
+					Message message = schedulerResponse.getMessage();
+
+					long exportImportConfigurationId = GetterUtil.getLong(
+						message.getPayload());
+
+					ExportImportConfiguration exportImportConfiguration =
+						_exportImportConfigurationLocalService.
+							fetchExportImportConfiguration(
+								exportImportConfigurationId);
+
+					if (exportImportConfiguration == null) {
+						continue;
+					}
+
+					_schedulerEngineHelper.delete(
+						schedulerResponse.getJobName(),
+						schedulerResponse.getGroupName(),
+						StorageType.PERSISTED);
+
+					_schedulerEngineHelper.schedule(
+						schedulerResponse.getTrigger(), StorageType.PERSISTED,
+						schedulerResponse.getDescription(),
+						schedulerResponse.getDestinationName(),
+						schedulerResponse.getMessage());
+				}
+			});
 	}
 
+	private final CompanyLocalService _companyLocalService;
 	private final ExportImportConfigurationLocalService
 		_exportImportConfigurationLocalService;
 	private final SchedulerEngineHelper _schedulerEngineHelper;
