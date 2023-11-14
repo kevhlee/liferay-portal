@@ -109,7 +109,7 @@ public class LayoutsRemotePublisherMessageListener
 		_exportImportConfigurationLocalService;
 
 	@Reference(
-		target = "(&(release.bundle.symbolic.name=com.liferay.exportimport.service)(release.schema.version=1.0.2))"
+		target = "(&(release.bundle.symbolic.name=com.liferay.exportimport.service)(release.schema.version=2.0.0))"
 	)
 	private Release _release;
 
