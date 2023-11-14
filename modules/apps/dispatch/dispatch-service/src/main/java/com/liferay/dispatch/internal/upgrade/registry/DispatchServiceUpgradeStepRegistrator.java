@@ -5,7 +5,7 @@
 
 package com.liferay.dispatch.internal.upgrade.registry;
 
-import com.liferay.dispatch.internal.upgrade.v4_4_0.SchedulerJobUpgradeProcess;
+import com.liferay.dispatch.internal.upgrade.v5_0_0.SchedulerJobUpgradeProcess;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.upgrade.BaseUuidUpgradeProcess;
@@ -98,7 +98,7 @@ public class DispatchServiceUpgradeStepRegistrator
 				DispatchTriggerUpgradeProcess());
 
 		registry.register(
-			"4.3.0", "4.4.0",
+			"4.3.0", "5.0.0",
 			new SchedulerJobUpgradeProcess(
 				_companyLocalService, _schedulerEngineHelper));
 	}

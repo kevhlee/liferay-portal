@@ -6,10 +6,10 @@
 package com.liferay.change.tracking.internal.upgrade.registry;
 
 import com.liferay.change.tracking.internal.upgrade.v2_10_0.CTCollectionUpgradeProcess;
-import com.liferay.change.tracking.internal.upgrade.v2_13_0.SchedulerJobUpgradeProcess;
 import com.liferay.change.tracking.internal.upgrade.v2_3_0.UpgradeCompanyId;
 import com.liferay.change.tracking.internal.upgrade.v2_4_0.CTSchemaVersionUpgradeProcess;
 import com.liferay.change.tracking.internal.upgrade.v2_7_0.CTProcessUpgradeProcess;
+import com.liferay.change.tracking.internal.upgrade.v3_0_0.SchedulerJobUpgradeProcess;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.upgrade.BaseExternalReferenceCodeUpgradeProcess;
@@ -128,7 +128,7 @@ public class ChangeTrackingServiceUpgradeStepRegistrator
 			});
 
 		registry.register(
-			"2.12.1", "2.13.0",
+			"2.12.1", "3.0.0",
 			new SchedulerJobUpgradeProcess(
 				_companyLocalService, _schedulerEngineHelper));
 	}
