@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
@@ -251,7 +250,7 @@ public class InstanceWrapperBuilder {
 				StringUtil.replace(javaPackage.getName(), '.', '/'), "/",
 				javaClass.getName(), "_IW.java"));
 
-		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null);
+		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR);
 	}
 
 	private String _getDimensions(Type type) {
@@ -328,16 +327,11 @@ public class InstanceWrapperBuilder {
 		Files.write(path, s.getBytes(StandardCharsets.UTF_8));
 	}
 
-	private void _writeFile(
-			File file, String content, String author, String packagePath)
+	private void _writeFile(File file, String content, String author)
 		throws IOException {
 
 		if (!file.exists()) {
 			_write(file, StringPool.BLANK);
-		}
-
-		if (Validator.isNull(packagePath)) {
-			packagePath = ToolsUtil.getPackagePath(file);
 		}
 
 		String className = file.getName();
@@ -346,7 +340,8 @@ public class InstanceWrapperBuilder {
 
 		ImportsFormatter importsFormatter = new JavaImportsFormatter();
 
-		content = importsFormatter.format(content, packagePath, className);
+		content = importsFormatter.format(
+			content, ToolsUtil.getPackagePath(file), className);
 
 		// Beautify
 
