@@ -422,14 +422,6 @@ public class ToolsUtil {
 	}
 
 	public static void writeFile(
-			File file, String content, String author,
-			Set<String> modifiedFileNames)
-		throws IOException {
-
-		writeFile(file, content, author, null, modifiedFileNames);
-	}
-
-	public static void writeFile(
 			File file, String content, String header, String author,
 			Map<String, Object> jalopySettings, Set<String> modifiedFileNames,
 			String packagePath)
