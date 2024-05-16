@@ -255,8 +255,7 @@ public class InstanceWrapperBuilder {
 				StringUtil.replace(javaPackage.getName(), '.', '/'), "/",
 				javaClass.getName(), "_IW.java"));
 
-		_writeFile(
-			file, sb.toString(), null, ToolsUtil.AUTHOR, null, null, null);
+		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null, null, null);
 	}
 
 	private String _getDimensions(Type type) {
@@ -334,7 +333,7 @@ public class InstanceWrapperBuilder {
 	}
 
 	private void _writeFile(
-			File file, String content, String header, String author,
+			File file, String content, String author,
 			Map<String, Object> jalopySettings, Set<String> modifiedFileNames,
 			String packagePath)
 		throws IOException {
@@ -416,10 +415,6 @@ public class InstanceWrapperBuilder {
 		env.set("fileName", file.getName());
 
 		Convention convention = Convention.getInstance();
-
-		if (Validator.isNotNull(header)) {
-			convention.put(ConventionKeys.HEADER_TEXT, header);
-		}
 
 		String classMask = "/**\n * @author $author$\n*/";
 
