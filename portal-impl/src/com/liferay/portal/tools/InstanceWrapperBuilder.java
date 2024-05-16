@@ -237,7 +237,7 @@ public class InstanceWrapperBuilder {
 				StringUtil.replace(javaPackage.getName(), '.', '/'), "/",
 				javaClass.getName(), "_IW.java"));
 
-		ToolsUtil.writeFile(file, sb.toString(), null);
+		ToolsUtil.writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null);
 	}
 
 	private String _getDimensions(Type type) {
