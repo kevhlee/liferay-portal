@@ -10,8 +10,6 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
@@ -43,10 +41,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -255,7 +251,7 @@ public class InstanceWrapperBuilder {
 				StringUtil.replace(javaPackage.getName(), '.', '/'), "/",
 				javaClass.getName(), "_IW.java"));
 
-		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null, null, null);
+		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null, null);
 	}
 
 	private String _getDimensions(Type type) {
@@ -334,8 +330,7 @@ public class InstanceWrapperBuilder {
 
 	private void _writeFile(
 			File file, String content, String author,
-			Map<String, Object> jalopySettings, Set<String> modifiedFileNames,
-			String packagePath)
+			Set<String> modifiedFileNames, String packagePath)
 		throws IOException {
 
 		if (!file.exists()) {
@@ -392,23 +387,11 @@ public class InstanceWrapperBuilder {
 			Jalopy.setConvention(url);
 		}
 
-		if (jalopySettings == null) {
-			jalopySettings = new HashMap<>();
-		}
-
 		Environment env = Environment.getInstance();
 
 		// Author
 
-		author = GetterUtil.getString(
-			(String)jalopySettings.get("author"), author);
-
 		env.set("author", author);
-
-		// Fail on format error
-
-		boolean failOnFormatError = MapUtil.getBoolean(
-			jalopySettings, "failOnFormatError");
 
 		// File name
 
@@ -426,7 +409,7 @@ public class InstanceWrapperBuilder {
 			ConventionKeys.COMMENT_JAVADOC_TEMPLATE_INTERFACE,
 			env.interpolate(classMask));
 
-		boolean formatSuccess = jalopy.format();
+		jalopy.format();
 
 		String newContent = sb.toString();
 
@@ -454,10 +437,6 @@ public class InstanceWrapperBuilder {
 			newContent.substring(0, newContent.length() - 2) + "\n\n}";*/
 
 		ToolsUtil.writeFileRaw(file, newContent, modifiedFileNames);
-
-		if (failOnFormatError && !formatSuccess) {
-			throw new IOException("Unable to beautify " + file);
-		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
