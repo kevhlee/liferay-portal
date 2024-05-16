@@ -251,7 +251,7 @@ public class InstanceWrapperBuilder {
 				StringUtil.replace(javaPackage.getName(), '.', '/'), "/",
 				javaClass.getName(), "_IW.java"));
 
-		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null, null);
+		_writeFile(file, sb.toString(), ToolsUtil.AUTHOR, null);
 	}
 
 	private String _getDimensions(Type type) {
@@ -329,8 +329,7 @@ public class InstanceWrapperBuilder {
 	}
 
 	private void _writeFile(
-			File file, String content, String author,
-			Set<String> modifiedFileNames, String packagePath)
+			File file, String content, String author, String packagePath)
 		throws IOException {
 
 		if (!file.exists()) {
@@ -436,7 +435,7 @@ public class InstanceWrapperBuilder {
 		newContent =
 			newContent.substring(0, newContent.length() - 2) + "\n\n}";*/
 
-		ToolsUtil.writeFileRaw(file, newContent, modifiedFileNames);
+		ToolsUtil.writeFileRaw(file, newContent, null);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
