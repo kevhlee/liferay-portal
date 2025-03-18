@@ -3072,6 +3072,11 @@ ${poshi.runner.testsuite.testcase.name}</echo>
 				<test-action>
 					<database-test-run-test database.type="@{database.type}" stop.app.server="true">
 						<test-action>
+							<echo>Host: ${env.HOST}</echo>
+							<echo>Hostname: ${env.HOSTNAME}</echo>
+							<echo>Computer name: ${env.COMPUTERNAME}</echo>
+							<echo>User name: ${user.name}</echo>
+
 							<setup-lpkg-test database.type="@{database.type}" />
 
 							<antcall inheritall="false" target="start-app-server" />
@@ -3098,6 +3103,39 @@ ${poshi.runner.testsuite.testcase.name}</echo>
 								file="bundles"
 								tofile="bun dles"
 							/>
+
+							<echo>==== app.server.${env.HOST}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${env.HOST}.properties" />
+							</exec>
+							<echo>==== app.server.${env.HOSTNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${env.HOSTNAME}.properties" />
+							</exec>
+							<echo>==== app.server.${env.COMPUTERNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${env.COMPUTERNAME}.properties" />
+							</exec>
+							<echo>==== app.server.${user.name}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${user.name}.properties" />
+							</exec>
+							<echo>==== build.${env.HOST}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${env.HOST}.properties" />
+							</exec>
+							<echo>==== build.${env.HOSTNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${env.HOSTNAME}.properties" />
+							</exec>
+							<echo>==== build.${env.COMPUTERNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${env.COMPUTERNAME}.properties" />
+							</exec>
+							<echo>==== build.${user.name}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${user.name}.properties" />
+							</exec>
 
 							<propertyfile file="app.server.${env.HOSTNAME}.properties">
 								<entry key="app.server.parent.dir" value="${project.dir}/bun dles" />
@@ -3143,6 +3181,11 @@ ${poshi.runner.testsuite.testcase.name}</echo>
 				<test-action>
 					<database-test-run-test database.type="@{database.type}" stop.app.server="true">
 						<test-action>
+							<echo>Host: ${env.HOST}</echo>
+							<echo>Hostname: ${env.HOSTNAME}</echo>
+							<echo>Computer name: ${env.COMPUTERNAME}</echo>
+							<echo>User name: ${user.name}</echo>
+
 							<setup-lpkg-test database.type="@{database.type}" />
 
 							<antcall inheritall="false" target="start-app-server" />
@@ -3157,6 +3200,39 @@ ${poshi.runner.testsuite.testcase.name}</echo>
 									includes="**/bundleFile"
 								/>
 							</delete>
+
+							<echo>==== app.server.${env.HOST}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${env.HOST}.properties" />
+							</exec>
+							<echo>==== app.server.${env.HOSTNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${env.HOSTNAME}.properties" />
+							</exec>
+							<echo>==== app.server.${env.COMPUTERNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${env.COMPUTERNAME}.properties" />
+							</exec>
+							<echo>==== app.server.${user.name}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="app.server.${user.name}.properties" />
+							</exec>
+							<echo>==== build.${env.HOST}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${env.HOST}.properties" />
+							</exec>
+							<echo>==== build.${env.HOSTNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${env.HOSTNAME}.properties" />
+							</exec>
+							<echo>==== build.${env.COMPUTERNAME}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${env.COMPUTERNAME}.properties" />
+							</exec>
+							<echo>==== build.${user.name}.properties ====</echo>
+							<exec cmd="cat">
+								<arg value="build.${user.name}.properties" />
+							</exec>
 
 							<trycatch>
 								<try>
