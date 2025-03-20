@@ -3105,35 +3105,35 @@ ${poshi.runner.testsuite.testcase.name}</echo>
 							/>
 
 							<echo>==== app.server.${env.HOST}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${env.HOST}.properties" />
 							</exec>
 							<echo>==== app.server.${env.HOSTNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${env.HOSTNAME}.properties" />
 							</exec>
 							<echo>==== app.server.${env.COMPUTERNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${env.COMPUTERNAME}.properties" />
 							</exec>
 							<echo>==== app.server.${user.name}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${user.name}.properties" />
 							</exec>
 							<echo>==== build.${env.HOST}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${env.HOST}.properties" />
 							</exec>
 							<echo>==== build.${env.HOSTNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${env.HOSTNAME}.properties" />
 							</exec>
 							<echo>==== build.${env.COMPUTERNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${env.COMPUTERNAME}.properties" />
 							</exec>
 							<echo>==== build.${user.name}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${user.name}.properties" />
 							</exec>
 
@@ -3202,35 +3202,35 @@ ${poshi.runner.testsuite.testcase.name}</echo>
 							</delete>
 
 							<echo>==== app.server.${env.HOST}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${env.HOST}.properties" />
 							</exec>
 							<echo>==== app.server.${env.HOSTNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${env.HOSTNAME}.properties" />
 							</exec>
 							<echo>==== app.server.${env.COMPUTERNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${env.COMPUTERNAME}.properties" />
 							</exec>
 							<echo>==== app.server.${user.name}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="app.server.${user.name}.properties" />
 							</exec>
 							<echo>==== build.${env.HOST}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${env.HOST}.properties" />
 							</exec>
 							<echo>==== build.${env.HOSTNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${env.HOSTNAME}.properties" />
 							</exec>
 							<echo>==== build.${env.COMPUTERNAME}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${env.COMPUTERNAME}.properties" />
 							</exec>
 							<echo>==== build.${user.name}.properties ====</echo>
-							<exec cmd="cat">
+							<exec executable="cat">
 								<arg value="build.${user.name}.properties" />
 							</exec>
 
