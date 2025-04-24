@@ -48,15 +48,9 @@ public class SourceTransformer {
 	public static void main(String[] args) throws Exception {
 		List<List<Module>> tieredModules = _tierModules();
 
-		System.out.println("Total tiers : " + tieredModules.size());
+		List<Module> modules = new ArrayList<>();
 
-		int tier = 0;
-
-		List<Module> modules = new ArrayList<>(tieredModules.get(tier));
-
-		for (int i = 1; i < tieredModules.size(); i++) {
-			modules.addAll(tieredModules.get(i));
-		}
+		tieredModules.forEach(modules::addAll);
 
 		List<String> dirs = new ArrayList<>();
 
@@ -303,42 +297,6 @@ public class SourceTransformer {
 		return modules;
 	}
 
-	private static void _tierFromBottomUp(
-		Map<String, Module> moduleMap, List<List<Module>> tieredModules) {
-
-		while (!moduleMap.isEmpty()) {
-			List<Module> currentTieredModules = new ArrayList<>();
-
-			Collection<Module> modules = moduleMap.values();
-
-			Iterator<Module> iterator = modules.iterator();
-
-			while (iterator.hasNext()) {
-				Module module = iterator.next();
-
-				if (!module.hasDependencies()) {
-					iterator.remove();
-
-					currentTieredModules.add(module);
-				}
-			}
-
-			if (currentTieredModules.isEmpty()) {
-				throw new RuntimeException("Circular dependencies detected");
-			}
-
-			currentTieredModules.sort(Comparator.comparing(Module::getId));
-
-			tieredModules.add(currentTieredModules);
-
-			for (Module currentTieredModule : currentTieredModules) {
-				for (Module module : modules) {
-					module.removeDependencyId(currentTieredModule.getId());
-				}
-			}
-		}
-	}
-
 	private static void _tierFromTopDown(
 		Map<String, Module> moduleMap, List<List<Module>> tieredModules) {
 
@@ -395,20 +353,12 @@ public class SourceTransformer {
 			for (String dependencyId : module.getDependencyIds()) {
 				Module dependencyModule = moduleMap.get(dependencyId);
 
-				if (dependencyModule == null) {
-					System.out.println("########" + dependencyId);
-				}
-
 				dependencyModule.addDependentId(module.getId());
 			}
 		}
 
 		for (Module module : moduleMap.values()) {
 			module.freeze();
-		}
-
-		if (false) {
-			_tierFromBottomUp(moduleMap, tieredModules);
 		}
 
 		_tierFromTopDown(moduleMap, tieredModules);
