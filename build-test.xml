@@ -2998,7 +2998,6 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 									</jdbc-driver-params>
 									<jdbc-connection-pool-params>
 										<initial-capacity>5</initial-capacity>
-										<isolation-level>TRANSACTION_READ_COMMITTED</isolation-level>
 										<max-capacity>100</max-capacity>
 										<min-capacity>5</min-capacity>
 										<test-table-name>SQL SELECT 1</test-table-name>
@@ -3008,6 +3007,17 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 										<global-transactions-protocol>None</global-transactions-protocol>
 									</jdbc-data-source-params>
 								</jdbc-data-source>
+    						]]>
+						</echo>
+
+						<echo file="${app.server.weblogic.portal.dir}/WEB-INF/weblogic-ejb-jar.xml">
+							<![CDATA[
+								<?xml version='1.0' encoding='UTF-8'?>
+								<weblogic-ejb-jar>
+									<transaction-isolation>
+										<isolation-level>TransactionReadCommitted</isolation-level>
+									</transaction-isolation>
+								</weblogic-ejb-jar>
     						]]>
 						</echo>
 
