@@ -2985,6 +2985,11 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 								<jdbc-data-source>
 									<name>Liferay Data Source</name>
 									<datasource-type>GENERIC</datasource-type>
+									<internal-properties>
+										<property>
+											<desiredtxisolevel>TRANSACTION_READ_COMMITTED</desiredtxisolevel>
+										</property>
+									</properties>
 									<jdbc-driver-params>
 										<url>jdbc:mysql://${database.host}/${database.schema}?useUnicode=true&amp;characterEncoding=UTF-8&amp;useFastDateParsing=false&amp;serverTimezone=GMT&amp;dontTrackOpenResources=true&amp;holdResultsOpenOverStatementClose=true</url>
 										<driver-name>${database.driver}</driver-name>
@@ -2998,7 +3003,6 @@ sendPasswordCaptchaEnabled=&quot;false&quot;</echo>
 									</jdbc-driver-params>
 									<jdbc-connection-pool-params>
 										<initial-capacity>5</initial-capacity>
-										<isolation-level>TRANSACTION_READ_COMMITTED</isolation-level>
 										<max-capacity>100</max-capacity>
 										<min-capacity>5</min-capacity>
 										<test-table-name>SQL SELECT 1</test-table-name>
