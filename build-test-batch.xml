@@ -10151,6 +10151,8 @@ information. Make sure to commit in all build services results.
 			<test-set-up>
 				<setup-test-environment />
 
+				<copy-artifact-to-local-cache artifact.file="${project.dir}/portal-test/portal-test.jar" artifact.name="com.liferay.portal.test" artifact.version="${artifact.version}" />
+
 				<if>
 					<isset property="TEST_CLASS_GROUP_${axis.variable}" />
 					<then>
