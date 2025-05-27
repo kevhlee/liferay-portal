@@ -934,9 +934,27 @@ app.server.type=@{app.server.type}]]></echo>
 
 			<record-git-commit-portal />
 
+			<execute>
+				echo "Before compile."
+
+				ls -a ${project.dir}/portal-test
+			</execute>
+
 			<antcall inheritAll="false" target="compile" />
 
+			<execute>
+				echo "Before installing portal snapshots."
+
+				ls -a ${project.dir}/portal-test
+			</execute>
+
 			<antcall inheritAll="false" target="install-portal-snapshots" />
+
+			<execute>
+				echo "After installing portal snapshots."
+
+				ls -a ${project.dir}/portal-test
+			</execute>
 
 			<if>
 				<and>
@@ -998,6 +1016,16 @@ app.server.type=@{app.server.type}]]></echo>
 			<if>
 				<contains string="@{app.server.type}" substring="tomcat" />
 				<then>
+					<execute>
+						echo "Building liferay-portal-source.tar.gz..."
+					</execute>
+					<execute>
+						ls -a ${project.dir}/portal-test
+					</execute>
+					<execute>
+						ls -a ${project.dir}/portal-test/classes
+					</execute>
+
 					<tar
 						basedir="${project.dir}"
 						compression="gzip"
@@ -1049,6 +1077,13 @@ app.server.type=@{app.server.type}]]></echo>
 
 			<execute>
 				tar --extract --gzip --file=liferay-portal-source.tar.gz
+			</execute>
+
+			<execute>
+				ls -a ${project.dir}/portal-test/classes
+			</execute>
+			<execute>
+				ls -a ${project.dir}/portal-test/classes/com/liferay/portal/test/osgi
 			</execute>
 
 			<local name="bundle.src.file.name" />
@@ -10064,7 +10099,27 @@ information. Make sure to commit in all build services results.
 			</test-action>
 
 			<test-set-up>
+				<execute>
+					echo "Before test environment setup"
+				</execute>
+				<execute>
+					ls -a ${project.dir}/portal-test
+				</execute>
+
 				<setup-test-environment />
+
+				<execute>
+					echo "After test environment setup"
+				</execute>
+				<execute>
+					ls -a ${project.dir}/portal-test
+				</execute>
+				<execute>
+					ls -a ${project.dir}/portal-test/classes
+				</execute>
+				<execute>
+					ls -a ${project.dir}/portal-test/classes/com/liferay/portal/test/osgi
+				</execute>
 
 				<if>
 					<isset property="TEST_CLASS_GROUP_${axis.variable}" />
