@@ -938,6 +938,8 @@ app.server.type=@{app.server.type}]]></echo>
 
 			<antcall inheritAll="false" target="install-portal-snapshots" />
 
+			<ant dir="portal-test" inheritAll="false" target="compile" />
+
 			<if>
 				<and>
 					<equals arg1="@{app.server.type}" arg2="tomcat" />
