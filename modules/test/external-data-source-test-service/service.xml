@@ -9,5 +9,9 @@
 
 		<column name="id" primary="true" type="long" />
 		<column name="data" type="String" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
 	</entity>
 </service-builder>
