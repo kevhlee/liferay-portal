@@ -57,7 +57,8 @@ public class TestEntityModelImpl
 	public static final String TABLE_NAME = "TestEntity";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"data_", Types.VARCHAR}
+		{"id_", Types.BIGINT}, {"data_", Types.VARCHAR},
+		{"companyId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -66,10 +67,11 @@ public class TestEntityModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("data_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table TestEntity (id_ LONG not null primary key,data_ VARCHAR(75) null)";
+		"create table TestEntity (id_ LONG not null primary key,data_ VARCHAR(75) null,companyId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table TestEntity";
 
@@ -207,6 +209,7 @@ public class TestEntityModelImpl
 
 			attributeGetterFunctions.put("id", TestEntity::getId);
 			attributeGetterFunctions.put("data", TestEntity::getData);
+			attributeGetterFunctions.put("companyId", TestEntity::getCompanyId);
 
 			_attributeGetterFunctions = Collections.unmodifiableMap(
 				attributeGetterFunctions);
@@ -227,6 +230,9 @@ public class TestEntityModelImpl
 				"id", (BiConsumer<TestEntity, Long>)TestEntity::setId);
 			attributeSetterBiConsumers.put(
 				"data", (BiConsumer<TestEntity, String>)TestEntity::setData);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<TestEntity, Long>)TestEntity::setCompanyId);
 
 			_attributeSetterBiConsumers = Collections.unmodifiableMap(
 				(Map)attributeSetterBiConsumers);
@@ -267,6 +273,20 @@ public class TestEntityModelImpl
 		_data = data;
 	}
 
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_companyId = companyId;
+	}
+
 	public long getColumnBitmask() {
 		if (_columnBitmask > 0) {
 			return _columnBitmask;
@@ -294,7 +314,7 @@ public class TestEntityModelImpl
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, TestEntity.class.getName(), getPrimaryKey());
+			getCompanyId(), TestEntity.class.getName(), getPrimaryKey());
 	}
 
 	@Override
@@ -325,6 +345,7 @@ public class TestEntityModelImpl
 
 		testEntityImpl.setId(getId());
 		testEntityImpl.setData(getData());
+		testEntityImpl.setCompanyId(getCompanyId());
 
 		testEntityImpl.resetOriginalValues();
 
@@ -337,6 +358,8 @@ public class TestEntityModelImpl
 
 		testEntityImpl.setId(this.<Long>getColumnOriginalValue("id_"));
 		testEntityImpl.setData(this.<String>getColumnOriginalValue("data_"));
+		testEntityImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
 
 		return testEntityImpl;
 	}
@@ -422,6 +445,8 @@ public class TestEntityModelImpl
 			testEntityCacheModel.data = null;
 		}
 
+		testEntityCacheModel.companyId = getCompanyId();
+
 		return testEntityCacheModel;
 	}
 
@@ -485,6 +510,7 @@ public class TestEntityModelImpl
 
 	private long _id;
 	private String _data;
+	private long _companyId;
 
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
@@ -518,6 +544,7 @@ public class TestEntityModelImpl
 
 		_columnOriginalValues.put("id_", _id);
 		_columnOriginalValues.put("data_", _data);
+		_columnOriginalValues.put("companyId", _companyId);
 	}
 
 	private static final Map<String, String> _attributeNames;
@@ -545,6 +572,8 @@ public class TestEntityModelImpl
 		columnBitmasks.put("id_", 1L);
 
 		columnBitmasks.put("data_", 2L);
+
+		columnBitmasks.put("companyId", 4L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

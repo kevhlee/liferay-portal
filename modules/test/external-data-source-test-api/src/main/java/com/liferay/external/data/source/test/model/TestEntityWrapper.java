@@ -34,6 +34,7 @@ public class TestEntityWrapper
 
 		attributes.put("id", getId());
 		attributes.put("data", getData());
+		attributes.put("companyId", getCompanyId());
 
 		return attributes;
 	}
@@ -51,11 +52,27 @@ public class TestEntityWrapper
 		if (data != null) {
 			setData(data);
 		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
 	}
 
 	@Override
 	public TestEntity cloneWithOriginalValues() {
 		return wrap(model.cloneWithOriginalValues());
+	}
+
+	/**
+	 * Returns the company ID of this test entity.
+	 *
+	 * @return the company ID of this test entity
+	 */
+	@Override
+	public long getCompanyId() {
+		return model.getCompanyId();
 	}
 
 	/**
@@ -91,6 +108,16 @@ public class TestEntityWrapper
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	/**
+	 * Sets the company ID of this test entity.
+	 *
+	 * @param companyId the company ID of this test entity
+	 */
+	@Override
+	public void setCompanyId(long companyId) {
+		model.setCompanyId(companyId);
 	}
 
 	/**

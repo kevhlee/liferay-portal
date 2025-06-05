@@ -7,6 +7,7 @@ package com.liferay.external.data.source.test.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -22,7 +23,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public interface TestEntityModel extends BaseModel<TestEntity> {
+public interface TestEntityModel extends BaseModel<TestEntity>, ShardedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -72,6 +73,22 @@ public interface TestEntityModel extends BaseModel<TestEntity> {
 	 * @param data the data of this test entity
 	 */
 	public void setData(String data);
+
+	/**
+	 * Returns the company ID of this test entity.
+	 *
+	 * @return the company ID of this test entity
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this test entity.
+	 *
+	 * @param companyId the company ID of this test entity
+	 */
+	@Override
+	public void setCompanyId(long companyId);
 
 	@Override
 	public TestEntity cloneWithOriginalValues();

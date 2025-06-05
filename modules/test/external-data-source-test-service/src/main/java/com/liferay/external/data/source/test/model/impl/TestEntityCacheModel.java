@@ -51,12 +51,14 @@ public class TestEntityCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(7);
 
 		sb.append("{id=");
 		sb.append(id);
 		sb.append(", data=");
 		sb.append(data);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append("}");
 
 		return sb.toString();
@@ -75,6 +77,8 @@ public class TestEntityCacheModel
 			testEntityImpl.setData(data);
 		}
 
+		testEntityImpl.setCompanyId(companyId);
+
 		testEntityImpl.resetOriginalValues();
 
 		return testEntityImpl;
@@ -84,6 +88,8 @@ public class TestEntityCacheModel
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		id = objectInput.readLong();
 		data = objectInput.readUTF();
+
+		companyId = objectInput.readLong();
 	}
 
 	@Override
@@ -96,9 +102,12 @@ public class TestEntityCacheModel
 		else {
 			objectOutput.writeUTF(data);
 		}
+
+		objectOutput.writeLong(companyId);
 	}
 
 	public long id;
 	public String data;
+	public long companyId;
 
 }

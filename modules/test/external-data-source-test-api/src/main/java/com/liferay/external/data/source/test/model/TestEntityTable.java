@@ -25,6 +25,8 @@ public class TestEntityTable extends BaseTable<TestEntityTable> {
 		"id_", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
 	public final Column<TestEntityTable, String> data = createColumn(
 		"data_", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<TestEntityTable, Long> companyId = createColumn(
+		"companyId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 
 	private TestEntityTable() {
 		super("TestEntity", TestEntityTable::new);

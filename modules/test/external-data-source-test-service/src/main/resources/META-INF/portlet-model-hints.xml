@@ -4,5 +4,6 @@
 	<model name="com.liferay.external.data.source.test.model.TestEntity">
 		<field name="id" type="long" />
 		<field name="data" type="String" />
+		<field name="companyId" type="long" />
 	</model>
 </model-hints>
