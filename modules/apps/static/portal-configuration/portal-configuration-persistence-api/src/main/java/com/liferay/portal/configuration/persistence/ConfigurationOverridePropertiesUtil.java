@@ -44,6 +44,8 @@ public class ConfigurationOverridePropertiesUtil {
 		Properties properties = PropsUtil.getProperties(
 			"configuration.override.", true);
 
+		System.out.println(properties);
+
 		Map<String, Map<String, Object>> overridePropertiesMap =
 			new HashMap<>();
 
