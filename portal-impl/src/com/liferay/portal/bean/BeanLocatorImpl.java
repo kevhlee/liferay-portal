@@ -35,10 +35,11 @@ public class BeanLocatorImpl implements BeanLocator {
 
 	@Override
 	public void destroy() {
-		if (_applicationContext instanceof
-				AbstractApplicationContext abstractApplicationContext) {
+		if (_applicationContext instanceof AbstractApplicationContext) {
+			AbstractApplicationContext abstractApplicationContext =
+				(AbstractApplicationContext)_applicationContext;
 
-			abstractApplicationContext.close();
+			abstractApplicationContext.destroy();
 		}
 
 		_applicationContext = null;

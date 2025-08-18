@@ -9,6 +9,8 @@ import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
+import java.beans.PropertyDescriptor;
+
 import java.lang.reflect.Constructor;
 
 import java.util.Collections;
@@ -85,8 +87,9 @@ public abstract class BaseServiceBeanAutoProxyCreator
 	}
 
 	@Override
-	public PropertyValues postProcessProperties(
-		PropertyValues propertyValues, Object bean, String beanName) {
+	public PropertyValues postProcessPropertyValues(
+		PropertyValues propertyValues, PropertyDescriptor[] propertyDescriptors,
+		Object bean, String beanName) {
 
 		return propertyValues;
 	}
