@@ -45,18 +45,17 @@ public class LiferayBeanFactory extends DefaultListableBeanFactory {
 
 	@Override
 	protected void invokeCustomInitMethod(
-			String beanName, Object bean, RootBeanDefinition rootBeanDefinition,
-			String initMethodName)
+			String beanName, Object bean, RootBeanDefinition rootBeanDefinition)
 		throws Throwable {
 
 		if (!PropsValues.SPRING_BEANFACTORY_STRICT_LIFECYCLE_ENABLED) {
-			super.invokeCustomInitMethod(
-				beanName, bean, rootBeanDefinition, initMethodName);
+			super.invokeCustomInitMethod(beanName, bean, rootBeanDefinition);
 
 			return;
 		}
 
-		Method initMethod = _getMethod(bean.getClass(), initMethodName);
+		Method initMethod = _getMethod(
+			bean.getClass(), rootBeanDefinition.getInitMethodName());
 
 		if (initMethod != null) {
 			try {
