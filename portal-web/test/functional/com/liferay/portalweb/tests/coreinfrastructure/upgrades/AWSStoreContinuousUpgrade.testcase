@@ -13,6 +13,7 @@ definition {
 	property test.assert.warning.exceptions = "true";
 	property test.liferay.virtual.instance = "false";
 	property test.run.type = "single";
+	property testcase.url = "file:///opt/dev/projects/github/liferay-portal/";
 	property testray.main.component.name = "Database Upgrade Framework";
 
 	setUp {
@@ -34,7 +35,8 @@ definition {
 		var companyId = JSONCompany.getCompanyId();
 		var groupId = JSONGroupAPI._getGroupIdByName(
 			groupName = "Site Name",
-			site = "true");
+			site = "true",
+			specificURL = "http://localhost:8080");
 
 		AntCommands.runCommand("build-test-s3-store.xml", "assert-no-document-in-bucket -DcompanyId=${companyId} -DgroupId=${groupId} -Ds3.bucket.id=${bucketId}");
 
