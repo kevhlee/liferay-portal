@@ -24,6 +24,10 @@ Import-Package:\
 	\
 	!org.joda.convert,\
 	\
+	!software.amazon.awssdk.arns.*,\
+	!software.amazon.awssdk.crt.*,\
+	!software.amazon.awssdk.crtcore.*,\
+	!software.amazon.awssdk.utilslite.*,\
 	!software.amazon.ion.*,\
 	\
 	*
