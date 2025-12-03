@@ -311,6 +311,10 @@ public class S3Store implements Store {
 
 		_amazonS3 = getAmazonS3(awsCredentialsProvider);
 
+		_threadPoolExecutor = new ThreadPoolExecutor(
+			_s3StoreConfiguration.corePoolSize(),
+			_s3StoreConfiguration.maxPoolSize());
+
 		_transferManager = getTransferManager(_amazonS3);
 
 		try {
@@ -327,6 +331,11 @@ public class S3Store implements Store {
 					illegalArgumentException);
 			}
 		}
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_threadPoolExecutor.shutdown();
 	}
 
 	protected void configureConnectionProtocol(
@@ -395,6 +404,8 @@ public class S3Store implements Store {
 	protected void deactivate() {
 		_amazonS3 = null;
 		_s3StoreConfiguration = null;
+
+		_threadPoolExecutor.close();
 	}
 
 	protected void deleteObjects(String prefix) {
@@ -594,9 +605,7 @@ public class S3Store implements Store {
 		).withS3Client(
 			amazonS3
 		).withExecutorFactory(
-			() -> new ThreadPoolExecutor(
-				_s3StoreConfiguration.corePoolSize(),
-				_s3StoreConfiguration.maxPoolSize())
+			() -> _threadPoolExecutor
 		).withMinimumUploadPartSize(
 			(long)_s3StoreConfiguration.minimumUploadPartSize()
 		).withMultipartUploadThreshold(
@@ -709,6 +718,7 @@ public class S3Store implements Store {
 
 	private AmazonS3 _amazonS3;
 	private StorageClass _storageClass;
+	private ThreadPoolExecutor _threadPoolExecutor;
 	private TransferManager _transferManager;
 
 }
