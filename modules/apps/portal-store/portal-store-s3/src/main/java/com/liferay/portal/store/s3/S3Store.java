@@ -135,10 +135,6 @@ public class S3Store implements Store {
 		}
 	}
 
-	public String getBucketName() {
-		return _bucketName;
-	}
-
 	@Override
 	public InputStream getFileAsStream(
 			long companyId, long repositoryId, String fileName,
@@ -256,10 +252,6 @@ public class S3Store implements Store {
 		Arrays.sort(versions, DLUtil::compareVersions);
 
 		return versions;
-	}
-
-	public TransferManager getTransferManager() {
-		return _transferManager;
 	}
 
 	@Override
