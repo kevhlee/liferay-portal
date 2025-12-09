@@ -32,10 +32,11 @@ definition {
 			siteName = "Site Name");
 
 		var bucketId = PropsUtil.get("s3.bucket.id");
-		var companyId = JSONCompany.getCompanyId();
+		var companyId = JSONCompany.getCompanyId(portalURL = "http://localhost:8080");
 		var groupId = JSONGroupAPI._getGroupIdByName(
 			groupName = "Site Name",
-			site = "true");
+			site = "true",
+			specificURL = "http://localhost:8080");
 
 		AntCommands.runCommand("build-test-s3-store.xml", "assert-no-document-in-bucket -DcompanyId=${companyId} -DgroupId=${groupId} -Ds3.bucket.id=${bucketId}");
 
