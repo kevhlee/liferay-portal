@@ -33,7 +33,6 @@ definition {
 		}
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test AlloyApplicantPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -125,7 +124,6 @@ definition {
 			state = "FL");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSF_IPCEventsPortletsSmoke {
 		JSONLayout.addPublicLayout(
@@ -182,7 +180,6 @@ definition {
 			startDateEdit = ${currentDate});
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSF_IPCPublicRenderParamsPortletsSmoke {
 		JSONLayout.addPublicLayout(
@@ -239,7 +236,6 @@ definition {
 			startDateEdit = ${currentDate});
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSFApplicantPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -331,7 +327,6 @@ definition {
 			state = "FL");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSFCDIApplicantPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -423,7 +418,6 @@ definition {
 			state = "FL");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSFExportPDFPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -450,7 +444,6 @@ definition {
 		BridgeDemos.exportFile(lastName = "Green,Kessler,Shearer");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSFFlowsPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -535,7 +528,6 @@ definition {
 		BridgeDemos.viewLibraries(libraryName = "bookingFlowModelBeanInScope=false,cartModelBeanInScope=false,flightSearchModelBeanInScope=false,surveyFlowModelBeanInScope=false");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSFHTML5ApplicantPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -627,7 +619,6 @@ definition {
 			state = "FL");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test JSFSpringApplicantPortletSmoke {
 		JSONLayout.addPublicLayout(
@@ -720,7 +711,6 @@ definition {
 	}
 
 	@description = "This is a usecase for LPS-159239. Verify a 3.0 portlet with cdi can be deployed to a content page."
-	@ignore = "true"
 	@priority = 3
 	test PrimeFacesCDIApplicantPortletContentPageSmoke {
 		property liferay.faces = "false";
@@ -781,7 +771,6 @@ definition {
 		}
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test PrimeFacesCDIApplicantPortletSmoke {
 		JSONLayout.addPublicLayout(

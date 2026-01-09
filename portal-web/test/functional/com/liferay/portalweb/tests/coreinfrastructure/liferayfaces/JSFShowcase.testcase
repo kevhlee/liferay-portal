@@ -48,7 +48,6 @@ definition {
 		}
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test ButtonSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/button/general");
@@ -68,7 +67,6 @@ definition {
 		JSFShowcase.viewVariousStylesButton();
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test CommandButtonSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/commandbutton/general");
@@ -109,7 +107,6 @@ definition {
 		JSFShowcase.clickButtonValueAttribute(attribute = "Carter Braxton");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test CommandLinkSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/commandlink/general");
@@ -131,7 +128,6 @@ definition {
 			message2 = "INVOKE_APPLICATION");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test DataTableSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/datatable/general");
@@ -139,7 +135,6 @@ definition {
 		JSFShowcase.viewDataTable();
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test FormSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/form/general");
@@ -151,7 +146,6 @@ definition {
 		JSFShowcase.viewFromButtonResult(message = "The form was submitted as a full page postback and the entire page was re-rendered.");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test ImageSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/graphicimage/general");
@@ -165,7 +159,6 @@ definition {
 		}
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test InputFileSmoke {
 
@@ -209,7 +202,6 @@ definition {
 			instantAjax = "true");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test InputHiddenSmoke {
 
@@ -295,7 +287,6 @@ definition {
 			messageinvalid2 = "Invalid E-Mail Address");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test InputSecretSmoke {
 
@@ -375,7 +366,6 @@ definition {
 			textResult = "Hello@World.com");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test InputTextareaSmoke {
 
@@ -493,7 +483,6 @@ definition {
 			textResult = "Hello@World.com");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test InputTextSmoke {
 
@@ -585,7 +574,6 @@ definition {
 			textResult = "Hello@World.com");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test LinkSmoke {
 
@@ -616,7 +604,6 @@ definition {
 			locator1 = "JSFShowcase#LINK_PARAMETER_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test MessageSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/message/general");
@@ -638,7 +625,6 @@ definition {
 			textValue3 = "Hello World");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test OutputSmoke {
 
@@ -742,7 +728,6 @@ definition {
 			value1 = "בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָֽרֶץ");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test PanelSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/h/panelgrid/general");
@@ -760,7 +745,6 @@ definition {
 			value1 = "This text is inside a <div> HTML tag");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test PortletSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/jsf-showcase/-/jsf-tag/portlet/actionurl/general");
@@ -793,7 +777,6 @@ definition {
 		AssertElementPresent(locator1 = "JSFShowcase#EXAMPLE_TEXT");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectBooleanCheckboxSmoke {
 
@@ -850,7 +833,6 @@ definition {
 			locator1 = "JSFShowcase#MODEL_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectManyCheckboxSmoke {
 
@@ -985,7 +967,6 @@ definition {
 			locator1 = "JSFShowcase#MODEL_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectManyListboxSmoke {
 
@@ -1119,7 +1100,6 @@ definition {
 			locator1 = "JSFShowcase#MODEL_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectManyMenuSmoke {
 
@@ -1253,7 +1233,6 @@ definition {
 			locator1 = "JSFShowcase#MODEL_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectOneListboxSmoke {
 
@@ -1380,7 +1359,6 @@ definition {
 			locator1 = "JSFShowcase#MODEL_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectOneMenuSmoke {
 
@@ -1507,7 +1485,6 @@ definition {
 			locator1 = "JSFShowcase#MODEL_VALUE");
 	}
 
-	@ignore = "true"
 	@priority = 5
 	test SelectOneRadioSmoke {
 
