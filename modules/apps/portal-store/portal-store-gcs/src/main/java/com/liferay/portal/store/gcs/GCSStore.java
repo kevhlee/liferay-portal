@@ -194,6 +194,22 @@ public class GCSStore implements Store {
 			StoreArea.getCurrentStoreAreaPath(companyId, repositoryId) +
 				StringPool.SLASH;
 
+		_log.error("--------");
+
+		_log.error(
+			StringBundler.concat(
+				"Getting files {companyId=", companyId, ", repositoryId=",
+				repositoryId, ", dirName=", dirName, ", prefix=", prefix, "}"));
+
+		Page<Blob> blobPage1 = _gcsStore.list(
+			_gcsStoreConfiguration.bucketName());
+
+		for (Blob blob : blobPage1.iterateAll()) {
+			_log.error(blob.getName());
+		}
+
+		_log.error("--------");
+
 		return TransformUtil.transform(
 			_getFilePaths(companyId, repositoryId, dirName),
 			filePath -> filePath.substring(
@@ -244,14 +260,31 @@ public class GCSStore implements Store {
 		String path = _getFileVersionKey(
 			companyId, repositoryId, fileName, versionLabel);
 
-		Page<Blob> blobPage = _gcsStore.list(
+		Page<Blob> blobPage1 = _gcsStore.list(
 			_gcsStoreConfiguration.bucketName(),
 			Storage.BlobListOption.pageSize(1),
 			Storage.BlobListOption.prefix(path));
 
-		Iterable<Blob> filesFoundIterable = blobPage.getValues();
+		Iterable<Blob> filesFoundIterable = blobPage1.getValues();
 
 		Iterator<Blob> filesFoundIterator = filesFoundIterable.iterator();
+
+		_log.error("--------");
+
+		_log.error(
+			StringBundler.concat(
+				"Inserting file {companyId=", companyId, ", repositoryId=",
+				repositoryId, ", fileName=", fileName, ", versionLabel=",
+				versionLabel, ", path=", path, "}"));
+
+		Page<Blob> blobPage2 = _gcsStore.list(
+			_gcsStoreConfiguration.bucketName());
+
+		for (Blob blob : blobPage2.iterateAll()) {
+			_log.error(blob.getName());
+		}
+
+		_log.error("--------");
 
 		return filesFoundIterator.hasNext();
 	}
