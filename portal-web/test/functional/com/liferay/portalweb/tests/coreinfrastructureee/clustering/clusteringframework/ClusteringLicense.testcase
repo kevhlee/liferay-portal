@@ -89,7 +89,7 @@ definition {
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Message#ERROR_2",
-			value1 = "This instance is not registered.");
+			value1 = "This license is not registered.");
 
 		Clustering.shutdownSpecificServer(nodePort = 9080);
 
@@ -130,7 +130,7 @@ definition {
 
 		Navigator.openSpecificURL(url = "http://localhost:12080");
 
-		Alert.viewErrorMessage(errorMessage = "This instance is not registered.");
+		Alert.viewErrorMessage(errorMessage = "This license is not registered.");
 
 		for (var nodeNumber : list "12,11,10") {
 			Clustering.waitForNodeShutdown(nodePort = "${nodeNumber}080");
@@ -444,7 +444,7 @@ definition {
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Message#ERROR_2",
-			value1 = "This instance is not registered.");
+			value1 = "This license is not registered.");
 
 		Clustering.shutdownSpecificServer(nodePort = 10080);
 
