@@ -13,6 +13,10 @@
 	</javascript>
 	<log>
 		<ignore-error description="">
+			<contains>"licensed for this cluster has been exceeded."</contains>
+			<matches></matches>
+		</ignore-error>
+		<ignore-error description="">
 			<contains></contains>
 			<matches>.*The web application \[.*\] appears to have started a thread.*\[Thread-[0-9]+\].*</matches>
 		</ignore-error>
