@@ -11,10 +11,14 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
+import com.liferay.portal.kernel.search.SearchException;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +33,19 @@ import org.osgi.framework.ServiceRegistration;
 public class IndexableActionableDynamicQueryTest {
 
 	@Before
-	public void setUp() {
+	public void setUp() throws SearchException {
+		Mockito.doAnswer(
+			invocation -> {
+				_documents.addAll(invocation.getArgument(1, Collection.class));
+
+				return null;
+			}
+		).when(
+			indexWriterHelper
+		).updateDocuments(
+			Mockito.eq(0L), Mockito.anyCollection(), Mockito.eq(false)
+		);
+
 		_indexWriterHelperServiceRegistration = _bundleContext.registerService(
 			IndexWriterHelper.class, indexWriterHelper, null);
 		_indexerRegistryServiceRegistration = _bundleContext.registerService(
@@ -50,6 +66,8 @@ public class IndexableActionableDynamicQueryTest {
 
 	@After
 	public void tearDown() {
+		_documents.clear();
+
 		_indexWriterHelperServiceRegistration.unregister();
 		_indexerRegistryServiceRegistration.unregister();
 		_portalExecutorManagerServiceRegistration.unregister();
@@ -77,18 +95,14 @@ public class IndexableActionableDynamicQueryTest {
 		verifyDocumentsUpdated(document1, document2, document3);
 	}
 
-	protected void verifyDocumentsUpdated(Document... documents)
-		throws Exception {
-
-		Mockito.verify(
-			indexWriterHelper
-		).updateDocuments(
-			0, Arrays.asList(documents), false
-		);
+	protected void verifyDocumentsUpdated(Document... documents) {
+		for (Document document : documents) {
+			Assert.assertTrue(_documents.contains(document));
+		}
 	}
 
 	protected void verifyNoDocumentsUpdated() {
-		Mockito.verifyNoInteractions(indexWriterHelper);
+		Assert.assertTrue(_documents.isEmpty());
 	}
 
 	protected Document document1 = Mockito.mock(Document.class);
@@ -102,6 +116,7 @@ public class IndexableActionableDynamicQueryTest {
 	private static final BundleContext _bundleContext =
 		SystemBundleUtil.getBundleContext();
 
+	private final List<Document> _documents = new ArrayList<>();
 	private ServiceRegistration<IndexerRegistry>
 		_indexerRegistryServiceRegistration;
 	private ServiceRegistration<IndexWriterHelper>
