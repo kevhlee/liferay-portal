@@ -21,7 +21,6 @@ definition {
 		Upgrade.startReleasedBundle();
 	}
 
-	@ignore = "true"
 	@priority = 4
 	test AutoUpgradeFromLatest7413Update {
 		User.firstLoginUI(
