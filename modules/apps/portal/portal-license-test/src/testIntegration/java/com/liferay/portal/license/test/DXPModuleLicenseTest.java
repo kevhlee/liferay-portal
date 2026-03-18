@@ -79,7 +79,7 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 
 				@Override
 				public InputStream getResourceAsStream(String name) {
-					if (name.equals(_BUNDLES_FILE)) {
+					if (name.equals(_RESOURCE_FILE_BUNDLES)) {
 						return InputStream.nullInputStream();
 					}
 
@@ -105,12 +105,14 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 		assertLicensePropertiesNotExisted(PRODUCT_ID_PORTAL);
 
 		assertBundlesExisted(
-			_ENTERPRISE_APP_SYMBOLIC_NAME, _DXP_ONLY_MODULE_SYMBOLIC_NAME);
+			_BUNDLE_SYMBOLIC_NAME_ENTERPRISE_APP,
+			_BUNDLE_SYMBOLIC_NAME_DXP_ONLY);
 
 		assertLicenseNotRegistered();
 
 		assertBundlesExisted(
-			_ENTERPRISE_APP_SYMBOLIC_NAME, _DXP_ONLY_MODULE_SYMBOLIC_NAME);
+			_BUNDLE_SYMBOLIC_NAME_ENTERPRISE_APP,
+			_BUNDLE_SYMBOLIC_NAME_DXP_ONLY);
 
 		File binaryFile = deployFreeTierLicense(Time.HOUR);
 
@@ -119,7 +121,8 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 		assertLicenseRegistered();
 
 		assertBundlesNotExisted(
-			_ENTERPRISE_APP_SYMBOLIC_NAME, _DXP_ONLY_MODULE_SYMBOLIC_NAME);
+			_BUNDLE_SYMBOLIC_NAME_ENTERPRISE_APP,
+			_BUNDLE_SYMBOLIC_NAME_DXP_ONLY);
 
 		binaryFile.delete();
 
@@ -130,7 +133,8 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 		resetLifecycleAction();
 
 		assertBundlesExisted(
-			_ENTERPRISE_APP_SYMBOLIC_NAME, _DXP_ONLY_MODULE_SYMBOLIC_NAME);
+			_BUNDLE_SYMBOLIC_NAME_ENTERPRISE_APP,
+			_BUNDLE_SYMBOLIC_NAME_DXP_ONLY);
 
 		assertLicenseNotRegistered();
 	}
@@ -146,7 +150,7 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 
 		for (Bundle bundle : bundleContext.getBundles()) {
 			if (Objects.equals(
-					bundle.getSymbolicName(), _DXP_ONLY_MODULE_SYMBOLIC_NAME)) {
+					bundle.getSymbolicName(), _BUNDLE_SYMBOLIC_NAME_DXP_ONLY)) {
 
 				dxpOnlyBundle = bundle;
 
@@ -154,7 +158,8 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 			}
 
 			if (Objects.equals(
-					bundle.getSymbolicName(), _ENTERPRISE_APP_SYMBOLIC_NAME)) {
+					bundle.getSymbolicName(),
+					_BUNDLE_SYMBOLIC_NAME_ENTERPRISE_APP)) {
 
 				enterpriseAppBundle = bundle;
 			}
@@ -211,7 +216,7 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 
 				@Override
 				public InputStream getResourceAsStream(String name) {
-					if (name.equals(_BUNDLES_FILE)) {
+					if (name.equals(_RESOURCE_FILE_BUNDLES)) {
 						return null;
 					}
 
@@ -232,14 +237,14 @@ public class DXPModuleLicenseTest extends BaseLicenseTestCase {
 		}
 	}
 
-	private static final String _BUNDLES_FILE =
-		"com/liferay/portal/ee/license/bundles";
-
-	private static final String _DXP_ONLY_MODULE_SYMBOLIC_NAME =
+	private static final String _BUNDLE_SYMBOLIC_NAME_DXP_ONLY =
 		"com.liferay.saml.persistence.api";
 
-	private static final String _ENTERPRISE_APP_SYMBOLIC_NAME =
+	private static final String _BUNDLE_SYMBOLIC_NAME_ENTERPRISE_APP =
 		"com.liferay.portal.license.enterprise.app";
+
+	private static final String _RESOURCE_FILE_BUNDLES =
+		"com/liferay/portal/ee/license/bundles";
 
 	private static ResettableClassFileTransformer
 		_disableKeyValidatorResettableClassFileTransformer;
