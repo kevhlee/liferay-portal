@@ -14,6 +14,7 @@ import com.liferay.petra.process.local.LocalProcessExecutor;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.NewEnv;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.io.IOException;
@@ -191,7 +192,7 @@ public class FrameworkRestartTest {
 				Assert.class, FrameworkFactory.class,
 				FrameworkRestartTest.class, LiferayUnitTestRule.class,
 				LocalProcessExecutor.class, NoticeableFuture.class,
-				UnsyncByteArrayOutputStream.class),
+				PortalClassLoaderUtil.class, UnsyncByteArrayOutputStream.class),
 			null);
 
 		Class<?> clazz = classLoader.loadClass(
