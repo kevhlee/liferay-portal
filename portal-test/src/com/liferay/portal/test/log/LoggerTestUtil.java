@@ -96,6 +96,7 @@ public class LoggerTestUtil {
 		@Override
 		public void close() {
 			_logger.removeAppender(this);
+			_logger.setLevel(_level);
 
 			stop();
 
