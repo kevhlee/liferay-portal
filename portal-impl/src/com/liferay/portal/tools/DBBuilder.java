@@ -36,13 +36,18 @@ import java.util.Map;
 public class DBBuilder {
 
 	public static void main(String[] args) throws Exception {
+		System.out.println("Checkpoint 1");
+
 		ToolDependencies.wireBasic();
+
+		System.out.println("Checkpoint 2");
 
 		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
 
 		String databaseName = arguments.get("db.database.name");
-
 		String databaseTypesString = arguments.get("db.database.types");
+
+		System.out.println("Checkpoint 3");
 
 		DBType[] dbTypes = DBType.values();
 
@@ -57,6 +62,8 @@ public class DBBuilder {
 			}
 		}
 
+		System.out.println("Checkpoint 4");
+
 		String sqlDir = arguments.get("db.sql.dir");
 
 		try {
@@ -65,6 +72,8 @@ public class DBBuilder {
 		catch (Exception exception) {
 			ArgumentsUtil.processMainException(arguments, exception);
 		}
+
+		System.out.println("Checkpoint 5");
 	}
 
 	public DBBuilder(String databaseName, DBType[] dbTypes, String sqlDir)
