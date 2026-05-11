@@ -36,44 +36,52 @@ import java.util.Map;
 public class DBBuilder {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("Checkpoint 1");
-
-		ToolDependencies.wireBasic();
-
-		System.out.println("Checkpoint 2");
-
-		Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
-
-		String databaseName = arguments.get("db.database.name");
-		String databaseTypesString = arguments.get("db.database.types");
-
-		System.out.println("Checkpoint 3");
-
-		DBType[] dbTypes = DBType.values();
-
-		if (databaseTypesString != null) {
-			String[] databaseTypeValues = StringUtil.split(databaseTypesString);
-
-			dbTypes = new DBType[databaseTypeValues.length];
-
-			for (int i = 0; i < dbTypes.length; i++) {
-				dbTypes[i] = DBType.valueOf(
-					StringUtil.toUpperCase(databaseTypeValues[i]));
-			}
-		}
-
-		System.out.println("Checkpoint 4");
-
-		String sqlDir = arguments.get("db.sql.dir");
-
 		try {
-			new DBBuilder(databaseName, dbTypes, sqlDir);
+			System.out.println("Checkpoint 1");
+
+			ToolDependencies.wireBasic();
+
+			System.out.println("Checkpoint 2");
+
+			Map<String, String> arguments = ArgumentsUtil.parseArguments(args);
+
+			String databaseName = arguments.get("db.database.name");
+			String databaseTypesString = arguments.get("db.database.types");
+
+			System.out.println("Checkpoint 3");
+
+			DBType[] dbTypes = DBType.values();
+
+			if (databaseTypesString != null) {
+				String[] databaseTypeValues = StringUtil.split(
+					databaseTypesString);
+
+				dbTypes = new DBType[databaseTypeValues.length];
+
+				for (int i = 0; i < dbTypes.length; i++) {
+					dbTypes[i] = DBType.valueOf(
+						StringUtil.toUpperCase(databaseTypeValues[i]));
+				}
+			}
+
+			System.out.println("Checkpoint 4");
+
+			String sqlDir = arguments.get("db.sql.dir");
+
+			try {
+				new DBBuilder(databaseName, dbTypes, sqlDir);
+			}
+			catch (Exception exception) {
+				ArgumentsUtil.processMainException(arguments, exception);
+
+				exception.printStackTrace(System.err);
+			}
+
+			System.out.println("Checkpoint 5");
 		}
 		catch (Exception exception) {
-			ArgumentsUtil.processMainException(arguments, exception);
+			exception.printStackTrace(System.err);
 		}
-
-		System.out.println("Checkpoint 5");
 	}
 
 	public DBBuilder(String databaseName, DBType[] dbTypes, String sqlDir)
