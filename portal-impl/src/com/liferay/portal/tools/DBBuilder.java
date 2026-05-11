@@ -59,8 +59,13 @@ public class DBBuilder {
 				dbTypes = new DBType[databaseTypeValues.length];
 
 				for (int i = 0; i < dbTypes.length; i++) {
-					dbTypes[i] = DBType.valueOf(
-						StringUtil.toUpperCase(databaseTypeValues[i]));
+					try {
+						dbTypes[i] = DBType.valueOf(
+							StringUtil.toUpperCase(databaseTypeValues[i]));
+					}
+					catch (IllegalArgumentException illegalArgumentException) {
+						illegalArgumentException.printStackTrace(System.err);
+					}
 				}
 			}
 

@@ -72,20 +72,22 @@
 			<arg value="db.sql.dir=${db.sql.dir}" />
 		</java>
 
+		<echo>----
+DBBuilder.result:
+${db.builder.result}
+----
+DBBuilder Output:
+${db.builder.output}
+----
+DBBuilder Error:
+${db.builder.error}
+		</echo>
+
 		<if>
 			<not>
 				<equals arg1="${db.builder.result}" arg2="0" />
 			</not>
 			<then>
-			<echo>----
-DBBuilder Output:
-${db.builder.output}
-</echo>
-<echo>----
-DBBuilder Error:
-${db.builder.error}
-</echo>
-
 				<fail message="DBBuilder failed" />
 			</then>
 		</if>
