@@ -9,6 +9,8 @@
 		<if>
 			<equals arg1="${build.profile}" arg2="dxp" />
 			<then>
+				<echo>Build profile: ${build.profile}</echo>
+
 				<gradle-execute dir="${project.dir}/modules" task=":dxp:apps:portal:portal-dao-db:jar" />
 
 				<path id="db.builder.classpath">
@@ -55,9 +57,10 @@
 		<java
 			classname="com.liferay.portal.tools.DBBuilder"
 			classpathref="db.builder.classpath"
-			failonerror="true"
+			errorproperty="db.builder.error"
 			fork="true"
 			outputproperty="db.builder.output"
+			resultproperty="db.builder.result"
 		>
 			<jvmarg if:true="${jvm.debug}" line="${jpda.settings}" />
 			<jvmarg if:set="db.build.java.add.opens" line="${db.build.java.add.opens}" />
@@ -68,6 +71,24 @@
 			<arg value="db.database.types=${database.types}" />
 			<arg value="db.sql.dir=${db.sql.dir}" />
 		</java>
+
+		<if>
+			<not>
+				<equals arg1="${db.builder.result}" arg2="0" />
+			</not>
+			<then>
+			<echo>----
+DBBuilder Output:
+${db.builder.output}
+</echo>
+<echo>----
+DBBuilder Error:
+${db.builder.error}
+</echo>
+
+				<fail message="DBBuilder failed" />
+			</then>
+		</if>
 
 		<move
 			todir="${db.sql.dir}"

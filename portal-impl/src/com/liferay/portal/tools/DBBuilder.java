@@ -76,11 +76,11 @@ public class DBBuilder {
 
 				exception.printStackTrace(System.err);
 			}
-
-			System.out.println("Checkpoint 5");
 		}
 		catch (Exception exception) {
 			exception.printStackTrace(System.err);
+
+			throw exception;
 		}
 	}
 
