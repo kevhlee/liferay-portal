@@ -25,6 +25,9 @@ import java.nio.file.Paths;
 
 import java.sql.SQLException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,21 +56,25 @@ public class DBBuilder {
 			DBType[] dbTypes = DBType.values();
 
 			if (databaseTypesString != null) {
-				String[] databaseTypeValues = StringUtil.split(
-					databaseTypesString);
+				List<DBType> dbTypeList = new ArrayList<>();
 
-				dbTypes = new DBType[databaseTypeValues.length];
+				for (String databaseTypeValue :
+						StringUtil.split(databaseTypesString)) {
 
-				for (int i = 0; i < dbTypes.length; i++) {
 					try {
-						dbTypes[i] = DBType.valueOf(
-							StringUtil.toUpperCase(databaseTypeValues[i]));
+						dbTypeList.add(
+							DBType.valueOf(
+								StringUtil.toUpperCase(databaseTypeValue)));
 					}
 					catch (IllegalArgumentException illegalArgumentException) {
 						illegalArgumentException.printStackTrace(System.err);
 					}
 				}
+
+				dbTypes = dbTypeList.toArray(new DBType[0]);
 			}
+
+			System.out.println("DB Types: " + Arrays.toString(dbTypes));
 
 			System.out.println("Checkpoint 4");
 
