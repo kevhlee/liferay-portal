@@ -6305,12 +6305,6 @@ information. Make sure to commit in all format-javadoc results.
 		<run-functional-test app.server.type="jboss" app.server.version="8.0.0" database.type="mysql" database.version="8.4" test.portal.log.assert="true" />
 	</target>
 
-	<target name="functional-smoke-jboss80-mysql84-jdk17_zulu">
-		<set-app-server-version-number app.server.type="jboss" app.server.version="8.0.0" />
-
-		<run-functional-test app.server.type="jboss" app.server.version="8.0.0" database.type="mysql" database.version="8.4" test.portal.log.assert="true" />
-	</target>
-
 	<target name="functional-smoke-jboss80-mysql84-jdk21_zulu">
 		<set-app-server-version-number app.server.type="jboss" app.server.version="8.0.0" />
 
@@ -6467,10 +6461,6 @@ information. Make sure to commit in all format-javadoc results.
 		/>
 	</target>
 
-	<target name="functional-smoke-tomcat-mysql-jdk17_zulu">
-		<antcall target="functional-tomcat-mysql-jdk17_zulu" />
-	</target>
-
 	<target name="functional-smoke-tomcat-mysql-jdk21_zulu">
 		<antcall target="functional-tomcat-mysql-jdk21_zulu" />
 	</target>
@@ -6537,10 +6527,6 @@ information. Make sure to commit in all format-javadoc results.
 		<antcall target="functional-tomcat-postgresql" />
 	</target>
 
-	<target name="functional-smoke-tomcat-postgresql-jdk17_zulu">
-		<antcall target="functional-tomcat-postgresql-jdk17_zulu" />
-	</target>
-
 	<target name="functional-smoke-tomcat-postgresql-jdk21_zulu">
 		<antcall target="functional-tomcat-postgresql-jdk21_zulu" />
 	</target>
@@ -6586,10 +6572,6 @@ information. Make sure to commit in all format-javadoc results.
 			test.portal.log.assert="true"
 			test.sql.zip.url="${test.sql.zip.url}"
 		/>
-	</target>
-
-	<target name="functional-smoke-tomcat-postgresql155-jdk17_zulu">
-		<antcall target="functional-tomcat-postgresql155-jdk17_zulu" />
 	</target>
 
 	<target name="functional-smoke-tomcat-postgresql155-jdk21_zulu">
@@ -6740,10 +6722,6 @@ information. Make sure to commit in all format-javadoc results.
 	</target>
 
 	<target name="functional-smoke-tomcat101-postgresql155-chrome100">
-		<run-functional-test app.server.type="tomcat" browser.type="chrome" database.type="postgresql" database.version="15.5" test.portal.log.assert="true" />
-	</target>
-
-	<target name="functional-smoke-tomcat101-postgresql155-jdk17_zulu">
 		<run-functional-test app.server.type="tomcat" browser.type="chrome" database.type="postgresql" database.version="15.5" test.portal.log.assert="true" />
 	</target>
 
@@ -7071,10 +7049,6 @@ information. Make sure to commit in all format-javadoc results.
 		<antcall target="functional-wildfly300-mysql84" />
 	</target>
 
-	<target name="functional-smoke-wildfly300-mysql84-jdk17_zulu">
-		<antcall target="functional-wildfly300-mysql84-jdk17_zulu" />
-	</target>
-
 	<target name="functional-smoke-wildfly300-mysql84-jdk21_zulu">
 		<antcall target="functional-wildfly300-mysql84-jdk21_zulu" />
 	</target>
@@ -7171,10 +7145,6 @@ information. Make sure to commit in all format-javadoc results.
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
 
-	<target name="functional-tomcat-mysql-jdk17_zulu">
-		<run-functional-test app.server.type="tomcat" database.type="mysql" />
-	</target>
-
 	<target name="functional-tomcat-mysql-jdk21_zulu">
 		<run-functional-test app.server.type="tomcat" database.type="mysql" />
 	</target>
@@ -7215,10 +7185,6 @@ information. Make sure to commit in all format-javadoc results.
 		<run-functional-test app.server.type="tomcat" database.type="postgresql" />
 	</target>
 
-	<target name="functional-tomcat-postgresql-jdk17_zulu">
-		<run-functional-test app.server.type="tomcat" database.type="postgresql" />
-	</target>
-
 	<target name="functional-tomcat-postgresql-jdk21_zulu">
 		<run-functional-test app.server.type="tomcat" database.type="postgresql" />
 	</target>
@@ -7252,10 +7218,6 @@ information. Make sure to commit in all format-javadoc results.
 	</target>
 
 	<target name="functional-tomcat-postgresql155">
-		<run-functional-test app.server.type="tomcat" database.type="postgresql" database.version="15.5" />
-	</target>
-
-	<target name="functional-tomcat-postgresql155-jdk17_zulu">
 		<run-functional-test app.server.type="tomcat" database.type="postgresql" database.version="15.5" />
 	</target>
 
@@ -8165,12 +8127,6 @@ information. Make sure to commit in all format-javadoc results.
 	</target>
 
 	<target name="functional-wildfly300-mysql84">
-		<set-app-server-version-number app.server.type="wildfly" app.server.version="30.0.0" />
-
-		<run-functional-test app.server.type="wildfly" app.server.version="30.0.0" database.type="mysql" database.version="8.4" />
-	</target>
-
-	<target name="functional-wildfly300-mysql84-jdk17_zulu">
 		<set-app-server-version-number app.server.type="wildfly" app.server.version="30.0.0" />
 
 		<run-functional-test app.server.type="wildfly" app.server.version="30.0.0" database.type="mysql" database.version="8.4" />
@@ -9152,10 +9108,6 @@ information. Make sure to commit in all format-javadoc results.
 		<run-modules-integration-test database.type="mysql" database.version="8.4" />
 	</target>
 
-	<target name="modules-integration-mysql84-jdk17_zulu">
-		<run-modules-integration-test database.type="mysql" database.version="8.4" />
-	</target>
-
 	<target name="modules-integration-mysql84-jdk21_zulu">
 		<run-modules-integration-test database.type="mysql" database.version="8.4" />
 	</target>
@@ -9212,10 +9164,6 @@ information. Make sure to commit in all format-javadoc results.
 		<run-modules-integration-test database.type="postgresql" database.version="15.5" />
 	</target>
 
-	<target name="modules-integration-postgresql155-jdk17_zulu">
-		<run-modules-integration-test database.type="postgresql" database.version="15.5" />
-	</target>
-
 	<target name="modules-integration-postgresql155-jdk21_zulu">
 		<run-modules-integration-test database.type="postgresql" database.version="15.5" />
 	</target>
@@ -9230,21 +9178,6 @@ information. Make sure to commit in all format-javadoc results.
 
 	<target name="modules-integration-project-templates">
 		<antcall target="modules-unit">
-			<param name="project.templates.test" value="true" />
-			<param name="project.templates.test.builds" value="true" />
-		</antcall>
-	</target>
-
-	<target name="modules-integration-project-templates-jdk17_zulu">
-		<get-java-jdk-home type="zulu" version="17" />
-
-		<echo append="true" file="build.${user.name}.properties">
-			junit.jvm.override=${java.jdk.home}/bin/java
-			junit.jvm.override.version=17</echo>
-
-		<antcall target="modules-unit">
-			<param name="junit.jvm.override" value="${java.jdk.home}/bin/java" />
-			<param name="junit.jvm.override.version" value="17" />
 			<param name="project.templates.test" value="true" />
 			<param name="project.templates.test.builds" value="true" />
 		</antcall>
@@ -9528,19 +9461,6 @@ information. Make sure to commit in all format-javadoc results.
 		</run-batch-test>
 	</target>
 
-	<target name="modules-unit-jdk17_zulu">
-		<get-java-jdk-home type="zulu" version="17" />
-
-		<echo append="true" file="build.${user.name}.properties">
-junit.jvm.override=${java.jdk.home}/bin/java
-junit.jvm.override.version=17</echo>
-
-		<antcall target="modules-unit">
-			<param name="junit.jvm.override" value="${java.jdk.home}/bin/java" />
-			<param name="junit.jvm.override.version" value="17" />
-		</antcall>
-	</target>
-
 	<target name="modules-unit-jdk21_zulu">
 		<get-java-jdk-home type="zulu" version="21" />
 
@@ -9562,21 +9482,6 @@ junit.jvm.override.version=21</echo>
 
 	<target name="modules-unit-project-templates">
 		<antcall target="modules-unit">
-			<param name="project.templates.test" value="true" />
-			<param name="project.templates.test.builds" value="false" />
-		</antcall>
-	</target>
-
-	<target name="modules-unit-project-templates-jdk17_zulu">
-		<get-java-jdk-home type="zulu" version="17" />
-
-		<echo append="true" file="build.${user.name}.properties">
-			junit.jvm.override=${java.jdk.home}/bin/java
-			junit.jvm.override.version=17</echo>
-
-		<antcall target="modules-unit">
-			<param name="junit.jvm.override" value="${java.jdk.home}/bin/java" />
-			<param name="junit.jvm.override.version" value="17" />
 			<param name="project.templates.test" value="true" />
 			<param name="project.templates.test.builds" value="false" />
 		</antcall>
@@ -10808,19 +10713,6 @@ tar --extract --file=liferay-portal-source.tar.gz modules/core/portal-bootstrap/
 				<delete file="${app.server.lib.portal.dir}/util-taglib.jar" />
 			</test-set-up>
 		</run-batch-test>
-	</target>
-
-	<target name="unit-jdk17_zulu">
-		<get-java-jdk-home type="zulu" version="17" />
-
-		<echo append="true" file="build.${user.name}.properties">
-junit.jvm.override=${java.jdk.home}/bin/java
-junit.jvm.override.version=17</echo>
-
-		<antcall target="unit">
-			<param name="junit.jvm.override" value="${java.jdk.home}/bin/java" />
-			<param name="junit.jvm.override.version" value="17" />
-		</antcall>
 	</target>
 
 	<target name="unit-jdk21_zulu">
