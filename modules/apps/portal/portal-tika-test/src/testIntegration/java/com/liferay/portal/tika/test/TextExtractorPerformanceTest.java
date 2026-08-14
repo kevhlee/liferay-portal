@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PropertiesUtil;
 import com.liferay.portal.kernel.util.TextExtractor;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -24,6 +25,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +88,13 @@ public class TextExtractorPerformanceTest {
 		_random = new Random(
 			GetterUtil.getLong(
 				properties.getProperty("text.extractor.random.seed")));
+
+		String logFilePath = properties.getProperty(
+			"text.extractor.log.file.path");
+
+		if (Validator.isNotNull(logFilePath)) {
+			_logFilePath = Paths.get(logFilePath);
+		}
 	}
 
 	@AfterClass
@@ -355,7 +364,7 @@ public class TextExtractorPerformanceTest {
 
 			for (int i = 1; i <= _iterations; i++) {
 				try (PerformanceTimer performanceTimer = new PerformanceTimer(
-						Long.MAX_VALUE,
+						_logFilePath, Long.MAX_VALUE,
 						StringBundler.concat(
 							format, " (Iteration ", i, ", ", _maxFileCount,
 							" files x ", _maxFileSize, " bytes)"))) {
@@ -419,6 +428,7 @@ public class TextExtractorPerformanceTest {
 
 	private static ExecutorService _executorService;
 	private static int _iterations;
+	private static Path _logFilePath;
 	private static int _maxFileCount;
 	private static int _maxFileSize;
 	private static Random _random;
