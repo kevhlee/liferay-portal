@@ -198,6 +198,21 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 			String channelPropertiesLocation)
 		throws Exception {
 
+		if (channelPropertiesLocation.startsWith(
+				"jgroups/secure/sym_encrypt/") &&
+			_log.isWarnEnabled() && _defaultSymEncryptWarning) {
+
+			_log.warn(
+				StringBundler.concat(
+					"Clustering encryption is using the default SYM_ENCRYPT ",
+					"implementation. Please note that this implementation is ",
+					"not secure enough to be used in production. Refer to the ",
+					"documentation for details on configuring secure JGroups ",
+					"connections."));
+
+			_defaultSymEncryptWarning = false;
+		}
+
 		try (InputStream inputStream = _getInputStream(
 				channelPropertiesLocation)) {
 
@@ -287,6 +302,7 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		JGroupsClusterChannelFactory.class);
 
 	private static boolean _defaultSecretWarning = true;
+	private static boolean _defaultSymEncryptWarning = true;
 
 	private InetAddress _bindInetAddress;
 	private NetworkInterface _bindNetworkInterface;
