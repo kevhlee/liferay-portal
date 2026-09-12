@@ -65,6 +65,8 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		String channelPropertiesLocation, String clusterName,
 		ClusterReceiver clusterReceiver) {
 
+		SymEncryptKeyProtocolHook.setClusterName(clusterName);
+
 		try {
 			return new JGroupsClusterChannel(
 				executorService, channleLogicName,
@@ -75,6 +77,9 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		catch (Exception exception) {
 			throw new SystemException(
 				"Unable to create JGroupsClusterChannel", exception);
+		}
+		finally {
+			SymEncryptKeyProtocolHook.clearClusterName();
 		}
 	}
 
