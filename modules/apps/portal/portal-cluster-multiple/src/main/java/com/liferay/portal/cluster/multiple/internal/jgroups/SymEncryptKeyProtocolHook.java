@@ -6,9 +6,6 @@
 package com.liferay.portal.cluster.multiple.internal.jgroups;
 
 import com.liferay.portal.kernel.util.DigesterUtil;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -27,19 +24,11 @@ public class SymEncryptKeyProtocolHook implements ProtocolHook {
 			return;
 		}
 
-		String clusterLinkAuthValue = PropsUtil.get(
-			PropsKeys.CLUSTER_LINK_AUTH_VALUE);
-
-		if (Validator.isNull(clusterLinkAuthValue)) {
-			throw new IllegalStateException(
-				"The portal property \"" + PropsKeys.CLUSTER_LINK_AUTH_VALUE +
-					"\" must be set");
-		}
-
-		byte[] bytes = DigesterUtil.digestRaw(
-			DigesterUtil.SHA_256, clusterLinkAuthValue);
-
-		symEncrypt.setSecretKey(new SecretKeySpec(bytes, "AES"));
+		symEncrypt.setSecretKey(
+			new SecretKeySpec(
+				DigesterUtil.digestRaw(
+					DigesterUtil.SHA_256, symEncrypt.alias()),
+				"AES"));
 	}
 
 }
