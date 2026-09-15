@@ -34,10 +34,13 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 
 import org.jgroups.conf.ConfiguratorFactory;
+import org.jgroups.conf.ProtocolConfiguration;
 import org.jgroups.conf.ProtocolStackConfigurator;
 
 /**
@@ -66,10 +69,26 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 		ClusterReceiver clusterReceiver) {
 
 		try {
+			ProtocolStackConfigurator protocolStackConfigurator =
+				_parseChannelProperties(channelPropertiesLocation);
+
+			for (ProtocolConfiguration protocolConfiguration :
+					protocolStackConfigurator.getProtocolStack()) {
+
+				Map<String, String> properties =
+					protocolConfiguration.getProperties();
+
+				if (Objects.equals(
+						properties.get("after_creation_hook"),
+						SymEncryptProtocolHook.class.getName())) {
+
+					properties.put("alias", clusterName);
+				}
+			}
+
 			return new JGroupsClusterChannel(
-				executorService, channleLogicName,
-				_parseChannelProperties(channelPropertiesLocation), clusterName,
-				clusterReceiver, _bindInetAddress,
+				executorService, channleLogicName, protocolStackConfigurator,
+				clusterName, clusterReceiver, _bindInetAddress,
 				_clusterExecutorConfiguration, _classLoaders);
 		}
 		catch (Exception exception) {
@@ -198,18 +217,19 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 			String channelPropertiesLocation)
 		throws Exception {
 
-		if (channelPropertiesLocation.startsWith("jgroups/secure/md5/") &&
-			_log.isWarnEnabled() && _defaultMD5Warning) {
+		if (channelPropertiesLocation.startsWith(
+				"jgroups/secure/sym_encrypt/") &&
+			_log.isWarnEnabled() && _defaultSymEncryptWarning) {
 
 			_log.warn(
 				StringBundler.concat(
-					"Clustering authentication is using MD5 default ",
+					"Clustering authentication is using SYM_ENCRYPT default ",
 					"implementation. Please note that this implementation is ",
 					"not secure enough to be used in production. Refer to the ",
 					"documentation for details on configuring secure JGroups ",
 					"connections."));
 
-			_defaultMD5Warning = false;
+			_defaultSymEncryptWarning = false;
 		}
 
 		try (InputStream inputStream = _getInputStream(
@@ -300,8 +320,8 @@ public class JGroupsClusterChannelFactory implements ClusterChannelFactory {
 	private static final Log _log = LogFactoryUtil.getLog(
 		JGroupsClusterChannelFactory.class);
 
-	private static boolean _defaultMD5Warning = true;
 	private static boolean _defaultSecretWarning = true;
+	private static boolean _defaultSymEncryptWarning = true;
 
 	private InetAddress _bindInetAddress;
 	private NetworkInterface _bindNetworkInterface;
