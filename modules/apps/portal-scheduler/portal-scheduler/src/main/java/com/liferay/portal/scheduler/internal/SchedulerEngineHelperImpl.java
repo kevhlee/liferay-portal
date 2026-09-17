@@ -300,18 +300,24 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 
 		DependencyManagerSyncUtil.registerSyncCallable(
 			() -> {
-				_serviceTracker = ServiceTrackerFactory.open(
-					_bundleContext, SchedulerJobConfiguration.class,
-					new SchedulerJobConfigurationServiceTrackerCustomizer());
+				synchronized (this) {
+					if (_bundleContext == null) {
+						return null;
+					}
 
-				_schedulerEngine.start();
+					_serviceTracker = ServiceTrackerFactory.open(
+						_bundleContext, SchedulerJobConfiguration.class,
+						new SchedulerJobConfigurationServiceTrackerCustomizer());
+
+					_schedulerEngine.start();
+				}
 
 				return null;
 			});
 	}
 
 	@Deactivate
-	protected void deactivate() {
+	protected synchronized void deactivate() {
 		if (_bundleContext == null) {
 			return;
 		}
