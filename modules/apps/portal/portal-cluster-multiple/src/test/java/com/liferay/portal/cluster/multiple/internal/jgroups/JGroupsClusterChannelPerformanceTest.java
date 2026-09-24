@@ -24,7 +24,6 @@ import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +34,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -61,10 +61,14 @@ public class JGroupsClusterChannelPerformanceTest {
 
 		_iterations = GetterUtil.getInteger(
 			properties.getProperty("jgroups.cluster.channel.iterations"));
+		_message = RandomTestUtil.randomString(
+			GetterUtil.getInteger(
+				properties.getProperty(
+					"jgroups.cluster.channel.messages.length")));
 		_messagesCount = GetterUtil.getInteger(
 			properties.getProperty("jgroups.cluster.channel.messages.count"));
-		_messagesLength = GetterUtil.getInteger(
-			properties.getProperty("jgroups.cluster.channel.messages.length"));
+		_messagesTimeout = GetterUtil.getLong(
+			properties.getProperty("jgroups.cluster.channel.messages.timeout"));
 
 		String logFile = properties.getProperty(
 			"jgroups.cluster.channel.log.file");
@@ -112,33 +116,21 @@ public class JGroupsClusterChannelPerformanceTest {
 
 		};
 
-		for (int i = 0;
-			 i < GetterUtil.getInteger(
-				 properties.getProperty(
-					 "jgroups.cluster.channel.receivers.count"));
-			 i++) {
+		_receiveClusterChannel = clusterChannelFactory.createClusterChannel(
+			executorService, "receive",
+			PropsUtil.get(PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL),
+			"test", new TestClusterReceiver());
 
-			_receiverClusterChannels.add(
-				clusterChannelFactory.createClusterChannel(
-					executorService, "receiver#" + i,
-					PropsUtil.get(
-						PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL),
-					"test", new TestClusterReceiver()));
-		}
-
-		_senderClusterChannel = clusterChannelFactory.createClusterChannel(
-			executorService, "sender",
+		_sendClusterChannel = clusterChannelFactory.createClusterChannel(
+			executorService, "send",
 			PropsUtil.get(PropsKeys.CLUSTER_LINK_CHANNEL_PROPERTIES_CONTROL),
 			"test", new TestClusterReceiver());
 	}
 
 	@AfterClass
 	public static void tearDownClass() {
-		for (ClusterChannel receiverClusterChannel : _receiverClusterChannels) {
-			receiverClusterChannel.close();
-		}
-
-		_senderClusterChannel.close();
+		_receiveClusterChannel.close();
+		_sendClusterChannel.close();
 	}
 
 	@Test
@@ -152,61 +144,54 @@ public class JGroupsClusterChannelPerformanceTest {
 	}
 
 	private void _test(boolean multicast) throws Exception {
-		String message = RandomTestUtil.randomString(_messagesLength);
+		String label;
+
+		if (multicast) {
+			label = "multicast";
+		}
+		else {
+			label = "unicast";
+		}
 
 		for (int iteration = 1; iteration <= _iterations; iteration++) {
-			for (ClusterChannel receiverClusterChannel :
-					_receiverClusterChannels) {
+			TestClusterReceiver testClusterReceiver =
+				(TestClusterReceiver)
+					_receiveClusterChannel.getClusterReceiver();
 
-				TestClusterReceiver testClusterReceiver =
-					(TestClusterReceiver)
-						receiverClusterChannel.getClusterReceiver();
-
-				testClusterReceiver.reset(message);
-			}
+			testClusterReceiver.reset(iteration, label);
 
 			try (PerformanceTimer performanceTimer = new PerformanceTimer(
 					_logFilePath, Long.MAX_VALUE,
 					StringBundler.concat(
-						" Iteration ", iteration, " (", _messagesCount,
-						" messages x ", _messagesLength, " length x ",
-						_receiverClusterChannels.size(), " receivers)"))) {
+						" Iteration ", iteration, " send (", label, ", ",
+						_messagesCount, " messages x ", _message.length(),
+						" length)"))) {
 
 				for (int i = 0; i < _messagesCount; i++) {
 					if (multicast) {
-						_senderClusterChannel.sendMulticastMessage(message);
+						_sendClusterChannel.sendMulticastMessage(_message);
 					}
 					else {
-						for (ClusterChannel receiverClusterChannel :
-								_receiverClusterChannels) {
-
-							_senderClusterChannel.sendUnicastMessage(
-								message,
-								receiverClusterChannel.getLocalAddress());
-						}
+						_sendClusterChannel.sendUnicastMessage(
+							_message, _receiveClusterChannel.getLocalAddress());
 					}
 				}
-
-				for (ClusterChannel receiverClusterChannel :
-						_receiverClusterChannels) {
-
-					TestClusterReceiver testClusterReceiver =
-						(TestClusterReceiver)
-							receiverClusterChannel.getClusterReceiver();
-
-					testClusterReceiver.await();
-				}
 			}
+
+			Assert.assertTrue(
+				testClusterReceiver.await(_messagesTimeout, TimeUnit.SECONDS));
+
+			testClusterReceiver.close();
 		}
 	}
 
 	private static int _iterations;
 	private static Path _logFilePath;
+	private static String _message;
 	private static int _messagesCount;
-	private static int _messagesLength;
-	private static final List<ClusterChannel> _receiverClusterChannels =
-		new ArrayList<>();
-	private static ClusterChannel _senderClusterChannel;
+	private static long _messagesTimeout;
+	private static ClusterChannel _receiveClusterChannel;
+	private static ClusterChannel _sendClusterChannel;
 
 	private static class TestClusterReceiver implements ClusterReceiver {
 
@@ -214,8 +199,12 @@ public class JGroupsClusterChannelPerformanceTest {
 		public void addressesUpdated(List<Address> addresses) {
 		}
 
-		public void await() throws Exception {
-			_countDownLatch.await();
+		public boolean await(long timeout, TimeUnit unit) throws Exception {
+			return _countDownLatch.await(timeout, unit);
+		}
+
+		public void close() {
+			_performanceTimer.close();
 		}
 
 		@Override
@@ -237,21 +226,26 @@ public class JGroupsClusterChannelPerformanceTest {
 		}
 
 		@Override
-		public void receive(Object message, Address srcAddress) {
-			if ((_countDownLatch != null) &&
-				Objects.equals(message, _expectedMessage)) {
-
+		public void receive(Object payload, Address srcAddress) {
+			if (Objects.equals(payload, _message)) {
 				_countDownLatch.countDown();
 			}
 		}
 
-		public void reset(Object expectedPayload) {
+		public void reset(int iteration, String label) {
 			_countDownLatch = new CountDownLatch(_messagesCount);
-			_expectedMessage = expectedPayload;
+
+			_performanceTimer = new PerformanceTimer(
+				JGroupsClusterChannelPerformanceTest.class, _logFilePath,
+				Long.MAX_VALUE,
+				StringBundler.concat(
+					" Iteration ", iteration, " receive (", label, ", ",
+					_messagesCount, " messages x ", _message.length(),
+					" length)"));
 		}
 
 		private CountDownLatch _countDownLatch;
-		private Object _expectedMessage;
+		private PerformanceTimer _performanceTimer;
 
 	}
 
