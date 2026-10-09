@@ -40,7 +40,9 @@ public class PropertiesUtilLicenseTest extends BaseLicenseTestCase {
 
 				if (key.contains(".app.product.")) {
 					for (App app : App.values()) {
-						keys.add(key + StringPool.PERIOD + app.toString());
+						if (isSupportedApp(app)) {
+							keys.add(key + StringPool.PERIOD + app.toString());
+						}
 					}
 				}
 				else {
