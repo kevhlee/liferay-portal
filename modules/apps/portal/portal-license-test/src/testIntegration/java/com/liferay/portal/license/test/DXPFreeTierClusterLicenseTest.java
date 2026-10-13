@@ -27,7 +27,8 @@ import org.junit.runner.RunWith;
  */
 @Ignore
 @RunWith(Arquillian.class)
-public class ClusterLicenseTest extends BaseClusterLicenseTestCase {
+public class DXPFreeTierClusterLicenseTest
+	extends BaseClusterLicenseTestCase {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
