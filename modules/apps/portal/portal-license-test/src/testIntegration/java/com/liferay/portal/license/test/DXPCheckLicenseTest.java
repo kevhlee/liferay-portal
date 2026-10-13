@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
  * @author Tina Tian
  */
 @RunWith(Arquillian.class)
-public class CheckLicenseTest extends BaseCheckLicenseTestCase {
+public class DXPCheckLicenseTest extends BaseCheckLicenseTestCase {
 
 	@Test
 	public void testCheckLicenseWithFreeTierBinaryFile2026_Q1_0()
