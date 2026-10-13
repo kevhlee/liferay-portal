@@ -8,6 +8,7 @@ package com.liferay.portal.license.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.license.util.App;
 
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,6 +17,10 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Arquillian.class)
 public class DXPCheckLicenseTest extends BaseCheckLicenseTestCase {
+
+	public static void assume() {
+		Assume.assumeTrue(isReleaseBundle() && !isCMS());
+	}
 
 	@Test
 	public void testCheckLicenseWithFreeTierBinaryFile2026_Q1_0()
