@@ -8,6 +8,7 @@ package com.liferay.portal.license.test;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.events.LifecycleAction;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.license.util.App;
 import com.liferay.portal.kernel.license.util.LicenseManagerUtil;
@@ -82,6 +83,8 @@ public abstract class BaseLicenseTestCase implements Serializable {
 		new AggregateTestRule(
 			new AssumeTestRule("assume"), new LiferayIntegrationTestRule());
 
+	public static LifecycleAction lifecycleAction;
+
 	public static File deployEnterprisePortalLicense(long validityPeriod)
 		throws Exception {
 
@@ -108,9 +111,9 @@ public abstract class BaseLicenseTestCase implements Serializable {
 		}
 
 		_registerLicense(
-			_buildEnterprisePortalLicenseXML(
-				key, licenseType, maxClusterNodes, productName,
-				validityPeriod));
+			buildEnterprisePortalLicenseXML(
+				key, licenseType, maxClusterNodes, productName, validityPeriod,
+				"6", null));
 
 		return _buildBinaryFile(
 			_ENTERPRISE_ACCOUNT_NAME, licenseType, getPortalProductId(),
@@ -130,7 +133,7 @@ public abstract class BaseLicenseTestCase implements Serializable {
 		throws Exception {
 
 		_registerLicense(
-			_buildEnterprisePortalLicenseXML(
+			buildEnterprisePortalLicenseXML(
 				key, ENTERPRISE_LICENSE_TYPE, 0, _getEnterpriseProductName(),
 				validityPeriod, licenseVersion, installationId));
 
@@ -182,9 +185,10 @@ public abstract class BaseLicenseTestCase implements Serializable {
 		for (String[] license : licenses) {
 			if (Objects.equals(license[0], ENTERPRISE_LICENSE_TYPE)) {
 				sb.append(
-					_buildEnterprisePortalLicenseXML(
+					buildEnterprisePortalLicenseXML(
 						StringPool.BLANK, ENTERPRISE_LICENSE_TYPE, 0,
-						_getEnterpriseProductName(), Long.valueOf(license[1])));
+						_getEnterpriseProductName(), Long.valueOf(license[1]),
+						"6", null));
 			}
 			else if (Objects.equals(license[0], FREE_TIER_LICENSE_TYPE)) {
 				sb.append(
@@ -195,7 +199,7 @@ public abstract class BaseLicenseTestCase implements Serializable {
 				App app = App.valueOf(license[0]);
 
 				sb.append(
-					_buildAppLicenseXML(
+					buildAppLicenseXML(
 						app, System.currentTimeMillis(),
 						Long.valueOf(license[1])));
 			}
@@ -313,11 +317,11 @@ public abstract class BaseLicenseTestCase implements Serializable {
 						field.setAccessible(true);
 
 						if (!Modifier.isFinal(field.getModifiers())) {
-							Object bundleData = field.get(_lifecycleAction);
+							Object bundleData = field.get(lifecycleAction);
 
 							if (bundleData != null) {
 								method.invoke(
-									_lifecycleAction,
+									lifecycleAction,
 									SystemBundleUtil.getBundleContext(),
 									bundleData,
 									ModuleFrameworkUtil.getFramework());
@@ -325,7 +329,7 @@ public abstract class BaseLicenseTestCase implements Serializable {
 						}
 						else {
 							Map<?, ?> map = (Map<?, ?>)field.get(
-								_lifecycleAction);
+								lifecycleAction);
 
 							for (Object object : map.values()) {
 								if (!Map.class.isAssignableFrom(
@@ -335,7 +339,7 @@ public abstract class BaseLicenseTestCase implements Serializable {
 								}
 
 								method.invoke(
-									_lifecycleAction,
+									lifecycleAction,
 									SystemBundleUtil.getBundleContext(), object,
 									ModuleFrameworkUtil.getFramework());
 							}
@@ -351,17 +355,17 @@ public abstract class BaseLicenseTestCase implements Serializable {
 
 				if (!Modifier.isFinal(field.getModifiers())) {
 					if (Objects.equals(field.getType(), long.class)) {
-						field.set(_lifecycleAction, 0L);
+						field.set(lifecycleAction, 0L);
 					}
 					else if (Objects.equals(field.getType(), boolean.class)) {
-						field.set(_lifecycleAction, false);
+						field.set(lifecycleAction, false);
 					}
 					else {
-						field.set(_lifecycleAction, null);
+						field.set(lifecycleAction, null);
 					}
 				}
 				else if (Objects.equals(field.getType(), Map.class)) {
-					Map<?, ?> map = (Map<?, ?>)field.get(_lifecycleAction);
+					Map<?, ?> map = (Map<?, ?>)field.get(lifecycleAction);
 
 					map.clear();
 				}
@@ -485,7 +489,7 @@ public abstract class BaseLicenseTestCase implements Serializable {
 	public File deployAppLicense(App app, long startTime, long validityPeriod)
 		throws Exception {
 
-		_registerLicense(_buildAppLicenseXML(app, startTime, validityPeriod));
+		_registerLicense(buildAppLicenseXML(app, startTime, validityPeriod));
 
 		return _buildBinaryFile(
 			StringPool.BLANK, _APP_LICENSE_TYPE, getProductId(app),
@@ -502,8 +506,96 @@ public abstract class BaseLicenseTestCase implements Serializable {
 				continue;
 			}
 
-			field.set(_lifecycleAction, 0L);
+			field.set(lifecycleAction, 0L);
 		}
+	}
+
+	protected static String buildAppLicenseXML(
+		App app, long startTime, long validityPeriod) {
+
+		StringBundler sb = new StringBundler(19);
+
+		sb.append("<license><product-id>");
+		sb.append(getProductId(app));
+		sb.append("</product-id><product-name>");
+		sb.append(app);
+		sb.append("</product-name><product-version>2026.Q1</product-version>");
+		sb.append("<license-type>");
+		sb.append(_APP_LICENSE_TYPE);
+		sb.append("</license-type><license-version>3</license-version>");
+		sb.append("<start-date>");
+		sb.append(_DATE_FORMAT.format(new Date(startTime)));
+		sb.append("</start-date><expiration-date>");
+		sb.append(_DATE_FORMAT.format(new Date(startTime + validityPeriod)));
+		sb.append("</expiration-date><host-names>");
+		sb.append("<host-name>localhost</host-name>");
+		sb.append("</host-names><ip-addresses>");
+
+		for (String localIpAddress : LicenseUtil.getIpAddresses()) {
+			sb.append("<ip-address>");
+			sb.append(localIpAddress);
+			sb.append("</ip-address>");
+		}
+
+		sb.append("</ip-addresses><mac-addresses>");
+
+		for (String localMacAddress : LicenseUtil.getMacAddresses()) {
+			sb.append("<mac-address>");
+			sb.append(localMacAddress);
+			sb.append("</mac-address>");
+		}
+
+		sb.append("</mac-addresses><key></key></license>");
+
+		return sb.toString();
+	}
+
+	protected static String buildEnterprisePortalLicenseXML(
+		String key, String licenseType, int maxClusterNodes, String productName,
+		long validityPeriod, String licenseVersion, String installationId) {
+
+		long currentTimeMillis = System.currentTimeMillis();
+
+		StringBundler sb = new StringBundler(28);
+
+		sb.append("<license><account-name>");
+		sb.append(_ENTERPRISE_ACCOUNT_NAME);
+		sb.append("</account-name><product-id>");
+		sb.append(getPortalProductId());
+		sb.append("</product-id><product-name>");
+		sb.append(productName);
+		sb.append("</product-name><product-version>2026.Q1</product-version>");
+		sb.append("<license-type>");
+		sb.append(licenseType);
+		sb.append("</license-type><license-version>");
+		sb.append(licenseVersion);
+		sb.append("</license-version>");
+		sb.append("<start-date>");
+		sb.append(_DATE_FORMAT.format(new Date(currentTimeMillis)));
+		sb.append("</start-date><expiration-date>");
+		sb.append(
+			_DATE_FORMAT.format(new Date(currentTimeMillis + validityPeriod)));
+		sb.append("</expiration-date>");
+
+		if (maxClusterNodes > 0) {
+			sb.append("<max-cluster-nodes>");
+			sb.append(maxClusterNodes);
+			sb.append("</max-cluster-nodes>");
+		}
+
+		if (installationId != null) {
+			sb.append("<installation-id>");
+			sb.append(installationId);
+			sb.append("</installation-id>");
+		}
+
+		sb.append("<domains><domain>");
+		sb.append(_ENTERPRISE_DOMAIN);
+		sb.append("</domain><domain>localhost</domain></domains><key>");
+		sb.append(key);
+		sb.append("</key></license>");
+
+		return sb.toString();
 	}
 
 	protected static void checkLicense(String productId) throws Exception {
@@ -635,46 +727,6 @@ public abstract class BaseLicenseTestCase implements Serializable {
 
 	protected static final String FREE_TIER_LICENSE_TYPE = "free";
 
-	private static String _buildAppLicenseXML(
-		App app, long startTime, long validityPeriod) {
-
-		StringBundler sb = new StringBundler(19);
-
-		sb.append("<license><product-id>");
-		sb.append(getProductId(app));
-		sb.append("</product-id><product-name>");
-		sb.append(app);
-		sb.append("</product-name><product-version>2026.Q1</product-version>");
-		sb.append("<license-type>");
-		sb.append(_APP_LICENSE_TYPE);
-		sb.append("</license-type><license-version>3</license-version>");
-		sb.append("<start-date>");
-		sb.append(_DATE_FORMAT.format(new Date(startTime)));
-		sb.append("</start-date><expiration-date>");
-		sb.append(_DATE_FORMAT.format(new Date(startTime + validityPeriod)));
-		sb.append("</expiration-date><host-names>");
-		sb.append("<host-name>localhost</host-name>");
-		sb.append("</host-names><ip-addresses>");
-
-		for (String localIpAddress : LicenseUtil.getIpAddresses()) {
-			sb.append("<ip-address>");
-			sb.append(localIpAddress);
-			sb.append("</ip-address>");
-		}
-
-		sb.append("</ip-addresses><mac-addresses>");
-
-		for (String localMacAddress : LicenseUtil.getMacAddresses()) {
-			sb.append("<mac-address>");
-			sb.append(localMacAddress);
-			sb.append("</mac-address>");
-		}
-
-		sb.append("</mac-addresses><key></key></license>");
-
-		return sb.toString();
-	}
-
 	private static File _buildBinaryFile(
 		String accountName, String licenseType, String productId,
 		String productName) {
@@ -692,63 +744,6 @@ public abstract class BaseLicenseTestCase implements Serializable {
 		sb.append(".li");
 
 		return new File(LicenseUtil.LICENSE_REPOSITORY_DIR, sb.toString());
-	}
-
-	private static String _buildEnterprisePortalLicenseXML(
-		String key, String licenseType, int maxClusterNodes, String productName,
-		long validityPeriod) {
-
-		return _buildEnterprisePortalLicenseXML(
-			key, licenseType, maxClusterNodes, productName, validityPeriod, "6",
-			null);
-	}
-
-	private static String _buildEnterprisePortalLicenseXML(
-		String key, String licenseType, int maxClusterNodes, String productName,
-		long validityPeriod, String licenseVersion, String installationId) {
-
-		long currentTimeMillis = System.currentTimeMillis();
-
-		StringBundler sb = new StringBundler(28);
-
-		sb.append("<license><account-name>");
-		sb.append(_ENTERPRISE_ACCOUNT_NAME);
-		sb.append("</account-name><product-id>");
-		sb.append(getPortalProductId());
-		sb.append("</product-id><product-name>");
-		sb.append(productName);
-		sb.append("</product-name><product-version>2026.Q1</product-version>");
-		sb.append("<license-type>");
-		sb.append(licenseType);
-		sb.append("</license-type><license-version>");
-		sb.append(licenseVersion);
-		sb.append("</license-version>");
-		sb.append("<start-date>");
-		sb.append(_DATE_FORMAT.format(new Date(currentTimeMillis)));
-		sb.append("</start-date><expiration-date>");
-		sb.append(
-			_DATE_FORMAT.format(new Date(currentTimeMillis + validityPeriod)));
-		sb.append("</expiration-date>");
-
-		if (maxClusterNodes > 0) {
-			sb.append("<max-cluster-nodes>");
-			sb.append(maxClusterNodes);
-			sb.append("</max-cluster-nodes>");
-		}
-
-		if (installationId != null) {
-			sb.append("<installation-id>");
-			sb.append(installationId);
-			sb.append("</installation-id>");
-		}
-
-		sb.append("<domains><domain>");
-		sb.append(_ENTERPRISE_DOMAIN);
-		sb.append("</domain><domain>localhost</domain></domains><key>");
-		sb.append(key);
-		sb.append("</key></license>");
-
-		return sb.toString();
 	}
 
 	private static String _buildFreeTierPortalLicenseXML(
@@ -901,7 +896,6 @@ public abstract class BaseLicenseTestCase implements Serializable {
 
 	private static String _licensePackageName;
 	private static Properties _licenseTestProperties;
-	private static Object _lifecycleAction;
 	private static Class<?> _lifecycleActionClass;
 	private static SafeCloseable _safeCloseable;
 
@@ -956,9 +950,9 @@ public abstract class BaseLicenseTestCase implements Serializable {
 
 					Field field = findField("lifecycle.action.field");
 
-					_lifecycleAction = field.get(null);
+					lifecycleAction = (LifecycleAction)field.get(null);
 
-					_lifecycleActionClass = _lifecycleAction.getClass();
+					_lifecycleActionClass = lifecycleAction.getClass();
 
 					_licensePackageName =
 						_lifecycleActionClass.getPackageName();
